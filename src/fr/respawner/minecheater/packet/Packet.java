@@ -105,7 +105,7 @@ public abstract class Packet {
 			buffer[s] = this.handler.getInput().readByte();
 		}
 
-		return new String(buffer, "UTF-16");
+		return new String(buffer, "UTF-16BE");
 	}
 
 	/**
@@ -247,14 +247,9 @@ public abstract class Packet {
 
 		/*
 		 * Convert the string to unicode and send it byte per byte.
-		 * 
-		 * Skip the first 2 bytes which represent a no-break space [U+FEFF] in
-		 * UTF-16 charset.
-		 * 
-		 * TODO: find a better fix?
 		 */
-		unicode = string.getBytes("UTF-16");
-		for (short s = 2; s < unicode.length; s++) {
+		unicode = string.getBytes("UTF-16BE");
+		for (short s = 0; s < unicode.length; s++) {
 			packet.add(unicode[s]);
 		}
 	}
