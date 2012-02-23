@@ -45,7 +45,7 @@ public class PreChunk extends Packet {
 
 	@Override
 	public Object getData() {
-		return new fr.respawner.minecheater.structure.block.PreChunk(this.x, this.z,
-				this.mode);
+		return new fr.respawner.minecheater.structure.block.PreChunk(this.x,
+				this.z, this.mode);
 	}
 }

@@ -10,8 +10,9 @@ public final class MCWorld {
 	private int worldHeight;
 	private int maxPlayers;
 
-	public MCWorld(int entityID, long mapSeed, String levelType, int serverMode,
-			byte dimension, byte difficulty, int worldHeight, int maxPlayers) {
+	public MCWorld(int entityID, long mapSeed, String levelType,
+			int serverMode, byte dimension, byte difficulty, int worldHeight,
+			int maxPlayers) {
 		this.entityID = entityID;
 		this.mapSeed = mapSeed;
 		this.levelType = levelType;

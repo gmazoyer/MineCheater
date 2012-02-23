@@ -10,6 +10,9 @@ import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public abstract class Packet {
+	public static final String STRING_DELIMITER = new String(
+			new char[] { 0xA7 });
+
 	protected final PacketsHandler handler;
 	protected final List<Byte> packet;
 	protected final byte id;

@@ -19,7 +19,7 @@ public final class ChatMessage extends Packet {
 	@Override
 	public void read() throws IOException {
 		/*
-		 * Ignore the first to characters "§e".
+		 * Ignore the first to characters "ï¿½e".
 		 */
 		this.message = this.readUnicodeString().substring(2);
 	}

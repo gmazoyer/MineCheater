@@ -125,7 +125,9 @@ public final class ClientWorker implements Runnable {
 
 				case "quit":
 				case "exit":
-					handler.sendPacket((byte) 0xFF);
+					if (!this.socket.isClosed()) {
+						handler.sendPacket((byte) 0xFF);
+					}
 					this.running = false;
 					break;
 

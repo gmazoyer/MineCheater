@@ -387,7 +387,8 @@ public final class PacketsHandler extends Thread {
 			/*
 			 * Display infos.
 			 */
-			serverInfos = ((String) pong.getData()).split("§");
+			serverInfos = ((String) pong.getData())
+					.split(Packet.STRING_DELIMITER);
 			stdout.println();
 			stdout.println("  ** Server name:        " + serverInfos[0]);
 			stdout.println("  ** Number of players:  " + serverInfos[1]);

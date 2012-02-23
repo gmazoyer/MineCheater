@@ -29,7 +29,7 @@ public final class DisconnectKick extends Packet {
 		/*
 		 * We were kicked :'(
 		 */
-		if (!this.reason.contains("§")) {
+		if (!this.reason.contains(STRING_DELIMITER)) {
 			this.handler.println("Disconnected: " + this.reason);
 			this.handler.stopHandler();
 		}

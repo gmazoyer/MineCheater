@@ -65,9 +65,9 @@ public final class LoginRequest extends Packet {
 
 	@Override
 	public void process() {
-		this.instance = new MCWorld(this.entityID, this.mapSeed, this.levelType,
-				this.serverMode, this.dimension, this.difficulty,
-				this.worldHeight, this.maxPlayers);
+		this.instance = new MCWorld(this.entityID, this.mapSeed,
+				this.levelType, this.serverMode, this.dimension,
+				this.difficulty, this.worldHeight, this.maxPlayers);
 		this.getWorld().setCurrentWorld(this.instance);
 	}
 

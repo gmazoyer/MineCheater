@@ -1,6 +1,5 @@
 package fr.respawner.minecheater.structure.entity;
 
-
 public final class MCThunderbolt extends MCObject {
 	private boolean unknown;
 

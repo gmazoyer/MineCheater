@@ -1,6 +1,5 @@
 package fr.respawner.minecheater.structure.entity;
 
-
 /**
  * This class of all objects that can move in the Minecraft world (players,
  * mobs, etc...).

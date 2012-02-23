@@ -1,6 +1,5 @@
 package fr.respawner.minecheater.structure.world;
 
-
 public final class PlayerRespawn {
 	private byte dimension;
 	private byte difficulty;
