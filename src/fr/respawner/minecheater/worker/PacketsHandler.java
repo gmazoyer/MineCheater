@@ -4,10 +4,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import fr.respawner.minecheater.ClientWorker;
 import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.packet.clientpacket.Player;
@@ -62,7 +62,7 @@ public final class PacketsHandler extends Thread {
 
 	private final PacketProcessor processor;
 
-	private Socket socket;
+	private ClientWorker client;
 	private DataInputStream in;
 	private DataOutputStream out;
 	private boolean running;
@@ -72,8 +72,8 @@ public final class PacketsHandler extends Thread {
 		stdout = System.out;
 	}
 
-	public PacketsHandler(Socket socket) {
-		this.socket = socket;
+	public PacketsHandler(ClientWorker client) {
+		this.client = client;
 		this.in = null;
 		this.out = null;
 		this.processor = new PacketProcessor();
@@ -83,12 +83,8 @@ public final class PacketsHandler extends Thread {
 		/*
 		 * Get input and output streams.
 		 */
-		try {
-			this.in = new DataInputStream(this.socket.getInputStream());
-			this.out = new DataOutputStream(this.socket.getOutputStream());
-		} catch (IOException e) {
-			stdout.println("Can't get IO channels to communicate over the network.");
-		}
+		this.in = new DataInputStream(this.client.getNetworkInput());
+		this.out = new DataOutputStream(this.client.getNetworkOutput());
 	}
 
 	/**
@@ -400,23 +396,18 @@ public final class PacketsHandler extends Thread {
 			 */
 			this.in.close();
 			this.out.close();
-			this.socket.close();
+			this.client.closeSocket();
 		} catch (IOException e) {
 			stdout.println("Can't ping the server.");
 		}
 
-		try {
-			/*
-			 * Open a new socket since the other one was closed. Also open the
-			 * new IO channels to be able to communicate.
-			 */
-			this.socket = new Socket(this.socket.getInetAddress(),
-					this.socket.getPort());
-			this.in = new DataInputStream(this.socket.getInputStream());
-			this.out = new DataOutputStream(this.socket.getOutputStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		/*
+		 * Open a new socket since the other one was closed. Also open the new
+		 * IO channels to be able to communicate.
+		 */
+		this.client.reopenSocket();
+		this.in = new DataInputStream(this.client.getNetworkInput());
+		this.out = new DataOutputStream(this.client.getNetworkOutput());
 
 		try {
 			/*

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -45,6 +46,51 @@ public final class ClientWorker implements Runnable {
 		this.running = true;
 	}
 
+	public Socket getSocket() {
+		return this.socket;
+	}
+
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+
+	public InputStream getNetworkInput() {
+		try {
+			return this.socket.getInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public OutputStream getNetworkOutput() {
+		try {
+			return this.socket.getOutputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public void reopenSocket() {
+		try {
+			this.socket = new Socket(this.socket.getInetAddress(),
+					this.socket.getPort());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void closeSocket() {
+		try {
+			this.socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void run() {
 		final PacketsHandler handler;
@@ -61,7 +107,7 @@ public final class ClientWorker implements Runnable {
 		/*
 		 * Handle incoming packet.
 		 */
-		handler = new PacketsHandler(this.socket);
+		handler = new PacketsHandler(this);
 		handler.start();
 
 		/*
