@@ -2,6 +2,7 @@ package fr.respawner.minecheater.packet.common;
 
 import java.io.IOException;
 
+import fr.respawner.minecheater.Config;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
@@ -30,7 +31,19 @@ public final class ChatMessage extends Packet {
 
 	@Override
 	public void process() {
-		this.handler.println("Message received: " + this.message);
+		final String prefix;
+
+		prefix = this.message.startsWith("<" + Config.USERNAME + ">") ? "Message sent: "
+				: "Message received: ";
+
+		/*
+		 * Ignore the first 2 characters if needed.
+		 */
+		if (this.message.contains(Packet.STRING_DELIMITER)) {
+			this.message = this.message.substring(2);
+		}
+
+		this.handler.println(prefix + this.message);
 	}
 
 	@Override
