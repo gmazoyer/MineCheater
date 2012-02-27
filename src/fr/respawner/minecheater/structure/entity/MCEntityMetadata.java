@@ -11,11 +11,11 @@ public final class MCEntityMetadata {
 		this.metadata = metadata;
 	}
 
-	public int getEntityID() {
+	public final int getEntityID() {
 		return this.entityID;
 	}
 
-	public Metadata getMetadata() {
+	public final Metadata getMetadata() {
 		return this.metadata;
 	}
 

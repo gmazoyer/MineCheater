@@ -17,23 +17,23 @@ public final class MCObjectVehicle extends MCEntity {
 		this.speedZ = speedZ;
 	}
 
-	public byte getType() {
+	public final byte getType() {
 		return this.type;
 	}
 
-	public int getThrowerID() {
+	public final int getThrowerID() {
 		return this.throwerID;
 	}
 
-	public short getSpeedX() {
+	public final short getSpeedX() {
 		return this.speedX;
 	}
 
-	public short getSpeedY() {
+	public final short getSpeedY() {
 		return this.speedY;
 	}
 
-	public short getSpeedZ() {
+	public final short getSpeedZ() {
 		return this.speedZ;
 	}
 

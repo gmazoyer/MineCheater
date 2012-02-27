@@ -1,11 +1,11 @@
-package fr.respawner.minecheater.structure;
+package fr.respawner.minecheater.structure.entity;
 
-public final class Look {
+public final class MCLook {
 	private int entityID;
 	private byte yaw;
 	private byte pitch;
 
-	public Look(int entityID, byte yaw, byte pitch) {
+	public MCLook(int entityID, byte yaw, byte pitch) {
 		this.entityID = entityID;
 		this.yaw = yaw;
 		this.pitch = pitch;

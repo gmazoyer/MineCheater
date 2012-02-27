@@ -11,23 +11,23 @@ public final class MCPlayerListEntry {
 		this.ping = ping;
 	}
 
-	public String getPlayerName() {
+	public final String getPlayerName() {
 		return this.playerName;
 	}
 
-	public boolean isOnline() {
+	public final boolean isOnline() {
 		return this.online;
 	}
 
-	public void setOnline(boolean online) {
+	public final void setOnline(boolean online) {
 		this.online = online;
 	}
 
-	public short getPing() {
+	public final short getPing() {
 		return this.ping;
 	}
 
-	public void setPing(short ping) {
+	public final void setPing(short ping) {
 		this.ping = ping;
 	}
 

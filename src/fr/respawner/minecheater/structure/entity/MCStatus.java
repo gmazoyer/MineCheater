@@ -9,11 +9,11 @@ public final class MCStatus {
 		this.status = status;
 	}
 
-	public int getEntityID() {
+	public final int getEntityID() {
 		return this.entityID;
 	}
 
-	public byte getStatus() {
+	public final byte getStatus() {
 		return this.status;
 	}
 

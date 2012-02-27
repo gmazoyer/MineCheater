@@ -11,15 +11,15 @@ public final class MCSpawn {
 		this.z = z;
 	}
 
-	public int getX() {
+	public final int getX() {
 		return this.x;
 	}
 
-	public int getY() {
+	public final int getY() {
 		return this.y;
 	}
 
-	public int getZ() {
+	public final int getZ() {
 		return this.z;
 	}
 

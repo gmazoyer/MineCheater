@@ -3,13 +3,16 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.Look;
+import fr.respawner.minecheater.structure.entity.MCEntity;
+import fr.respawner.minecheater.structure.entity.MCLook;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class EntityLook extends Packet {
 	private int entityID;
 	private byte yaw;
 	private byte pitch;
+
+	private MCLook instance;
 
 	public EntityLook(PacketsHandler handler) {
 		super(handler, (byte) 0x20);
@@ -31,9 +34,18 @@ public final class EntityLook extends Packet {
 
 	@Override
 	public void process() {
+		final MCEntity entity;
+
 		/*
-		 * Nothing to do.
+		 * Find the entity to set its look.
 		 */
+		entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
+		this.instance = new MCLook(this.entityID, this.yaw, this.pitch);
+
+		if (entity != null) {
+			entity.setYaw(this.yaw);
+			entity.setPitch(this.pitch);
+		}
 	}
 
 	@Override
@@ -46,6 +58,6 @@ public final class EntityLook extends Packet {
 
 	@Override
 	public Object getData() {
-		return new Look(this.entityID, this.yaw, this.pitch);
+		return this.instance;
 	}
 }

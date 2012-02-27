@@ -5,42 +5,38 @@ public final class MCPickup extends MCEntity {
 	private byte count;
 	private short damage;
 	private byte rotation;
-	private byte pitch;
 	private byte roll;
 
 	public MCPickup(int entityID, short itemID, byte count, short damage,
 			int x, int y, int z, byte rotation, byte pitch, byte roll) {
 		super(entityID, x, y, z);
 
+		this.setPitch(pitch);
+
 		this.itemID = itemID;
 		this.count = count;
 		this.damage = damage;
 		this.rotation = rotation;
-		this.pitch = pitch;
 		this.roll = roll;
 	}
 
-	public short getItemID() {
+	public final short getItemID() {
 		return this.itemID;
 	}
 
-	public byte getCount() {
+	public final byte getCount() {
 		return this.count;
 	}
 
-	public short getDamage() {
+	public final short getDamage() {
 		return this.damage;
 	}
 
-	public byte getRotation() {
+	public final byte getRotation() {
 		return this.rotation;
 	}
 
-	public byte getPitch() {
-		return this.pitch;
-	}
-
-	public byte getRoll() {
+	public final byte getRoll() {
 		return this.roll;
 	}
 
@@ -65,7 +61,7 @@ public final class MCPickup extends MCEntity {
 		builder.append(", rotation = ");
 		builder.append(this.rotation);
 		builder.append(", pitch = ");
-		builder.append(this.pitch);
+		builder.append(this.getPitch());
 		builder.append(", roll = ");
 		builder.append(this.roll);
 

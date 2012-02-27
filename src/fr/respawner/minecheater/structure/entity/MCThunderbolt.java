@@ -9,7 +9,7 @@ public final class MCThunderbolt extends MCObject {
 		this.unknown = unknown;
 	}
 
-	public boolean isUnknown() {
+	public final boolean isUnknown() {
 		return this.unknown;
 	}
 

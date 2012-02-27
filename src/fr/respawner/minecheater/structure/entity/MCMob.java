@@ -9,30 +9,20 @@ import fr.respawner.minecheater.metadata.Metadata;
  */
 public final class MCMob extends MCEntity {
 	private byte type;
-	private byte yaw;
-	private byte pitch;
 
 	public MCMob(int entityID, byte type, int x, int y, int z, byte yaw,
 			byte pitch, Metadata metadata) {
 		super(entityID, x, y, z);
 
 		this.type = type;
-		this.yaw = yaw;
-		this.pitch = pitch;
 
+		this.setYaw(yaw);
+		this.setPitch(pitch);
 		this.setMetadata(new MCEntityMetadata(entityID, metadata));
 	}
 
-	public byte getType() {
+	public final byte getType() {
 		return this.type;
-	}
-
-	public byte getYaw() {
-		return this.yaw;
-	}
-
-	public byte getPitch() {
-		return this.pitch;
 	}
 
 	@Override
@@ -52,9 +42,9 @@ public final class MCMob extends MCEntity {
 		builder.append(", z = ");
 		builder.append(this.getZ());
 		builder.append(", yaw = ");
-		builder.append(this.yaw);
+		builder.append(this.getYaw());
 		builder.append(", pitch = ");
-		builder.append(this.pitch);
+		builder.append(this.getPitch());
 		builder.append(" | Metadata = ");
 		builder.append(this.getMetadata().getMetadata());
 

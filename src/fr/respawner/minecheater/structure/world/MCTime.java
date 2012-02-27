@@ -7,7 +7,7 @@ public final class MCTime {
 		this.time = time;
 	}
 
-	public long getTime() {
+	public final long getTime() {
 		return this.time;
 	}
 

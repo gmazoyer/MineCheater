@@ -17,27 +17,27 @@ public final class MCTeleport {
 		this.pitch = pitch;
 	}
 
-	public int getEntityID() {
+	public final int getEntityID() {
 		return this.entityID;
 	}
 
-	public int getX() {
+	public final int getX() {
 		return this.x;
 	}
 
-	public int getY() {
+	public final int getY() {
 		return this.y;
 	}
 
-	public int getZ() {
+	public final int getZ() {
 		return this.z;
 	}
 
-	public byte getYaw() {
+	public final byte getYaw() {
 		return this.yaw;
 	}
 
-	public byte getPitch() {
+	public final byte getPitch() {
 		return this.pitch;
 	}
 

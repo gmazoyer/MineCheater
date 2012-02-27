@@ -25,23 +25,23 @@ public final class MCCharacter extends MCEntity {
 		this.item = item;
 	}
 
-	public String getName() {
+	public final String getName() {
 		return this.name;
 	}
 
-	public byte getRotation() {
+	public final byte getRotation() {
 		return this.rotation;
 	}
 
-	public short getItem() {
+	public final short getItem() {
 		return this.item;
 	}
 
-	public MCEquipment getEquipment() {
+	public final MCEquipment getEquipment() {
 		return this.equipment;
 	}
 
-	public void setEquipment(MCEquipment equipment) {
+	public final void setEquipment(MCEquipment equipment) {
 		this.equipment = equipment;
 	}
 

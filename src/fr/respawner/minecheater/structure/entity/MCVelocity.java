@@ -14,19 +14,19 @@ public final class MCVelocity {
 		this.velocityZ = velocityZ;
 	}
 
-	public int getEntityID() {
+	public final int getEntityID() {
 		return this.entityID;
 	}
 
-	public short getVelocityX() {
+	public final short getVelocityX() {
 		return this.velocityX;
 	}
 
-	public short getVelocityY() {
+	public final short getVelocityY() {
 		return this.velocityY;
 	}
 
-	public short getVelocityZ() {
+	public final short getVelocityZ() {
 		return this.velocityZ;
 	}
 

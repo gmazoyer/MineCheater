@@ -17,11 +17,11 @@ public final class MCPainting extends MCObject {
 		this.direction = direction;
 	}
 
-	public String getTitle() {
+	public final String getTitle() {
 		return this.title;
 	}
 
-	public int getDirection() {
+	public final int getDirection() {
 		return this.direction;
 	}
 

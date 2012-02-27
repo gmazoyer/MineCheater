@@ -11,27 +11,27 @@ public final class MCExperience {
 		this.total = total;
 	}
 
-	public float getExperienceBar() {
+	public final float getExperienceBar() {
 		return this.experienceBar;
 	}
 
-	public void setExperienceBar(float experienceBar) {
+	public final void setExperienceBar(float experienceBar) {
 		this.experienceBar = experienceBar;
 	}
 
-	public short getLevel() {
+	public final short getLevel() {
 		return this.level;
 	}
 
-	public void setLevel(short level) {
+	public final void setLevel(short level) {
 		this.level = level;
 	}
 
-	public short getTotal() {
+	public final short getTotal() {
 		return this.total;
 	}
 
-	public void setTotal(short total) {
+	public final void setTotal(short total) {
 		this.total = total;
 	}
 

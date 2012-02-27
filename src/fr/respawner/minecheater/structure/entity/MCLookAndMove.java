@@ -1,6 +1,6 @@
-package fr.respawner.minecheater.structure;
+package fr.respawner.minecheater.structure.entity;
 
-public final class LookAndMove {
+public final class MCLookAndMove {
 	private int entityID;
 	private byte dX;
 	private byte dY;
@@ -8,7 +8,7 @@ public final class LookAndMove {
 	private byte yaw;
 	private byte pitch;
 
-	public LookAndMove(int entityID, byte dX, byte dY, byte dZ, byte yaw,
+	public MCLookAndMove(int entityID, byte dX, byte dY, byte dZ, byte yaw,
 			byte pitch) {
 		this.entityID = entityID;
 		this.dX = dX;

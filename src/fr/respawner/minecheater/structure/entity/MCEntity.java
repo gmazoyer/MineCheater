@@ -7,6 +7,9 @@ package fr.respawner.minecheater.structure.entity;
  * @author Guillaume Mazoyer
  */
 public class MCEntity extends MCObject {
+	private byte dX;
+	private byte dY;
+	private byte dZ;
 	private byte yaw;
 	private byte pitch;
 	private MCEntityMetadata metadata;
@@ -18,51 +21,85 @@ public class MCEntity extends MCObject {
 		super(entityID, x, y, z);
 	}
 
-	public byte getYaw() {
+	public final byte getRelativeX() {
+		return this.dX;
+	}
+
+	public final void setRelativeX(byte dX) {
+		this.dX = dX;
+	}
+
+	public final byte getRelativeY() {
+		return this.dY;
+	}
+
+	public final void setRelativeY(byte dY) {
+		this.dY = dY;
+	}
+
+	public final byte getRelativeZ() {
+		return this.dZ;
+	}
+
+	public final void setRelativeZ(byte dZ) {
+		this.dZ = dZ;
+	}
+
+	public final byte[] getMove() {
+		return new byte[] { this.dX, this.dY, this.dZ };
+	}
+
+	public final void setMove(byte dX, byte dY, byte dZ) {
+		this.dX = dX;
+		this.dY = dY;
+		this.dZ = dZ;
+	}
+
+	public final byte getYaw() {
 		return this.yaw;
 	}
 
-	public void setYaw(byte yaw) {
+	public final void setYaw(byte yaw) {
 		this.yaw = yaw;
 	}
 
-	public byte getPitch() {
+	public final byte getPitch() {
 		return this.pitch;
 	}
 
-	public void setPitch(byte pitch) {
+	public final void setPitch(byte pitch) {
 		this.pitch = pitch;
 	}
 
-	public MCEntityMetadata getMetadata() {
+	public final MCEntityMetadata getMetadata() {
 		return this.metadata;
 	}
 
-	public void setMetadata(MCEntityMetadata metadata) {
+	public final void setMetadata(MCEntityMetadata metadata) {
 		this.metadata = metadata;
 	}
 
-	public MCStatus getStatus() {
+	public final MCStatus getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(MCStatus status) {
+	public final void setStatus(MCStatus status) {
 		this.status = status;
 	}
 
-	public MCVelocity getVelocity() {
+	public final MCVelocity getVelocity() {
 		return this.velocity;
 	}
 
-	public void setVelocity(MCVelocity velocity) {
+	public final void setVelocity(MCVelocity velocity) {
 		this.velocity = velocity;
 	}
 
-	public MCAnimation getLastAnimation() {
+	public final MCAnimation getLastAnimation() {
 		return this.lastAnimation;
 	}
 
-	public void setLastAnimation(MCAnimation lastAnimation) {
+	public final void setLastAnimation(MCAnimation lastAnimation) {
 		this.lastAnimation = lastAnimation;
 	}
 }

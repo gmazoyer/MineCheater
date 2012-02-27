@@ -23,35 +23,35 @@ public final class MCWorld {
 		this.maxPlayers = maxPlayers;
 	}
 
-	public int getEntityID() {
+	public final int getEntityID() {
 		return this.entityID;
 	}
 
-	public long getMapSeed() {
+	public final long getMapSeed() {
 		return this.mapSeed;
 	}
 
-	public String getLevelType() {
+	public final String getLevelType() {
 		return this.levelType;
 	}
 
-	public int getServerMode() {
+	public final int getServerMode() {
 		return this.serverMode;
 	}
 
-	public byte getDimension() {
+	public final byte getDimension() {
 		return this.dimension;
 	}
 
-	public byte getDifficulty() {
+	public final byte getDifficulty() {
 		return this.difficulty;
 	}
 
-	public int getWorldHeight() {
+	public final int getWorldHeight() {
 		return this.worldHeight;
 	}
 
-	public int getMaxPlayers() {
+	public final int getMaxPlayers() {
 		return this.maxPlayers;
 	}
 

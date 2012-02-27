@@ -3,7 +3,8 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.LookAndMove;
+import fr.respawner.minecheater.structure.entity.MCEntity;
+import fr.respawner.minecheater.structure.entity.MCLookAndMove;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class EntityLookAndRelativeMove extends Packet {
@@ -13,6 +14,8 @@ public final class EntityLookAndRelativeMove extends Packet {
 	private byte dZ;
 	private byte yaw;
 	private byte pitch;
+
+	private MCLookAndMove instance;
 
 	public EntityLookAndRelativeMove(PacketsHandler handler) {
 		super(handler, (byte) 0x21);
@@ -37,9 +40,20 @@ public final class EntityLookAndRelativeMove extends Packet {
 
 	@Override
 	public void process() {
+		final MCEntity entity;
+
 		/*
-		 * Nothing to do.
+		 * Find the entity to set its look and move.
 		 */
+		entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
+		this.instance = new MCLookAndMove(this.entityID, this.dX, this.dY,
+				this.dZ, this.yaw, this.pitch);
+
+		if (entity != null) {
+			entity.setMove(this.dX, this.dY, this.dZ);
+			entity.setYaw(this.yaw);
+			entity.setPitch(this.pitch);
+		}
 	}
 
 	@Override
@@ -52,7 +66,6 @@ public final class EntityLookAndRelativeMove extends Packet {
 
 	@Override
 	public Object getData() {
-		return new LookAndMove(this.entityID, this.dX, this.dY, this.dZ,
-				this.yaw, this.pitch);
+		return this.instance;
 	}
 }

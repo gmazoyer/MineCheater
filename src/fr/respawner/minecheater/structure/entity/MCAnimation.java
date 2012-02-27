@@ -9,11 +9,11 @@ public final class MCAnimation {
 		this.animationID = animationID;
 	}
 
-	public int getEntityID() {
+	public final int getEntityID() {
 		return this.entityID;
 	}
 
-	public byte getAnimationID() {
+	public final byte getAnimationID() {
 		return this.animationID;
 	}
 
