@@ -19,36 +19,24 @@ public final class State {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder;
-
-		builder = new StringBuilder();
-
 		switch (this.reason) {
 		case 0:
-			builder.append("Invalid bed use");
-			break;
+			return "Invalid bed use";
 
 		case 1:
-			builder.append("Begin raining");
-			break;
+			return "Begin raining";
 
 		case 2:
-			builder.append("End raining");
-			break;
+			return "End raining";
 
 		case 3:
-			builder.append("Game mode = ");
-			builder.append(this.mode == 0 ? "survival" : "creative");
-			break;
+			return "Game mode = " + (this.mode == 0 ? "survival" : "creative");
 
 		case 4:
-			builder.append("Enter credits");
-			break;
+			return "Enter credits";
 
 		default:
-			break;
+			return "Unknown";
 		}
-
-		return builder.toString();
 	}
 }
