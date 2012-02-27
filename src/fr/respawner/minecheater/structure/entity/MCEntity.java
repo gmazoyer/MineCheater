@@ -7,6 +7,8 @@ package fr.respawner.minecheater.structure.entity;
  * @author Guillaume Mazoyer
  */
 public class MCEntity extends MCObject {
+	private byte yaw;
+	private byte pitch;
 	private MCEntityMetadata metadata;
 	private MCStatus status;
 	private MCVelocity velocity;
@@ -14,6 +16,22 @@ public class MCEntity extends MCObject {
 
 	public MCEntity(int entityID, int x, int y, int z) {
 		super(entityID, x, y, z);
+	}
+
+	public byte getYaw() {
+		return this.yaw;
+	}
+
+	public void setYaw(byte yaw) {
+		this.yaw = yaw;
+	}
+
+	public byte getPitch() {
+		return this.pitch;
+	}
+
+	public void setPitch(byte pitch) {
+		this.pitch = pitch;
 	}
 
 	public MCEntityMetadata getMetadata() {

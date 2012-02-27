@@ -1,6 +1,6 @@
-package fr.respawner.minecheater.structure;
+package fr.respawner.minecheater.structure.entity;
 
-public final class Teleport {
+public final class MCTeleport {
 	private int entityID;
 	private int x;
 	private int y;
@@ -8,7 +8,7 @@ public final class Teleport {
 	private byte yaw;
 	private byte pitch;
 
-	public Teleport(int entityID, int x, int y, int z, byte yaw, byte pitch) {
+	public MCTeleport(int entityID, int x, int y, int z, byte yaw, byte pitch) {
 		this.entityID = entityID;
 		this.x = x;
 		this.y = y;
