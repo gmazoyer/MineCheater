@@ -6,45 +6,45 @@ import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class KeepAlive extends Packet {
-	private int keepAliveID;
+    private int keepAliveID;
 
-	public KeepAlive(PacketsHandler handler) {
-		super(handler, (byte) 0x00);
+    public KeepAlive(PacketsHandler handler) {
+        super(handler, (byte) 0x00);
 
-		this.keepAliveID = 0;
-	}
+        this.keepAliveID = 0;
+    }
 
-	@Override
-	public void read() throws IOException {
-		this.keepAliveID = this.readInt();
-	}
+    @Override
+    public void read() throws IOException {
+        this.keepAliveID = this.readInt();
+    }
 
-	@Override
-	public void write() throws IOException {
-		this.writeByte(this.id);
-		this.writeInt(this.keepAliveID);
-		this.send();
-	}
+    @Override
+    public void write() throws IOException {
+        this.writeByte(this.id);
+        this.writeInt(this.keepAliveID);
+        this.send();
+    }
 
-	@Override
-	public void process() {
-		/*
-		 * Nothing to do.
-		 */
-	}
+    @Override
+    public void process() {
+        /*
+         * Nothing to do.
+         */
+    }
 
-	@Override
-	public Packet response() {
-		final KeepAlive response;
+    @Override
+    public Packet response() {
+        final KeepAlive response;
 
-		response = new KeepAlive(this.handler);
-		response.keepAliveID = this.keepAliveID;
+        response = new KeepAlive(this.handler);
+        response.keepAliveID = this.keepAliveID;
 
-		return response;
-	}
+        return response;
+    }
 
-	@Override
-	public Object getData() {
-		return this.keepAliveID;
-	}
+    @Override
+    public Object getData() {
+        return this.keepAliveID;
+    }
 }

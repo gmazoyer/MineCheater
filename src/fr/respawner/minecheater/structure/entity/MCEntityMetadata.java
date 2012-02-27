@@ -3,33 +3,33 @@ package fr.respawner.minecheater.structure.entity;
 import fr.respawner.minecheater.metadata.Metadata;
 
 public final class MCEntityMetadata {
-	private int entityID;
-	private Metadata metadata;
+    private int entityID;
+    private Metadata metadata;
 
-	public MCEntityMetadata(int entityID, Metadata metadata) {
-		this.entityID = entityID;
-		this.metadata = metadata;
-	}
+    public MCEntityMetadata(int entityID, Metadata metadata) {
+        this.entityID = entityID;
+        this.metadata = metadata;
+    }
 
-	public final int getEntityID() {
-		return this.entityID;
-	}
+    public final int getEntityID() {
+        return this.entityID;
+    }
 
-	public final Metadata getMetadata() {
-		return this.metadata;
-	}
+    public final Metadata getMetadata() {
+        return this.metadata;
+    }
 
-	@Override
-	public String toString() {
-		final StringBuilder builder;
+    @Override
+    public String toString() {
+        final StringBuilder builder;
 
-		builder = new StringBuilder();
+        builder = new StringBuilder();
 
-		builder.append("Entity ID = ");
-		builder.append(this.entityID);
-		builder.append(" | Metadata = ");
-		builder.append(this.metadata);
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Metadata = ");
+        builder.append(this.metadata);
 
-		return builder.toString();
-	}
+        return builder.toString();
+    }
 }

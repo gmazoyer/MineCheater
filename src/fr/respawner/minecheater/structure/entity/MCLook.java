@@ -1,41 +1,41 @@
 package fr.respawner.minecheater.structure.entity;
 
 public final class MCLook {
-	private int entityID;
-	private byte yaw;
-	private byte pitch;
+    private int entityID;
+    private byte yaw;
+    private byte pitch;
 
-	public MCLook(int entityID, byte yaw, byte pitch) {
-		this.entityID = entityID;
-		this.yaw = yaw;
-		this.pitch = pitch;
-	}
+    public MCLook(int entityID, byte yaw, byte pitch) {
+        this.entityID = entityID;
+        this.yaw = yaw;
+        this.pitch = pitch;
+    }
 
-	public int getEntityID() {
-		return this.entityID;
-	}
+    public int getEntityID() {
+        return this.entityID;
+    }
 
-	public byte getYaw() {
-		return this.yaw;
-	}
+    public byte getYaw() {
+        return this.yaw;
+    }
 
-	public byte getPitch() {
-		return this.pitch;
-	}
+    public byte getPitch() {
+        return this.pitch;
+    }
 
-	@Override
-	public String toString() {
-		final StringBuilder builder;
+    @Override
+    public String toString() {
+        final StringBuilder builder;
 
-		builder = new StringBuilder();
+        builder = new StringBuilder();
 
-		builder.append("Entity ID = ");
-		builder.append(this.entityID);
-		builder.append(" | Rotation: yaw = ");
-		builder.append(this.yaw);
-		builder.append(", pitch = ");
-		builder.append(this.pitch);
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Rotation: yaw = ");
+        builder.append(this.yaw);
+        builder.append(", pitch = ");
+        builder.append(this.pitch);
 
-		return builder.toString();
-	}
+        return builder.toString();
+    }
 }

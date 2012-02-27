@@ -1,17 +1,17 @@
 package fr.respawner.minecheater.nbt;
 
 public final class EndTag extends Tag {
-	public EndTag() {
-		super("");
-	}
+    public EndTag() {
+        super("");
+    }
 
-	@Override
-	public Object getValue() {
-		return null;
-	}
+    @Override
+    public Object getValue() {
+        return null;
+    }
 
-	@Override
-	public String toString() {
-		return "TAG_End";
-	}
+    @Override
+    public String toString() {
+        return "TAG_End";
+    }
 }

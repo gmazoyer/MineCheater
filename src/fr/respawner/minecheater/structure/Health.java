@@ -1,46 +1,46 @@
 package fr.respawner.minecheater.structure;
 
 public final class Health {
-	private short health;
-	private short food;
-	private float foodSaturation;
+    private short health;
+    private short food;
+    private float foodSaturation;
 
-	public Health(short health, short food, float foodSaturation) {
-		this.health = health;
-		this.food = food;
-		this.foodSaturation = foodSaturation;
-	}
+    public Health(short health, short food, float foodSaturation) {
+        this.health = health;
+        this.food = food;
+        this.foodSaturation = foodSaturation;
+    }
 
-	public short getHealth() {
-		return this.health;
-	}
+    public short getHealth() {
+        return this.health;
+    }
 
-	public short getFood() {
-		return this.food;
-	}
+    public short getFood() {
+        return this.food;
+    }
 
-	public float getFoodSaturation() {
-		return this.foodSaturation;
-	}
+    public float getFoodSaturation() {
+        return this.foodSaturation;
+    }
 
-	@Override
-	public String toString() {
-		final StringBuilder builder;
+    @Override
+    public String toString() {
+        final StringBuilder builder;
 
-		builder = new StringBuilder();
+        builder = new StringBuilder();
 
-		builder.append("Health = ");
-		builder.append(this.health);
-		if (this.health == 0) {
-			builder.append(" (dead)");
-		} else if (this.health == 20) {
-			builder.append(" (full HP)");
-		}
-		builder.append(" | Food = ");
-		builder.append(this.food);
-		builder.append(" | Food saturation = ");
-		builder.append(this.foodSaturation);
+        builder.append("Health = ");
+        builder.append(this.health);
+        if (this.health == 0) {
+            builder.append(" (dead)");
+        } else if (this.health == 20) {
+            builder.append(" (full HP)");
+        }
+        builder.append(" | Food = ");
+        builder.append(this.food);
+        builder.append(" | Food saturation = ");
+        builder.append(this.foodSaturation);
 
-		return builder.toString();
-	}
+        return builder.toString();
+    }
 }
