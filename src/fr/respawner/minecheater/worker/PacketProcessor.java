@@ -49,9 +49,6 @@ public final class PacketProcessor extends Thread {
          * Actual processing.
          */
         switch (packet.getID()) {
-        case (byte) 0x08:
-            stdout.println(packet);
-            break;
         case (byte) 0x00:
         case (byte) 0x01:
         case (byte) 0x02:
@@ -59,6 +56,7 @@ public final class PacketProcessor extends Thread {
         case (byte) 0x04:
         case (byte) 0x05:
         case (byte) 0x06:
+        case (byte) 0x08:
         case (byte) 0x09:
         case (byte) 0x0D:
         case (byte) 0x12:
@@ -105,7 +103,7 @@ public final class PacketProcessor extends Thread {
             break;
         default:
             stdout.println("Unknown packet "
-                    + String.format("%x", packet.getID()) + "!");
+                    + String.format("%02X", packet.getID()) + "!");
             stdout.println(packet);
             break;
         }

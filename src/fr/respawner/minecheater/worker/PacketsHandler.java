@@ -274,7 +274,7 @@ public final class PacketsHandler extends Thread {
             break;
 
         default:
-            stdout.println("Unknown packet with ID " + String.format("%x", id)
+            stdout.println("Unknown packet with ID " + String.format("%02X", id)
                     + " ignored.");
             break;
         }
@@ -342,7 +342,7 @@ public final class PacketsHandler extends Thread {
             break;
 
         default:
-            stdout.println("Can't send packet " + String.format("%x", id));
+            stdout.println("Can't send packet " + String.format("%02X", id));
             break;
         }
 

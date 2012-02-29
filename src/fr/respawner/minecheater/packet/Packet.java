@@ -383,7 +383,7 @@ public abstract class Packet {
         fields = this.getClass().getDeclaredFields();
 
         builder.append("Packet ");
-        builder.append(String.format("%x", this.id));
+        builder.append(String.format("%02X", this.id));
         builder.append(" : ");
         builder.append(this.getClass().getName());
         builder.append('\n');
@@ -396,16 +396,17 @@ public abstract class Packet {
             builder.append("'\n");
         }
 
-        builder.append("  * Parsed data -> '");
-        builder.append(this.getData());
-        builder.append("'\n");
         builder.append("  * Raw packet  -> '");
-        builder.append(String.format("%x", this.id));
+        builder.append(String.format("%02X", this.id));
 
         for (Byte b : this.rawPacket) {
-            builder.append(String.format("%x", b));
+            builder.append(String.format(" %02X", b));
         }
 
+        builder.append("'\n");
+
+        builder.append("  * Parsed data -> '");
+        builder.append(this.getData());
         builder.append("'\n");
 
         return builder.toString();
