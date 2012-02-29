@@ -389,11 +389,13 @@ public abstract class Packet {
         builder.append('\n');
 
         for (Field field : fields) {
-            builder.append("  * field '");
-            builder.append(field.getName());
-            builder.append("' of type '");
-            builder.append(field.getType().getName());
-            builder.append("'\n");
+            if (!field.getName().equals("instance")) {
+                builder.append("  * field '");
+                builder.append(field.getName());
+                builder.append("' of type '");
+                builder.append(field.getType().getName());
+                builder.append("'\n");
+            }
         }
 
         builder.append("  * Raw packet  -> '");
