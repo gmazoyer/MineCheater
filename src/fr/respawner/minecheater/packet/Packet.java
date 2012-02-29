@@ -13,12 +13,15 @@ public abstract class Packet {
     public static final String STRING_DELIMITER = new String(
             new char[] { 0xA7 });
 
+    private final List<Byte> rawPacket;
+    private final List<Byte> packet;
+
     protected final PacketsHandler handler;
-    protected final List<Byte> packet;
     protected final byte id;
 
     public Packet(PacketsHandler handler, byte id) {
         this.handler = handler;
+        this.rawPacket = new ArrayList<>();
         this.packet = new ArrayList<>();
         this.id = id;
     }
@@ -27,56 +30,115 @@ public abstract class Packet {
      * Read and return a byte.
      */
     protected final byte readByte() throws IOException {
-        return this.handler.getInput().readByte();
+        final byte read;
+
+        read = this.handler.getInput().readByte();
+        this.rawPacket.add(read);
+
+        return read;
     }
 
     /**
      * Read and return an unsigned byte as integer.
      */
     protected final int readUnsignedByte() throws IOException {
-        return this.handler.getInput().readUnsignedByte();
+        final int read;
+
+        read = this.handler.getInput().readUnsignedByte();
+
+        for (byte b : ByteBuffer.allocate(4).putInt(read).array()) {
+            this.rawPacket.add(b);
+        }
+
+        return read;
     }
 
     /**
      * Read and return a short.
      */
     protected final short readShort() throws IOException {
-        return this.handler.getInput().readShort();
+        final short read;
+
+        read = this.handler.getInput().readShort();
+
+        for (byte b : ByteBuffer.allocate(2).putShort(read).array()) {
+            this.rawPacket.add(b);
+        }
+
+        return read;
     }
 
     /**
      * Read and return a integer.
      */
     protected final int readInt() throws IOException {
-        return this.handler.getInput().readInt();
+        final int read;
+
+        read = this.handler.getInput().readInt();
+
+        for (byte b : ByteBuffer.allocate(4).putInt(read).array()) {
+            this.rawPacket.add(b);
+        }
+
+        return read;
     }
 
     /**
      * Read and return a long.
      */
     protected final long readLong() throws IOException {
-        return this.handler.getInput().readLong();
+        final long read;
+
+        read = this.handler.getInput().readLong();
+
+        for (byte b : ByteBuffer.allocate(8).putLong(read).array()) {
+            this.rawPacket.add(b);
+        }
+
+        return read;
     }
 
     /**
      * Read and return a float.
      */
     protected final float readFloat() throws IOException {
-        return this.handler.getInput().readFloat();
+        final float read;
+
+        read = this.handler.getInput().readFloat();
+
+        for (byte b : ByteBuffer.allocate(4).putFloat(read).array()) {
+            this.rawPacket.add(b);
+        }
+
+        return read;
     }
 
     /**
      * Read and return a double.
      */
     protected final double readDouble() throws IOException {
-        return this.handler.getInput().readDouble();
+        final double read;
+
+        read = this.handler.getInput().readDouble();
+
+        for (byte b : ByteBuffer.allocate(8).putDouble(read).array()) {
+            this.rawPacket.add(b);
+        }
+
+        return read;
     }
 
     /**
      * Read and return a boolean.
      */
     protected final boolean readBoolean() throws IOException {
-        return this.handler.getInput().readBoolean();
+        final boolean read;
+
+        read = this.handler.getInput().readBoolean();
+
+        rawPacket.add((byte) (read ? 0x01 : 0x00));
+
+        return read;
     }
 
     /**
@@ -102,7 +164,7 @@ public abstract class Packet {
         buffer = new byte[length * 2];
 
         for (short s = 0; s < buffer.length; s++) {
-            buffer[s] = this.handler.getInput().readByte();
+            buffer[s] = this.readByte();
         }
 
         return new String(buffer, "UTF-16BE");
@@ -321,7 +383,7 @@ public abstract class Packet {
         fields = this.getClass().getDeclaredFields();
 
         builder.append("Packet ");
-        builder.append(this.id);
+        builder.append(String.format("%x", this.id));
         builder.append(" : ");
         builder.append(this.getClass().getName());
         builder.append('\n');
@@ -336,6 +398,14 @@ public abstract class Packet {
 
         builder.append("  * Parsed data -> '");
         builder.append(this.getData());
+        builder.append("'\n");
+        builder.append("  * Raw packet  -> '");
+        builder.append(String.format("%x", this.id));
+
+        for (Byte b : this.rawPacket) {
+            builder.append(String.format("%x", b));
+        }
+
         builder.append("'\n");
 
         return builder.toString();

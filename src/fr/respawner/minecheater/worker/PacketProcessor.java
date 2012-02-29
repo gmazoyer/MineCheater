@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import fr.respawner.minecheater.Config;
 import fr.respawner.minecheater.packet.Packet;
 
 public final class PacketProcessor extends Thread {
@@ -96,6 +97,11 @@ public final class PacketProcessor extends Thread {
         case (byte) 0xFE:
         case (byte) 0xFF:
             packet.process();
+
+            if (Config.DEBUG) {
+                stdout.println(packet);
+            }
+
             break;
         default:
             stdout.println("Unknown packet "
