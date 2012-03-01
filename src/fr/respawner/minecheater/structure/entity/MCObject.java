@@ -1,5 +1,6 @@
 package fr.respawner.minecheater.structure.entity;
 
+
 /**
  * This is the mother class of all objects in the Minecraft world (players,
  * mobs, paintings, etc...).
@@ -67,5 +68,23 @@ public abstract class MCObject {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.getEntityID());
+        builder.append(" | Position: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+
+        return builder.toString();
     }
 }
