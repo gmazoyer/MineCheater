@@ -48,6 +48,12 @@ public final class PositionAndLook {
         return this.onGround;
     }
 
+    public void move(double x, double y, double z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+    }
+
     @Override
     public String toString() {
         final StringBuilder builder;

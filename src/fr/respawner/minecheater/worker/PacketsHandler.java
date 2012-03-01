@@ -55,6 +55,7 @@ import fr.respawner.minecheater.packet.serverpacket.SpawnPosition;
 import fr.respawner.minecheater.packet.serverpacket.Thunderbold;
 import fr.respawner.minecheater.packet.serverpacket.TimeUpdate;
 import fr.respawner.minecheater.packet.serverpacket.UpdateHealth;
+import fr.respawner.minecheater.packet.serverpacket.UseBed;
 import fr.respawner.minecheater.packet.serverpacket.WindowItems;
 
 public final class PacketsHandler extends Thread {
@@ -135,6 +136,10 @@ public final class PacketsHandler extends Thread {
 
         case (byte) 0x0D:
             packet = new PlayerPositionAndLook(this);
+            break;
+
+        case (byte) 0x11:
+            packet = new UseBed(this);
             break;
 
         case (byte) 0x12:
@@ -274,12 +279,68 @@ public final class PacketsHandler extends Thread {
             break;
 
         default:
-            stdout.println("Unknown packet with ID " + String.format("%02X", id)
-                    + " ignored.");
+            stdout.println("Unknown packet with ID "
+                    + String.format("%02X", id) + " ignored.");
             break;
         }
 
         return packet;
+    }
+
+    private void sendInitSequence(byte step) {
+        switch (step) {
+        case 0:
+            this.sendPacket((byte) 0x0D, true);
+            break;
+
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+            this.sendPacket((byte) 0x0A, false);
+            break;
+
+        case 7:
+            this.world.getPosition().move(0, -0.096, 0);
+            this.sendPacket((byte) 0x0D, false);
+            break;
+
+        case 8:
+            this.world.getPosition().move(0, -0.138, 0);
+            this.sendPacket((byte) 0x0D, false);
+            break;
+
+        case 9:
+            this.world.getPosition().move(0, -0.23, 0);
+            this.sendPacket((byte) 0x0D, false);
+            break;
+
+        case 10:
+            this.world.getPosition().move(0, -0.304, 0);
+            this.sendPacket((byte) 0x0D, false);
+            break;
+
+        case 11:
+            this.world.getPosition().move(0, -0.377, 0);
+            this.sendPacket((byte) 0x0D, false);
+            break;
+
+        case 12:
+            this.world.getPosition().move(0, -0.448, 0);
+            this.sendPacket((byte) 0x0D, false);
+            break;
+
+        case 13:
+            this.world.getPosition().move(0, -0.027, 0);
+            this.sendPacket((byte) 0x0D, false);
+            break;
+
+        default:
+            this.sendPacket((byte) 0x0D, false);
+            break;
+        }
     }
 
     public DataInputStream getInput() {
@@ -326,7 +387,19 @@ public final class PacketsHandler extends Thread {
             break;
 
         case (byte) 0x0A:
-            packet = new Player(this);
+            if (args.length != 1) {
+                packet = new Player(this);
+            } else {
+                packet = new Player(this, (boolean) args[0]);
+            }
+            break;
+
+        case (byte) 0x0D:
+            if (args.length != 1) {
+                stdout.println("Packet 0x0D needs a boolean in parameters.");
+            } else {
+                packet = new PlayerPositionAndLook(this, (boolean) args[0]);
+            }
             break;
 
         case (byte) 0xFF:
@@ -419,7 +492,7 @@ public final class PacketsHandler extends Thread {
         }
 
         timer = new Timer();
-        timer.scheduleAtFixedRate(new AutoPacketSender(), 1000, 6000);
+        timer.scheduleAtFixedRate(new AutoPacketSender(), 200, 50);
 
         while (this.running) {
             Packet packet;
@@ -438,6 +511,10 @@ public final class PacketsHandler extends Thread {
                 packet = this.packetFromID(packetID);
                 if (packet != null) {
                     packet.read();
+                }
+
+                if (packetID == (byte) 0x0D) {
+                    packet.response().write();
                 }
             } catch (IOException e) {
                 stdout.println("Can't read packet from the network.");
@@ -500,9 +577,38 @@ public final class PacketsHandler extends Thread {
     }
 
     private class AutoPacketSender extends TimerTask {
+        private byte step;
+
+        private AutoPacketSender() {
+            super();
+
+            this.step = 0;
+        }
+
         @Override
         public void run() {
-            PacketsHandler.this.sendPacket((byte) 0x0A);
+            final PacketsHandler handler;
+
+            handler = PacketsHandler.this;
+
+            /*
+             * We need to wait for the login to complete before sending packets.
+             */
+            if (!handler.world.isLoggedIn()) {
+                return;
+            }
+
+            /*
+             * Send the first packets to initialize (aka 'really spawn') the
+             * fake player in the world.
+             */
+            if (this.step > 13) {
+                handler.sendPacket((byte) 0x0A);
+                handler.sendPacket((byte) 0x0D, false);
+            } else {
+                handler.sendInitSequence(this.step);
+                this.step++;
+            }
         }
     }
 }
