@@ -13,7 +13,9 @@ public final class ChatMessage extends Packet {
         super(handler, (byte) 0x03);
     }
 
-    public void setMessage(String message) {
+    public ChatMessage(PacketsHandler handler, String message) {
+        this(handler);
+
         this.message = message;
     }
 

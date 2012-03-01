@@ -379,11 +379,10 @@ public final class PacketsHandler extends Thread {
 
         switch (id) {
         case (byte) 0x03:
-            if (args.length != 1) {
+            if ((args.length < 1) || !(args[0] instanceof String)) {
                 stdout.println("Packet 0x03 needs a string in parameters.");
             } else {
-                packet = new ChatMessage(this);
-                ((ChatMessage) packet).setMessage((String) args[0]);
+                packet = new ChatMessage(this, (String) args[0]);
             }
             break;
 
@@ -392,7 +391,7 @@ public final class PacketsHandler extends Thread {
             break;
 
         case (byte) 0x0A:
-            if (args.length != 1) {
+            if ((args.length < 1) || !(args[0] instanceof Boolean)) {
                 packet = new Player(this);
             } else {
                 packet = new Player(this, (boolean) args[0]);
@@ -400,7 +399,7 @@ public final class PacketsHandler extends Thread {
             break;
 
         case (byte) 0x0D:
-            if (args.length != 1) {
+            if ((args.length < 1) || !(args[0] instanceof Boolean)) {
                 stdout.println("Packet 0x0D needs a boolean in parameters.");
             } else {
                 packet = new PlayerPositionAndLook(this, (boolean) args[0]);
@@ -497,7 +496,7 @@ public final class PacketsHandler extends Thread {
         }
 
         timer = new Timer();
-        timer.scheduleAtFixedRate(new AutoPacketSender(), 200, 50);
+        timer.scheduleAtFixedRate(new AutoPacketSender(), 0, 50);
 
         while (this.running) {
             Packet packet;
