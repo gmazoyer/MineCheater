@@ -8,11 +8,13 @@ import fr.respawner.minecheater.structure.MCPlayerListEntry;
 import fr.respawner.minecheater.structure.MCStatistic;
 import fr.respawner.minecheater.structure.PositionAndLook;
 import fr.respawner.minecheater.structure.entity.MCObject;
-import fr.respawner.minecheater.structure.world.MCTime;
 import fr.respawner.minecheater.structure.world.MCSpawn;
+import fr.respawner.minecheater.structure.world.MCTime;
 import fr.respawner.minecheater.structure.world.MCWorld;
 
 public final class World {
+    private boolean loggedIn;
+
     private MCWorld currentWorld;
     private MCSpawn spawn;
     private MCTime time;
@@ -25,9 +27,18 @@ public final class World {
     private List<MCObject> objects;
 
     public World() {
+        this.loggedIn = false;
         this.statistics = new ArrayList<>();
         this.people = new ArrayList<>();
         this.objects = new ArrayList<>();
+    }
+
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
     public MCWorld getCurrentWorld() {
