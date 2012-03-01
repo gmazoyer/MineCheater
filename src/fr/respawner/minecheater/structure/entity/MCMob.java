@@ -11,13 +11,14 @@ public final class MCMob extends MCEntity {
     private byte type;
 
     public MCMob(int entityID, byte type, int x, int y, int z, byte yaw,
-            byte pitch, Metadata metadata) {
+            byte pitch, byte headYaw, Metadata metadata) {
         super(entityID, x, y, z);
 
         this.type = type;
 
         this.setYaw(yaw);
         this.setPitch(pitch);
+        this.setHeadYaw(headYaw);
         this.setMetadata(new MCEntityMetadata(entityID, metadata));
     }
 
@@ -45,6 +46,8 @@ public final class MCMob extends MCEntity {
         builder.append(this.getYaw());
         builder.append(", pitch = ");
         builder.append(this.getPitch());
+        builder.append(", head yaw = ");
+        builder.append(this.getHeadYaw());
         builder.append(" | Metadata = ");
         builder.append(this.getMetadata().getMetadata());
 

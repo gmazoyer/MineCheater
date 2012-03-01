@@ -15,6 +15,7 @@ public final class MobSpawn extends Packet {
     private int z;
     private byte yaw;
     private byte pitch;
+    private byte headYaw;
     private Metadata metadata;
 
     private MCMob instance;
@@ -32,6 +33,7 @@ public final class MobSpawn extends Packet {
         this.z = this.readInt();
         this.yaw = this.readByte();
         this.pitch = this.readByte();
+        this.headYaw = this.readByte();
         this.metadata = new Metadata(this.handler);
         this.metadata.parse();
     }
@@ -46,7 +48,7 @@ public final class MobSpawn extends Packet {
     @Override
     public void process() {
         this.instance = new MCMob(this.entityID, this.type, this.x, this.y,
-                this.z, this.yaw, this.pitch, this.metadata);
+                this.z, this.yaw, this.pitch, this.headYaw, this.metadata);
         this.getWorld().addObject(this.instance);
     }
 
