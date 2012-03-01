@@ -401,7 +401,7 @@ public abstract class Packet {
         builder.append("  * Raw packet  -> '");
         builder.append(String.format("%02X", this.id));
 
-        for (Byte b : this.rawPacket) {
+        for (Byte b : this.rawPacket.isEmpty() ? this.packet : this.rawPacket) {
             builder.append(String.format(" %02X", b));
         }
 

@@ -14,6 +14,8 @@ public final class PacketProcessor extends Thread {
     private final Queue<Packet> packets;
 
     private long processedPackets;
+    private long chunksReceived;
+
     private boolean running;
 
     static {
@@ -22,6 +24,8 @@ public final class PacketProcessor extends Thread {
 
     public PacketProcessor() {
         this.packets = new LinkedList<>();
+        this.processedPackets = 0;
+        this.chunksReceived = 0;
         this.running = true;
     }
 
@@ -49,6 +53,8 @@ public final class PacketProcessor extends Thread {
          * Actual processing.
          */
         switch (packet.getID()) {
+        case (byte) 0x33:
+            this.chunksReceived++;
         case (byte) 0x00:
         case (byte) 0x01:
         case (byte) 0x02:
@@ -59,6 +65,7 @@ public final class PacketProcessor extends Thread {
         case (byte) 0x08:
         case (byte) 0x09:
         case (byte) 0x0D:
+        case (byte) 0x11:
         case (byte) 0x12:
         case (byte) 0x14:
         case (byte) 0x15:
@@ -80,7 +87,6 @@ public final class PacketProcessor extends Thread {
         case (byte) 0x2A:
         case (byte) 0x2B:
         case (byte) 0x32:
-        case (byte) 0x33:
         case (byte) 0x34:
         case (byte) 0x35:
         case (byte) 0x36:
@@ -97,7 +103,7 @@ public final class PacketProcessor extends Thread {
             packet.process();
 
             if (Config.DEBUG) {
-                stdout.println(packet);
+                stdout.println("Received: " + packet);
             }
 
             break;
@@ -115,6 +121,10 @@ public final class PacketProcessor extends Thread {
         if (response != null) {
             try {
                 response.write();
+
+                if (Config.DEBUG) {
+                    stdout.println("Sent: " + response);
+                }
             } catch (IOException e) {
                 stdout.println("Can't write packet to the network.");
                 e.printStackTrace();
@@ -167,6 +177,7 @@ public final class PacketProcessor extends Thread {
             }
         }
 
+        stdout.println("Received " + this.chunksReceived + " chunks.");
         stdout.println("Processed " + this.processedPackets + " packets.");
         stdout.println("Shutting down packet processor.");
     }
