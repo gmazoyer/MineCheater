@@ -18,10 +18,9 @@ public final class LoginRequest extends Packet {
      * Server -> Client fields
      */
     private int entityID;
-    private long mapSeed;
     private String levelType;
     private int serverMode;
-    private byte dimension;
+    private int dimension;
     private byte difficulty;
     private int worldHeight;
     private int maxPlayers;
@@ -39,10 +38,9 @@ public final class LoginRequest extends Packet {
     public void read() throws IOException {
         this.entityID = this.readInt();
         this.username = this.readUnicodeString();
-        this.mapSeed = this.readLong();
         this.levelType = this.readUnicodeString();
         this.serverMode = this.readInt();
-        this.dimension = this.readByte();
+        this.dimension = this.readInt();
         this.difficulty = this.readByte();
         this.worldHeight = this.readUnsignedByte();
         this.maxPlayers = this.readUnsignedByte();
@@ -53,21 +51,20 @@ public final class LoginRequest extends Packet {
         this.writeByte(this.id);
         this.writeInt(this.protocolVersion);
         this.writeUnicodeString(this.username);
-        this.writeLong(0);
         this.writeUnicodeString("");
+        this.writeInt(0);
         this.writeInt(0);
         this.writeByte((byte) 0);
         this.writeByte((byte) 0);
-        this.writeUnsignedByte(0);
         this.writeUnsignedByte(0);
         this.send();
     }
 
     @Override
     public void process() {
-        this.instance = new MCWorld(this.entityID, this.mapSeed,
-                this.levelType, this.serverMode, this.dimension,
-                this.difficulty, this.worldHeight, this.maxPlayers);
+        this.instance = new MCWorld(this.entityID, this.levelType,
+                this.serverMode, this.dimension, this.difficulty,
+                this.worldHeight, this.maxPlayers);
         this.getWorld().setCurrentWorld(this.instance);
     }
 

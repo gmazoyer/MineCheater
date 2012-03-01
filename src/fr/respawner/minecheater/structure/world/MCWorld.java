@@ -2,19 +2,16 @@ package fr.respawner.minecheater.structure.world;
 
 public final class MCWorld {
     private int entityID;
-    private long mapSeed;
     private String levelType;
     private int serverMode;
-    private byte dimension;
+    private int dimension;
     private byte difficulty;
     private int worldHeight;
     private int maxPlayers;
 
-    public MCWorld(int entityID, long mapSeed, String levelType,
-            int serverMode, byte dimension, byte difficulty, int worldHeight,
-            int maxPlayers) {
+    public MCWorld(int entityID, String levelType, int serverMode,
+            int dimension, byte difficulty, int worldHeight, int maxPlayers) {
         this.entityID = entityID;
-        this.mapSeed = mapSeed;
         this.levelType = levelType;
         this.serverMode = serverMode;
         this.dimension = dimension;
@@ -27,10 +24,6 @@ public final class MCWorld {
         return this.entityID;
     }
 
-    public final long getMapSeed() {
-        return this.mapSeed;
-    }
-
     public final String getLevelType() {
         return this.levelType;
     }
@@ -39,7 +32,7 @@ public final class MCWorld {
         return this.serverMode;
     }
 
-    public final byte getDimension() {
+    public final int getDimension() {
         return this.dimension;
     }
 
@@ -63,8 +56,6 @@ public final class MCWorld {
 
         builder.append("EntityID = ");
         builder.append(this.entityID);
-        builder.append(" | MapSeed = ");
-        builder.append(this.mapSeed);
         builder.append(" | LevelType = ");
         builder.append(this.levelType);
         builder.append(" | ServerMode = ");

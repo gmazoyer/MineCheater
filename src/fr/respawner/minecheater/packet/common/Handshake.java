@@ -10,7 +10,7 @@ public final class Handshake extends Packet {
     /*
      * Client -> Server field
      */
-    private String username;
+    private String usernameAndHost;
 
     /*
      * Server -> Client field
@@ -20,7 +20,8 @@ public final class Handshake extends Packet {
     public Handshake(PacketsHandler handler) {
         super(handler, (byte) 0x02);
 
-        this.username = Config.USERNAME;
+        this.usernameAndHost = String.format("%s;%s:%d", Config.USERNAME,
+                Config.SERVER_HOST, Config.SERVER_PORT);
     }
 
     @Override
@@ -31,7 +32,7 @@ public final class Handshake extends Packet {
     @Override
     public void write() throws IOException {
         this.writeByte(this.id);
-        this.writeUnicodeString(this.username);
+        this.writeUnicodeString(this.usernameAndHost);
         this.send();
     }
 

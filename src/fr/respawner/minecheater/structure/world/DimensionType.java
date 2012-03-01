@@ -3,7 +3,7 @@ package fr.respawner.minecheater.structure.world;
 public enum DimensionType {
     NETHER, OVERWORLD, END;
 
-    public static DimensionType dimensionForID(byte dimension) {
+    public static DimensionType dimensionForID(int dimension) {
         switch (dimension) {
         case -1:
             return NETHER;

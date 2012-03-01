@@ -1,24 +1,22 @@
 package fr.respawner.minecheater.structure.world;
 
 public final class PlayerRespawn {
-    private byte dimension;
+    private int dimension;
     private byte difficulty;
     private byte mode;
     private short worldHeight;
-    private long mapSeed;
     private String levelType;
 
-    public PlayerRespawn(byte dimension, byte difficulty, byte mode,
-            short worldHeight, long mapSeed, String levelType) {
+    public PlayerRespawn(int dimension, byte difficulty, byte mode,
+            short worldHeight, String levelType) {
         this.dimension = dimension;
         this.difficulty = difficulty;
         this.mode = mode;
         this.worldHeight = worldHeight;
-        this.mapSeed = mapSeed;
         this.levelType = levelType;
     }
 
-    public byte getDimension() {
+    public int getDimension() {
         return this.dimension;
     }
 
@@ -32,10 +30,6 @@ public final class PlayerRespawn {
 
     public short getWorldHeight() {
         return this.worldHeight;
-    }
-
-    public long getMapSeed() {
-        return this.mapSeed;
     }
 
     public String getLevelType() {
@@ -56,8 +50,6 @@ public final class PlayerRespawn {
         builder.append(this.mode);
         builder.append(" | WorldHeight = ");
         builder.append(this.worldHeight);
-        builder.append(" | MapSeed = ");
-        builder.append(this.mapSeed);
         builder.append(" | LevelType = ");
         builder.append(this.levelType);
 
