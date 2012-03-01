@@ -81,6 +81,7 @@ public final class PacketProcessor extends Thread {
         case (byte) 0x20:
         case (byte) 0x21:
         case (byte) 0x22:
+        case (byte) 0x23:
         case (byte) 0x26:
         case (byte) 0x28:
         case (byte) 0x29:

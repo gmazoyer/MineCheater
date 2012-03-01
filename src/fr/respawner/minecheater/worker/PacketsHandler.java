@@ -28,6 +28,7 @@ import fr.respawner.minecheater.packet.serverpacket.DestroyEntity;
 import fr.respawner.minecheater.packet.serverpacket.Entity;
 import fr.respawner.minecheater.packet.serverpacket.EntityEffect;
 import fr.respawner.minecheater.packet.serverpacket.EntityEquipment;
+import fr.respawner.minecheater.packet.serverpacket.EntityHeadLook;
 import fr.respawner.minecheater.packet.serverpacket.EntityLook;
 import fr.respawner.minecheater.packet.serverpacket.EntityLookAndRelativeMove;
 import fr.respawner.minecheater.packet.serverpacket.EntityMetadata;
@@ -200,6 +201,10 @@ public final class PacketsHandler extends Thread {
 
         case (byte) 0x22:
             packet = new EntityTeleport(this);
+            break;
+
+        case (byte) 0x23:
+            packet = new EntityHeadLook(this);
             break;
 
         case (byte) 0x26:

@@ -12,6 +12,7 @@ public class MCEntity extends MCObject {
     private byte dZ;
     private byte yaw;
     private byte pitch;
+    private byte headYaw;
     private MCEntityMetadata metadata;
     private MCStatus status;
     private MCVelocity velocity;
@@ -69,6 +70,14 @@ public class MCEntity extends MCObject {
 
     public final void setPitch(byte pitch) {
         this.pitch = pitch;
+    }
+
+    public byte getHeadYaw() {
+        return this.headYaw;
+    }
+
+    public void setHeadYaw(byte headYaw) {
+        this.headYaw = headYaw;
     }
 
     public final MCEntityMetadata getMetadata() {
