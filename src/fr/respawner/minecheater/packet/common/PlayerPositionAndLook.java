@@ -21,6 +21,34 @@ public final class PlayerPositionAndLook extends Packet {
         super(handler, (byte) 0x0D);
     }
 
+    public PlayerPositionAndLook(PacketsHandler handler, boolean init) {
+        this(handler);
+
+        final PositionAndLook position;
+
+        if (init) {
+            this.x = 8.5;
+            this.y = 65;
+            this.stance = this.y + 1.62;
+            this.z = 8.5;
+            this.yaw = -180f;
+            this.pitch = 0.0f;
+            this.onGround = false;
+        } else {
+            position = this.getWorld().getPosition();
+
+            if (position != null) {
+                this.x = position.getX();
+                this.y = position.getY();
+                this.stance = position.getStance();
+                this.z = position.getZ();
+                this.yaw = position.getYaw();
+                this.pitch = position.getPitch();
+                this.onGround = position.isOnGround();
+            }
+        }
+    }
+
     @Override
     public void read() throws IOException {
         this.x = this.readDouble();
@@ -52,26 +80,18 @@ public final class PlayerPositionAndLook extends Packet {
         this.instance = new PositionAndLook(this.x, this.y, this.z,
                 this.stance, this.yaw, this.pitch, this.onGround);
         this.getWorld().setPosition(this.instance);
+
+        if (!this.getWorld().isLoggedIn()) {
+            this.getWorld().setLoggedIn(true);
+        }
     }
 
     @Override
     public Packet response() {
-        final PlayerPositionAndLook response;
-
-        response = new PlayerPositionAndLook(this.handler);
-
         /*
-         * Copy the packet.
+         * We just send the exact same packet.
          */
-        response.x = this.x;
-        response.stance = this.stance;
-        response.y = this.y;
-        response.z = this.z;
-        response.yaw = this.yaw;
-        response.pitch = this.pitch;
-        response.onGround = this.onGround;
-
-        return response;
+        return this;
     }
 
     @Override

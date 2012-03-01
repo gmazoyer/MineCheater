@@ -6,12 +6,16 @@ import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class Player extends Packet {
-    private final boolean onGround;
+    private boolean onGround;
 
-    public Player(PacketsHandler handler) {
+    public Player(PacketsHandler handler, boolean onGround) {
         super(handler, (byte) 0x0A);
 
-        this.onGround = true;
+        this.onGround = onGround;
+    }
+
+    public Player(PacketsHandler handler) {
+        this(handler, true);
     }
 
     @Override
@@ -45,6 +49,6 @@ public final class Player extends Packet {
 
     @Override
     public Object getData() {
-        return null;
+        return this.onGround ? "Walking or Swimming" : "Jumping or Falling";
     }
 }
