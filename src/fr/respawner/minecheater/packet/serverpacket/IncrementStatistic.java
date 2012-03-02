@@ -3,7 +3,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.MCStatistic;
+import fr.respawner.minecheater.structure.player.MCStatistic;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class IncrementStatistic extends Packet {
@@ -33,13 +33,14 @@ public final class IncrementStatistic extends Packet {
     public void parse() {
         final MCStatistic statistic;
 
-        statistic = this.getWorld().findStatisticByID(this.statisticID);
+        statistic = this.getWorld().getPlayer()
+                .findStatisticByID(this.statisticID);
         this.instance = new MCStatistic(this.statisticID, this.amount);
 
         if (statistic != null) {
             statistic.setAmount(this.amount);
         } else {
-            this.getWorld().addStatistic(this.instance);
+            this.getWorld().getPlayer().addStatistic(this.instance);
         }
     }
 

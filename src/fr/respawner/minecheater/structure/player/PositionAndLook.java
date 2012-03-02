@@ -1,4 +1,4 @@
-package fr.respawner.minecheater.structure;
+package fr.respawner.minecheater.structure.player;
 
 public final class PositionAndLook {
     private double x;

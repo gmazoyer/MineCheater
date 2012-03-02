@@ -3,7 +3,7 @@ package fr.respawner.minecheater.packet.common;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.PositionAndLook;
+import fr.respawner.minecheater.structure.player.PositionAndLook;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class PlayerPositionAndLook extends Packet {
@@ -35,7 +35,7 @@ public final class PlayerPositionAndLook extends Packet {
             this.pitch = 0.0f;
             this.onGround = false;
         } else {
-            position = this.getWorld().getPosition();
+            position = this.getWorld().getPlayer().getPosition();
 
             if (position != null) {
                 this.x = position.getX();
@@ -79,7 +79,7 @@ public final class PlayerPositionAndLook extends Packet {
     public void parse() {
         this.instance = new PositionAndLook(this.x, this.y, this.z,
                 this.stance, this.yaw, this.pitch, this.onGround);
-        this.getWorld().setPosition(this.instance);
+        this.getWorld().getPlayer().setPosition(this.instance);
 
         if (!this.getWorld().isLoggedIn()) {
             this.getWorld().setLoggedIn(true);

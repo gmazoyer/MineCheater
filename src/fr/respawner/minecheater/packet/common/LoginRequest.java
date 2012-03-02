@@ -65,6 +65,7 @@ public final class LoginRequest extends Packet {
         this.instance = new MCWorld(this.entityID, this.levelType,
                 this.serverMode, this.dimension, this.difficulty,
                 this.worldHeight, this.maxPlayers);
+        this.getWorld().getPlayer().setEntityID(this.entityID);
         this.getWorld().setCurrentWorld(this.instance);
     }
 

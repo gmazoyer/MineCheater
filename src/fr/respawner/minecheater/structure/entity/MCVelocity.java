@@ -1,21 +1,19 @@
 package fr.respawner.minecheater.structure.entity;
 
-public final class MCVelocity {
-    private int entityID;
+import fr.respawner.minecheater.structure.MCIdentifiable;
+
+public final class MCVelocity extends MCIdentifiable {
     private short velocityX;
     private short velocityY;
     private short velocityZ;
 
     public MCVelocity(int entityID, short velocityX, short velocityY,
             short velocityZ) {
-        this.entityID = entityID;
+        super(entityID);
+
         this.velocityX = velocityX;
         this.velocityY = velocityY;
         this.velocityZ = velocityZ;
-    }
-
-    public final int getEntityID() {
-        return this.entityID;
     }
 
     public final short getVelocityX() {
@@ -37,7 +35,7 @@ public final class MCVelocity {
         builder = new StringBuilder();
 
         builder.append("Entity ID = ");
-        builder.append(this.entityID);
+        builder.append(this.getEntityID());
         builder.append(" | Velocity X = ");
         builder.append(this.velocityX);
         builder.append(" | Velocity Y = ");

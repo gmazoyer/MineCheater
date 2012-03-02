@@ -1,6 +1,5 @@
-package fr.respawner.minecheater.structure;
+package fr.respawner.minecheater.structure.entity;
 
-import fr.respawner.minecheater.structure.entity.EntityEffectType;
 
 public final class PlayerEffect {
     private int entityID;

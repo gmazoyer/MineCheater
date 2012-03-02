@@ -3,7 +3,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.MCExperience;
+import fr.respawner.minecheater.structure.player.MCExperience;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class Experience extends Packet {
@@ -35,12 +35,12 @@ public final class Experience extends Packet {
     public void parse() {
         final MCExperience experience;
 
-        experience = this.getWorld().getExperience();
+        experience = this.getWorld().getPlayer().getExperience();
         this.instance = new MCExperience(this.experienceBar, this.level,
                 this.total);
 
         if (experience == null) {
-            this.getWorld().setExperience(this.instance);
+            this.getWorld().getPlayer().setExperience(this.instance);
         } else {
             experience.setExperienceBar(this.experienceBar);
             experience.setLevel(this.level);

@@ -1,5 +1,6 @@
 package fr.respawner.minecheater.structure.entity;
 
+import fr.respawner.minecheater.structure.MCIdentifiable;
 
 /**
  * This is the mother class of all objects in the Minecraft world (players,
@@ -7,33 +8,21 @@ package fr.respawner.minecheater.structure.entity;
  * 
  * @author Guillaume Mazoyer
  */
-public abstract class MCObject {
-    private int entityID;
-
-    /*
-     * The coordinates of the entity.
-     */
+public abstract class MCObject extends MCIdentifiable {
     private int x;
     private int y;
     private int z;
 
     public MCObject(int entityID) {
-        this.entityID = entityID;
+        super(entityID);
     }
 
     public MCObject(int entityID, int x, int y, int z) {
-        this.entityID = entityID;
+        this(entityID);
+
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-
-    public final int getEntityID() {
-        return this.entityID;
-    }
-
-    public final void setEntityID(int entityID) {
-        this.entityID = entityID;
     }
 
     public final int getX() {

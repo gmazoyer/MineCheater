@@ -3,7 +3,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.PlayerEffect;
+import fr.respawner.minecheater.structure.entity.PlayerEffect;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class EntityEffect extends Packet {

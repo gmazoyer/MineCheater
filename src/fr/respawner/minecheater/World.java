@@ -3,11 +3,9 @@ package fr.respawner.minecheater;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.respawner.minecheater.structure.MCExperience;
 import fr.respawner.minecheater.structure.MCPlayerListEntry;
-import fr.respawner.minecheater.structure.MCStatistic;
-import fr.respawner.minecheater.structure.PositionAndLook;
 import fr.respawner.minecheater.structure.entity.MCObject;
+import fr.respawner.minecheater.structure.player.MCPlayer;
 import fr.respawner.minecheater.structure.world.MCSpawn;
 import fr.respawner.minecheater.structure.world.MCTime;
 import fr.respawner.minecheater.structure.world.MCWorld;
@@ -19,16 +17,14 @@ public final class World {
     private MCSpawn spawn;
     private MCTime time;
 
-    private PositionAndLook position;
-    private MCExperience experience;
-    private List<MCStatistic> statistics;
+    private MCPlayer player;
 
     private List<MCPlayerListEntry> people;
     private List<MCObject> objects;
 
     public World() {
         this.loggedIn = false;
-        this.statistics = new ArrayList<>();
+        this.player = new MCPlayer();
         this.people = new ArrayList<>();
         this.objects = new ArrayList<>();
     }
@@ -65,20 +61,12 @@ public final class World {
         this.time = time;
     }
 
-    public PositionAndLook getPosition() {
-        return this.position;
+    public MCPlayer getPlayer() {
+        return this.player;
     }
 
-    public void setPosition(PositionAndLook position) {
-        this.position = position;
-    }
-
-    public MCExperience getExperience() {
-        return this.experience;
-    }
-
-    public void setExperience(MCExperience experience) {
-        this.experience = experience;
+    public void setPlayer(MCPlayer player) {
+        this.player = player;
     }
 
     public List<MCPlayerListEntry> getOnlinePeople() {
@@ -97,28 +85,6 @@ public final class World {
         for (MCPlayerListEntry entry : this.people) {
             if (name.equals(entry.getPlayerName())) {
                 return entry;
-            }
-        }
-
-        return null;
-    }
-
-    public List<MCStatistic> getAllStatistics() {
-        return this.statistics;
-    }
-
-    public void addStatistic(MCStatistic statistic) {
-        this.statistics.add(statistic);
-    }
-
-    public void removeStatistic(MCStatistic statistic) {
-        this.statistics.remove(statistic);
-    }
-
-    public MCStatistic findStatisticByID(int id) {
-        for (MCStatistic statistic : this.statistics) {
-            if (id == statistic.getStatisticID()) {
-                return statistic;
             }
         }
 
