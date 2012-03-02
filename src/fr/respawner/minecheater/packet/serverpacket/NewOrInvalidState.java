@@ -30,7 +30,7 @@ public final class NewOrInvalidState extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new State(this.reason, this.mode);
         this.handler.println(this.instance);
     }

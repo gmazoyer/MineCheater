@@ -28,7 +28,7 @@ public final class CollectItem extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         /*
          * Nothing to do.
          */

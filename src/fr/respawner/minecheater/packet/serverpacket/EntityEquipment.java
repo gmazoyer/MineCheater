@@ -35,7 +35,7 @@ public final class EntityEquipment extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         final MCCharacter character;
 
         /*

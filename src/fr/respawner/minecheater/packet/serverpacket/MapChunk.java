@@ -43,7 +43,7 @@ public final class MapChunk extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         /*
          * Nothing to do.
          */

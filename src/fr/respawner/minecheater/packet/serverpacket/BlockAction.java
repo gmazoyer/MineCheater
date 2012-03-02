@@ -34,7 +34,7 @@ public final class BlockAction extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         /*
          * Nothing to do.
          */

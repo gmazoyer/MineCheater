@@ -46,7 +46,7 @@ public final class MobSpawn extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new MCMob(this.entityID, this.type, this.x, this.y,
                 this.z, this.yaw, this.pitch, this.headYaw, this.metadata);
         this.getWorld().addObject(this.instance);

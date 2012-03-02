@@ -32,7 +32,7 @@ public final class EntityEffect extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         /*
          * Nothing to do.
          */

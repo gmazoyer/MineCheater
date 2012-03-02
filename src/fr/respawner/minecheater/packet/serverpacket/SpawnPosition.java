@@ -32,7 +32,7 @@ public final class SpawnPosition extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new MCSpawn(this.x, this.y, this.z);
         this.getWorld().setSpawn(this.instance);
     }

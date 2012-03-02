@@ -31,7 +31,7 @@ public final class EntityStatus extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         final MCEntity entity;
 
         /*

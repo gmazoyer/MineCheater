@@ -33,7 +33,7 @@ public final class Player extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         /*
          * Nothing to do.
          */

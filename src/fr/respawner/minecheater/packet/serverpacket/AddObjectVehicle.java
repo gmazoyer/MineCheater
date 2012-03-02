@@ -47,7 +47,7 @@ public final class AddObjectVehicle extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new MCObjectVehicle(this.entityID, this.type, this.x,
                 this.y, this.z, this.throwerID, this.speedX, this.speedY,
                 this.speedZ);

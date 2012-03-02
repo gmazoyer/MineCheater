@@ -32,7 +32,7 @@ public final class PlayerListItem extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         final MCPlayerListEntry entry;
 
         entry = this.getWorld().findPeopleByName(this.playerName);

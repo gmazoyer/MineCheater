@@ -32,7 +32,7 @@ public final class ChatMessage extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         final String prefix;
 
         prefix = this.message.startsWith("<" + Config.USERNAME + ">") ? "Message sent: "

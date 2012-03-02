@@ -32,7 +32,7 @@ public final class UpdateHealth extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new Health(this.health, this.food, this.foodSaturation);
         this.handler.println(this.instance);
     }

@@ -36,7 +36,7 @@ public final class UseBed extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new MCBed(this.entityID, this.inBed, this.x, this.y,
                 this.z);
     }

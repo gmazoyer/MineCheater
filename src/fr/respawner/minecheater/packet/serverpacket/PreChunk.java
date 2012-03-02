@@ -29,7 +29,7 @@ public class PreChunk extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         /*
          * Nothing to do.
          */

@@ -30,7 +30,7 @@ public final class IncrementStatistic extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         final MCStatistic statistic;
 
         statistic = this.getWorld().findStatisticByID(this.statisticID);

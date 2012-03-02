@@ -42,7 +42,7 @@ public final class NamedEntitySpawn extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new MCCharacter(this.entityID, this.name, this.x,
                 this.y, this.z, this.rotation, this.pitch, this.item);
         this.getWorld().addObject(this.instance);

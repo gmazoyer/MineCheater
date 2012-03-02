@@ -46,7 +46,7 @@ public final class PickupSpawn extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new MCPickup(this.entityID, this.itemID, this.count,
                 this.damage, this.x, this.y, this.z, this.rotation, this.pitch,
                 this.roll);

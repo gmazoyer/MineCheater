@@ -36,7 +36,7 @@ public final class ExperienceOrb extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new MCExperienceOrb(this.entityID, this.x, this.y,
                 this.z, this.count);
         this.handler.getWorld().addObject(this.instance);

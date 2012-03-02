@@ -38,7 +38,7 @@ public final class EntityPainting extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new MCPainting(this.entityID, this.title, this.x,
                 this.y, this.z, this.direction);
         this.getWorld().addObject(this.instance);

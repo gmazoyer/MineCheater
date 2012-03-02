@@ -28,7 +28,7 @@ public final class TimeUpdate extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new MCTime(this.time);
         this.getWorld().setTime(this.instance);
     }

@@ -28,7 +28,7 @@ public final class RemoveEntityEffect extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         /*
          * Nothing to do.
          */

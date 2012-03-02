@@ -39,7 +39,7 @@ public final class EntityLookAndRelativeMove extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         final MCEntity entity;
 
         /*

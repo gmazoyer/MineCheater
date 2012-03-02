@@ -355,14 +355,14 @@ public abstract class Packet {
     public abstract void write() throws IOException;
 
     /**
-     * Process the packet.
+     * Parse the packet.
      * 
      * <p>
      * This method is not used to send a response or get the data of the packet.
      * It is used to make a link between what's happening on the network and
      * what should be done in our code.
      */
-    public abstract void process();
+    public abstract void parse();
 
     /**
      * Get the packet that should be sent as a response to this current packet.

@@ -32,7 +32,7 @@ public final class Experience extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         final MCExperience experience;
 
         experience = this.getWorld().getExperience();

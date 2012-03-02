@@ -76,7 +76,7 @@ public final class PlayerPositionAndLook extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new PositionAndLook(this.x, this.y, this.z,
                 this.stance, this.yaw, this.pitch, this.onGround);
         this.getWorld().setPosition(this.instance);

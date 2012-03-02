@@ -36,7 +36,7 @@ public final class Thunderbold extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         this.instance = new MCThunderbolt(this.entityID, this.unknown, this.x,
                 this.y, this.z);
         this.getWorld().addObject(this.instance);

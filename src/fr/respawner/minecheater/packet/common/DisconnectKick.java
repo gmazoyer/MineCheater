@@ -25,7 +25,7 @@ public final class DisconnectKick extends Packet {
     }
 
     @Override
-    public void process() {
+    public void parse() {
         /*
          * We were kicked :'(
          */
