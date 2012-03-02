@@ -33,7 +33,7 @@ public final class PacketProcessor extends Thread {
         return (this.packets.size() > 0);
     }
 
-    private synchronized void processPacket() {
+    private synchronized void processPacket() throws IOException {
         Packet packet;
         Packet response;
 
@@ -101,18 +101,21 @@ public final class PacketProcessor extends Thread {
         case (byte) 0xC9:
         case (byte) 0xFE:
         case (byte) 0xFF:
-            packet.process();
-
-            if (Config.DEBUG) {
-                stdout.println("Received: " + packet);
-            }
-
             break;
         default:
             stdout.println("Unknown packet "
                     + String.format("%02X", packet.getID()) + "!");
             stdout.println(packet);
-            break;
+            return;
+        }
+
+        /*
+         * Extract the data from the packet.
+         */
+        packet.process();
+
+        if (Config.DEBUG) {
+            stdout.println("Received: " + packet);
         }
 
         /*
@@ -120,15 +123,10 @@ public final class PacketProcessor extends Thread {
          */
         response = packet.response();
         if (response != null) {
-            try {
-                response.write();
+            response.write();
 
-                if (Config.DEBUG) {
-                    stdout.println("Sent: " + response);
-                }
-            } catch (IOException e) {
-                stdout.println("Can't write packet to the network.");
-                e.printStackTrace();
+            if (Config.DEBUG) {
+                stdout.println("Sent: " + response);
             }
         }
 
@@ -168,7 +166,11 @@ public final class PacketProcessor extends Thread {
              * Test if there is at least one packet to process.
              */
             if (this.canProcess()) {
-                this.processPacket();
+                try {
+                    this.processPacket();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 try {
                     Thread.sleep(100);
