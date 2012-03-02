@@ -55,7 +55,7 @@ public final class LoginRequest extends Packet {
         this.writeInt(0);
         this.writeInt(0);
         this.writeByte((byte) 0);
-        this.writeByte((byte) 0);
+        this.writeUnsignedByte(0);
         this.writeUnsignedByte(0);
         this.send();
     }
