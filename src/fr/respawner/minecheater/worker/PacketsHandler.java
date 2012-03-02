@@ -516,10 +516,6 @@ public final class PacketsHandler extends Thread {
                 if (packet != null) {
                     packet.read();
                 }
-
-                if (packetID == (byte) 0x0D) {
-                    packet.response().write();
-                }
             } catch (IOException e) {
                 stdout.println("Can't read packet from the network.");
                 e.printStackTrace();
