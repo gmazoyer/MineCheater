@@ -10,15 +10,19 @@ import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public abstract class Packet {
-    public static final String LINE_SEPARATOR = System.lineSeparator();
-    public static final String STRING_DELIMITER = new String(
-            new char[] { 0xA7 });
+    public static final String LINE_SEPARATOR;
+    public static final String STRING_DELIMITER;
 
     private final List<Byte> rawPacket;
     private final List<Byte> packet;
 
     protected final PacketsHandler handler;
     protected final byte id;
+
+    static {
+        LINE_SEPARATOR = System.lineSeparator();
+        STRING_DELIMITER = new String(new char[] { 0xA7 });
+    }
 
     public Packet(PacketsHandler handler, byte id) {
         this.handler = handler;
@@ -153,10 +157,6 @@ public abstract class Packet {
          * Read the length of the string.
          */
         length = this.readShort();
-
-        if (length < 0) {
-            System.out.println("Length of string = " + length);
-        }
 
         /*
          * UTF-16 uses 16-bit word so since we read bytes which have 8 bits

@@ -1,15 +1,16 @@
 package fr.respawner.minecheater.worker;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import fr.respawner.minecheater.Config;
+import org.apache.log4j.Logger;
+
+import fr.respawner.minecheater.MineCheater;
 import fr.respawner.minecheater.packet.Packet;
 
 public final class PacketProcessor extends Thread {
-    private static final PrintStream stdout;
+    private static final Logger log;
 
     private final Queue<Packet> packets;
 
@@ -19,7 +20,7 @@ public final class PacketProcessor extends Thread {
     private boolean running;
 
     static {
-        stdout = System.out;
+        log = Logger.getLogger(MineCheater.class);
     }
 
     public PacketProcessor() {
@@ -103,9 +104,8 @@ public final class PacketProcessor extends Thread {
         case (byte) 0xFF:
             break;
         default:
-            stdout.println("Unknown packet "
-                    + String.format("%02X", packet.getID()) + "!");
-            stdout.println(packet);
+            log.warn("Unknown packet " + String.format("%02X", packet.getID())
+                    + "!");
             return;
         }
 
@@ -114,9 +114,7 @@ public final class PacketProcessor extends Thread {
          */
         packet.parse();
 
-        if (Config.DEBUG) {
-            stdout.println("Received: " + packet);
-        }
+        log.debug("Received: " + packet);
 
         /*
          * Get the packet we need to send to respond.
@@ -126,9 +124,7 @@ public final class PacketProcessor extends Thread {
             response.parse();
             response.write();
 
-            if (Config.DEBUG) {
-                stdout.println("Sent: " + response);
-            }
+            log.debug("Sent: " + response);
         }
 
         /*
@@ -181,8 +177,8 @@ public final class PacketProcessor extends Thread {
             }
         }
 
-        stdout.println("Received " + this.chunksReceived + " chunks.");
-        stdout.println("Processed " + this.processedPackets + " packets.");
-        stdout.println("Shutting down packet processor.");
+        log.info("Received " + this.chunksReceived + " chunks.");
+        log.info("Processed " + this.processedPackets + " packets.");
+        log.info("Shutting down packet processor.");
     }
 }

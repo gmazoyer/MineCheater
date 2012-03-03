@@ -11,11 +11,14 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import fr.respawner.minecheater.structure.MCPlayerListEntry;
 import fr.respawner.minecheater.structure.entity.MCObject;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class ClientWorker implements Runnable {
+    private static final Logger log;
     private static final InputStream stdin;
     private static final PrintStream stdout;
 
@@ -23,6 +26,7 @@ public final class ClientWorker implements Runnable {
     private boolean running;
 
     static {
+        log = Logger.getLogger(MineCheater.class);
         stdin = System.in;
         stdout = System.out;
     }
@@ -34,14 +38,14 @@ public final class ClientWorker implements Runnable {
         try {
             address = InetAddress.getByName(ip);
         } catch (UnknownHostException e) {
-            stdout.println("Can't find server at " + ip + ".");
+            log.warn("Can't find server at " + ip + ".");
         }
 
         try {
             this.socket = new Socket(address, port);
         } catch (IOException e) {
-            stdout.println("Can't connect to server at " + ip + " with port "
-                    + port + ".");
+            log.warn("Can't connect to server at " + ip + " with port " + port
+                    + ".");
         }
         this.running = true;
     }
@@ -199,7 +203,7 @@ public final class ClientWorker implements Runnable {
                     break;
                 }
             } catch (IOException e) {
-                stdout.println("Can't read user input.");
+                log.error("Can't read user input.");
             }
         }
 
@@ -221,9 +225,9 @@ public final class ClientWorker implements Runnable {
             }
             userInput.close();
         } catch (IOException e) {
-            stdout.println("Socket already closed.");
+            log.error("Socket already closed.");
         }
 
-        stdout.println("Shutting down client worker.");
+        log.info("Shutting down client worker.");
     }
 }

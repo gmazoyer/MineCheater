@@ -7,7 +7,10 @@ import java.io.PrintStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.log4j.Logger;
+
 import fr.respawner.minecheater.ClientWorker;
+import fr.respawner.minecheater.MineCheater;
 import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.packet.clientpacket.Player;
@@ -60,6 +63,7 @@ import fr.respawner.minecheater.packet.serverpacket.UseBed;
 import fr.respawner.minecheater.packet.serverpacket.WindowItems;
 
 public final class PacketsHandler extends Thread {
+    private static final Logger log;
     private static final PrintStream stdout;
 
     private final PacketProcessor processor;
@@ -71,6 +75,7 @@ public final class PacketsHandler extends Thread {
     private World world;
 
     static {
+        log = Logger.getLogger(MineCheater.class);
         stdout = System.out;
     }
 
@@ -284,8 +289,8 @@ public final class PacketsHandler extends Thread {
             break;
 
         default:
-            stdout.println("Unknown packet with ID "
-                    + String.format("%02X", id) + " ignored.");
+            log.warn("Unknown packet with ID " + String.format("%02X", id)
+                    + " ignored.");
             break;
         }
 
@@ -390,7 +395,7 @@ public final class PacketsHandler extends Thread {
 
         case (byte) 0x03:
             if ((args.length < 1) || !(args[0] instanceof String)) {
-                stdout.println("Packet 0x03 needs a string in parameters.");
+                log.warn("Packet 0x03 needs a string in parameters.");
             } else {
                 packet = new ChatMessage(this, (String) args[0]);
             }
@@ -410,7 +415,7 @@ public final class PacketsHandler extends Thread {
 
         case (byte) 0x0D:
             if ((args.length < 1) || !(args[0] instanceof Boolean)) {
-                stdout.println("Packet 0x0D needs a boolean in parameters.");
+                log.warn("Packet 0x0D needs a boolean in parameters.");
             } else {
                 packet = new PlayerPositionAndLook(this, (boolean) args[0]);
             }
@@ -433,7 +438,7 @@ public final class PacketsHandler extends Thread {
             break;
 
         default:
-            stdout.println("Can't send packet " + String.format("%02X", id));
+            log.error("Can't send packet " + String.format("%02X", id));
             break;
         }
 
@@ -480,7 +485,7 @@ public final class PacketsHandler extends Thread {
             this.out.close();
             this.client.closeSocket();
         } catch (IOException e) {
-            stdout.println("Can't ping the server.");
+            log.error("Can't ping the server.");
         }
 
         /*
@@ -518,7 +523,7 @@ public final class PacketsHandler extends Thread {
                     packet.read();
                 }
             } catch (IOException e) {
-                stdout.println("Can't read packet from the network.");
+                log.error("Can't read packet from the network.");
                 e.printStackTrace();
 
                 packet = null;
@@ -571,10 +576,10 @@ public final class PacketsHandler extends Thread {
             this.in.close();
             this.out.close();
         } catch (IOException e) {
-            stdout.println("Streams already closed?");
+            log.error("Streams already closed?");
         }
 
-        stdout.println("Shutting down packets handler.");
+        log.info("Shutting down packets handler.");
     }
 
     private class AutoPacketSender extends TimerTask {
