@@ -48,7 +48,6 @@ public final class LoginRequest extends Packet {
 
     @Override
     public void write() throws IOException {
-        this.writeByte(this.id);
         this.writeInt(this.protocolVersion);
         this.writeUnicodeString(this.username);
         this.writeUnicodeString("");

@@ -21,7 +21,6 @@ public final class KeepAlive extends Packet {
 
     @Override
     public void write() throws IOException {
-        this.writeByte(this.id);
         this.writeInt(this.keepAliveID);
         this.send();
     }

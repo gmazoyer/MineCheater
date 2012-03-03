@@ -26,7 +26,6 @@ public final class ChatMessage extends Packet {
 
     @Override
     public void write() throws IOException {
-        this.writeByte(this.id);
         this.writeUnicodeString(this.message);
         this.send();
     }

@@ -29,6 +29,9 @@ public abstract class Packet {
         this.rawPacket = new ArrayList<>();
         this.packet = new ArrayList<>();
         this.id = id;
+
+        this.rawPacket.add(this.id);
+        this.packet.add(this.id);
     }
 
     /**
@@ -401,9 +404,8 @@ public abstract class Packet {
         }
 
         builder.append("  * Raw packet  -> '");
-        builder.append(String.format("%02X", this.id));
 
-        for (Byte b : this.rawPacket.isEmpty() ? this.packet : this.rawPacket) {
+        for (Byte b : (this.packet.size() > 1) ? this.packet : this.rawPacket) {
             builder.append(String.format(" %02X", b));
         }
 

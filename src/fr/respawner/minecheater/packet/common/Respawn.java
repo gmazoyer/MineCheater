@@ -28,7 +28,6 @@ public final class Respawn extends Packet {
 
     @Override
     public void write() throws IOException {
-        this.writeByte(this.id);
         this.writeInt(this.getWorld().getCurrentWorld().getDimension());
         this.writeByte((byte) 1);
         this.writeByte((byte) this.getWorld().getCurrentWorld().getServerMode());

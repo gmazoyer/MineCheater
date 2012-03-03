@@ -65,7 +65,6 @@ public final class PlayerPositionAndLook extends Packet {
         /*
          * From Client to Server, 'stance' is sent after 'y'.
          */
-        this.writeByte(this.id);
         this.writeDouble(this.x);
         this.writeDouble(this.y);
         this.writeDouble(this.stance);

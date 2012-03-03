@@ -19,7 +19,6 @@ public final class ServerListPing extends Packet {
 
     @Override
     public void write() throws IOException {
-        this.writeByte(this.id);
         this.send();
     }
 
