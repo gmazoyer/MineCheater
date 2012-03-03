@@ -1,5 +1,6 @@
 package fr.respawner.minecheater.structure.player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.respawner.minecheater.structure.MCIdentifiable;
@@ -12,10 +13,12 @@ public final class MCPlayer extends MCIdentifiable {
 
     public MCPlayer(int entityID) {
         super(entityID);
+
+        this.statistics = new ArrayList<>();
     }
 
     public MCPlayer() {
-        super(0);
+        this(0);
     }
 
     public final PositionAndLook getPosition() {
