@@ -57,11 +57,11 @@ public final class Config {
         usedMemory = totalMemory - freeMemory;
 
         stdout.println("================================================================================");
-        stdout.println("  __  __ _        ____ _                _");
-        stdout.println(" |  \\/  (_)_ __  / ___| |__   ___  __ _| |_ ___ _ __");
-        stdout.println(" | |\\/| | | '_ \\| |   | '_ \\ / _ \\/ _` | __/ _ \\ '__|");
-        stdout.println(" | |  | | | | | | |___| | | |  __/ (_| | |_  __/ |");
-        stdout.println(" |_|  |_|_|_| |_|\\____|_| |_|\\___|\\__,_|\\__\\___|_|");
+        stdout.println("  __  __ _             ____ _                _");
+        stdout.println(" |  \\/  (_)_ __   ___ / ___| |__   ___  __ _| |_ ___ _ __");
+        stdout.println(" | |\\/| | | '_ \\ / _ \\ |   | '_ \\ / _ \\/ _` | __/ _ \\ '__|");
+        stdout.println(" | |  | | | | | |  __/ |___| | | |  __/ (_| | |_  __/ |");
+        stdout.println(" |_|  |_|_|_| |_|\\___|\\____|_| |_|\\___|\\__,_|\\__\\___|_|");
         stdout.println();
         stdout.println("[Version " + Config.VERSION + "]");
         stdout.println();
