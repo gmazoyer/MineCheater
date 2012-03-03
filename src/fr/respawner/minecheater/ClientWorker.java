@@ -154,6 +154,10 @@ public final class ClientWorker implements Runnable {
 
                     break;
 
+                case "player":
+                    stdout.println(handler.getWorld().getPlayer());
+                    break;
+
                 case "online":
                     final List<MCPlayerListEntry> people;
 
@@ -182,9 +186,10 @@ public final class ClientWorker implements Runnable {
                     stdout.println("Available commands:");
                     stdout.println("  * help|?         - print this help");
                     stdout.println("  * message <text> - send a message");
-                    stdout.println("  * respawn        - respawn the player");
                     stdout.println("  * objects        - list all objects of the world");
                     stdout.println("  * online         - show online players");
+                    stdout.println("  * player         - show information about the player");
+                    stdout.println("  * respawn        - respawn the player");
                     stdout.println("  * time           - display the time of the world");
                     stdout.println("  * quit|exit      - stop this program");
                     break;

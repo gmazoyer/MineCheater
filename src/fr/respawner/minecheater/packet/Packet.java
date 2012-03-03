@@ -10,6 +10,7 @@ import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public abstract class Packet {
+    public static final String LINE_SEPARATOR = System.lineSeparator();
     public static final String STRING_DELIMITER = new String(
             new char[] { 0xA7 });
 
@@ -386,15 +387,16 @@ public abstract class Packet {
         builder.append(String.format("%02X", this.id));
         builder.append(" : ");
         builder.append(this.getClass().getName());
-        builder.append('\n');
+        builder.append(LINE_SEPARATOR);
 
         for (Field field : fields) {
             if (!field.getName().equals("instance")) {
-                builder.append("  * field '");
+                builder.append("  * Field '");
                 builder.append(field.getName());
                 builder.append("' of type '");
                 builder.append(field.getType().getName());
-                builder.append("'\n");
+                builder.append("'");
+                builder.append(LINE_SEPARATOR);
             }
         }
 
@@ -405,11 +407,13 @@ public abstract class Packet {
             builder.append(String.format(" %02X", b));
         }
 
-        builder.append("'\n");
+        builder.append("'");
+        builder.append(LINE_SEPARATOR);
 
         builder.append("  * Parsed data -> '");
         builder.append(this.getData());
-        builder.append("'\n");
+        builder.append("'");
+        builder.append(LINE_SEPARATOR);
 
         return builder.toString();
     }

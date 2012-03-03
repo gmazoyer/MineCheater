@@ -368,8 +368,14 @@ public final class PacketsHandler extends Thread {
         this.running = false;
     }
 
-    public void println(Object message) {
-        stdout.println(message);
+    public void println(Object... messages) {
+        if (messages.length == 0) {
+            stdout.println();
+        } else {
+            for (Object message : messages) {
+                stdout.println(message);
+            }
+        }
     }
 
     public void sendPacket(byte id, Object... args) {
@@ -378,6 +384,10 @@ public final class PacketsHandler extends Thread {
         packet = null;
 
         switch (id) {
+        case (byte) 0x02:
+            packet = new Handshake(this);
+            break;
+
         case (byte) 0x03:
             if ((args.length < 1) || !(args[0] instanceof String)) {
                 stdout.println("Packet 0x03 needs a string in parameters.");
@@ -404,6 +414,10 @@ public final class PacketsHandler extends Thread {
             } else {
                 packet = new PlayerPositionAndLook(this, (boolean) args[0]);
             }
+            break;
+
+        case (byte) 0xFE:
+            packet = new ServerListPing(this);
             break;
 
         case (byte) 0xFF:
@@ -434,9 +448,7 @@ public final class PacketsHandler extends Thread {
 
     @Override
     public void run() {
-        final ServerListPing ping;
         final DisconnectKick pong;
-        final String[] serverInfos;
         final Timer timer;
 
         byte packetID;
@@ -447,8 +459,7 @@ public final class PacketsHandler extends Thread {
             /*
              * First we send a ping.
              */
-            ping = new ServerListPing(this);
-            ping.write();
+            this.sendPacket((byte) 0xFE);
 
             /*
              * And we get the pong.
@@ -458,15 +469,9 @@ public final class PacketsHandler extends Thread {
             pong.read();
 
             /*
-             * Display infos.
+             * Put the packet in the processing queue.
              */
-            serverInfos = ((String) pong.getData())
-                    .split(Packet.STRING_DELIMITER);
-            stdout.println();
-            stdout.println("  ** Server name:        " + serverInfos[0]);
-            stdout.println("  ** Number of players:  " + serverInfos[1]);
-            stdout.println("  ** Maximum of players: " + serverInfos[2]);
-            stdout.println();
+            this.processor.addPacketToQueue(pong);
 
             /*
              * Since the connection is closed, release our objects.
@@ -486,14 +491,10 @@ public final class PacketsHandler extends Thread {
         this.in = new DataInputStream(this.client.getNetworkInput());
         this.out = new DataOutputStream(this.client.getNetworkOutput());
 
-        try {
-            /*
-             * Start the communication by sending a handshake.
-             */
-            new Handshake(this).write();
-        } catch (IOException e) {
-            stdout.println("Can't send handshake.");
-        }
+        /*
+         * Start the communication by sending a handshake.
+         */
+        this.sendPacket((byte) 0x02);
 
         timer = new Timer();
         timer.scheduleAtFixedRate(new AutoPacketSender(), 0, 50);

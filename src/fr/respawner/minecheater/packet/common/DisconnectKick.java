@@ -26,12 +26,22 @@ public final class DisconnectKick extends Packet {
 
     @Override
     public void parse() {
+        final String[] serverInfos;
+
         /*
          * We were kicked :'(
          */
         if (!this.reason.contains(STRING_DELIMITER)) {
             this.handler.println("Disconnected: " + this.reason);
             this.handler.stopHandler();
+        } else {
+            serverInfos = this.reason.split(Packet.STRING_DELIMITER);
+
+            this.handler.println();
+            this.handler.println("  ** Server name:        " + serverInfos[0]);
+            this.handler.println("  ** Number of players:  " + serverInfos[1]);
+            this.handler.println("  ** Maximum of players: " + serverInfos[2]);
+            this.handler.println();
         }
     }
 

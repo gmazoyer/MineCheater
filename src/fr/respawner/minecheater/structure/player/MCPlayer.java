@@ -66,6 +66,19 @@ public final class MCPlayer extends MCIdentifiable {
 
     @Override
     public String toString() {
-        return super.toString();
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Player ID = ");
+        builder.append(this.getEntityID());
+        builder.append(" | ");
+        builder.append(this.position);
+        builder.append(" | ");
+        builder.append(this.health);
+        builder.append(" | ");
+        builder.append(this.experience);
+
+        return builder.toString();
     }
 }
