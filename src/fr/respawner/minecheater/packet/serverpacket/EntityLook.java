@@ -43,8 +43,7 @@ public final class EntityLook extends Packet {
         this.instance = new MCLook(this.entityID, this.yaw, this.pitch);
 
         if (entity != null) {
-            entity.setYaw(this.yaw);
-            entity.setPitch(this.pitch);
+            entity.getLocation().setRotationFromPacket(this.yaw, this.pitch);
         }
     }
 

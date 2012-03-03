@@ -15,7 +15,7 @@ public final class Player extends Packet {
     }
 
     public Player(PacketsHandler handler) {
-        this(handler, true);
+        this(handler, handler.getWorld().getPlayer().getLocation().isOnGround());
     }
 
     @Override

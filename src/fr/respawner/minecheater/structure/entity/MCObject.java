@@ -1,5 +1,6 @@
 package fr.respawner.minecheater.structure.entity;
 
+import fr.respawner.minecheater.math.Location;
 import fr.respawner.minecheater.structure.MCIdentifiable;
 
 /**
@@ -9,9 +10,7 @@ import fr.respawner.minecheater.structure.MCIdentifiable;
  * @author Guillaume Mazoyer
  */
 public abstract class MCObject extends MCIdentifiable {
-    private int x;
-    private int y;
-    private int z;
+    protected Location location;
 
     public MCObject(int entityID) {
         super(entityID);
@@ -20,43 +19,15 @@ public abstract class MCObject extends MCIdentifiable {
     public MCObject(int entityID, int x, int y, int z) {
         this(entityID);
 
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.location = new Location(x, y, z);
     }
 
-    public final int getX() {
-        return this.x;
+    public Location getLocation() {
+        return this.location;
     }
 
-    public final void setX(int x) {
-        this.x = x;
-    }
-
-    public final int getY() {
-        return this.y;
-    }
-
-    public final void setY(int y) {
-        this.y = y;
-    }
-
-    public final int getZ() {
-        return this.z;
-    }
-
-    public final void setZ(int z) {
-        this.z = z;
-    }
-
-    public final int[] getCoordinates() {
-        return new int[] { this.x, this.y, this.z };
-    }
-
-    public final void setCoordinates(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     @Override
@@ -67,12 +38,8 @@ public abstract class MCObject extends MCIdentifiable {
 
         builder.append("Entity ID = ");
         builder.append(this.getEntityID());
-        builder.append(" | Position: x = ");
-        builder.append(this.x);
-        builder.append(", y = ");
-        builder.append(this.y);
-        builder.append(", z = ");
-        builder.append(this.z);
+        builder.append(" | ");
+        builder.append(this.location);
 
         return builder.toString();
     }

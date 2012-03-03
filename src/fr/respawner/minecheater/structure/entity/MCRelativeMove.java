@@ -1,12 +1,12 @@
-package fr.respawner.minecheater.structure;
+package fr.respawner.minecheater.structure.entity;
 
-public final class RelativeMove {
+public final class MCRelativeMove {
     private int entityID;
     private byte dX;
     private byte dY;
     private byte dZ;
 
-    public RelativeMove(int entityID, byte dX, byte dY, byte dZ) {
+    public MCRelativeMove(int entityID, byte dX, byte dY, byte dZ) {
         this.entityID = entityID;
         this.dX = dX;
         this.dY = dY;

@@ -49,13 +49,17 @@ public final class Handshake extends Packet {
 
     @Override
     public Object getData() {
-        switch (this.hash) {
-        case "-":
-            return "Name authentication disabled.";
-        case "+":
-            return "Password authentication enabled.";
-        default:
-            return this.hash;
+        if (this.hash == null) {
+            return this.usernameAndHost;
+        } else {
+            switch (this.hash) {
+            case "-":
+                return "Name authentication disabled.";
+            case "+":
+                return "Password authentication enabled.";
+            default:
+                return this.hash;
+            }
         }
     }
 }

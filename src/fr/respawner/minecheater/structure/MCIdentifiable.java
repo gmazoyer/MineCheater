@@ -6,7 +6,7 @@ package fr.respawner.minecheater.structure;
  * @author Guillaume Mazoyer
  */
 public abstract class MCIdentifiable {
-    private int entityID;
+    protected int entityID;
 
     public MCIdentifiable(int entityID) {
         this.entityID = entityID;

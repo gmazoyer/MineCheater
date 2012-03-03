@@ -10,7 +10,6 @@ import fr.respawner.minecheater.structure.inventory.MCEquipment;
  */
 public final class MCCharacter extends MCEntity {
     private String name;
-    private byte rotation;
     private short item;
     private MCEquipment equipment;
 
@@ -18,19 +17,14 @@ public final class MCCharacter extends MCEntity {
             byte rotation, byte pitch, short item) {
         super(entityID, x, y, z);
 
-        this.setPitch(pitch);
+        this.location.setPitch(pitch);
 
         this.name = name;
-        this.rotation = rotation;
         this.item = item;
     }
 
     public final String getName() {
         return this.name;
-    }
-
-    public final byte getRotation() {
-        return this.rotation;
     }
 
     public final short getItem() {
@@ -55,16 +49,8 @@ public final class MCCharacter extends MCEntity {
         builder.append(this.getEntityID());
         builder.append(" | Name = ");
         builder.append(this.name);
-        builder.append(" | Position: x = ");
-        builder.append(this.getX());
-        builder.append(", y = ");
-        builder.append(this.getY());
-        builder.append(", z = ");
-        builder.append(this.getZ());
-        builder.append(", rotation = ");
-        builder.append(this.rotation);
-        builder.append(", pitch = ");
-        builder.append(this.getPitch());
+        builder.append(" | ");
+        builder.append(this.getLocation());
         builder.append(" | Item = ");
         builder.append(this.item == 0 ? "Nothing" : this.item);
 

@@ -43,6 +43,7 @@ public final class ClientWorker implements Runnable {
 
         try {
             this.socket = new Socket(address, port);
+            this.socket.setTcpNoDelay(true);
         } catch (IOException e) {
             log.warn("Can't connect to server at " + ip + " with port " + port
                     + ".");
@@ -82,6 +83,7 @@ public final class ClientWorker implements Runnable {
         try {
             this.socket = new Socket(this.socket.getInetAddress(),
                     this.socket.getPort());
+            this.socket.setTcpNoDelay(true);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -12,22 +12,4 @@ public final class MCThunderbolt extends MCObject {
     public final boolean isUnknown() {
         return this.unknown;
     }
-
-    @Override
-    public String toString() {
-        final StringBuilder builder;
-
-        builder = new StringBuilder();
-
-        builder.append("Entity ID = ");
-        builder.append(this.getEntityID());
-        builder.append(" | Position: x = ");
-        builder.append(this.getX());
-        builder.append(", y = ");
-        builder.append(this.getY());
-        builder.append(", z = ");
-        builder.append(this.getZ());
-
-        return builder.toString();
-    }
 }

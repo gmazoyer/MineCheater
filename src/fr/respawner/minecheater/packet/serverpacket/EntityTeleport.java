@@ -2,6 +2,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 
 import java.io.IOException;
 
+import fr.respawner.minecheater.math.Location;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.structure.entity.MCTeleport;
@@ -41,6 +42,7 @@ public final class EntityTeleport extends Packet {
     @Override
     public void parse() {
         final MCEntity entity;
+        Location location;
 
         /*
          * Find the entity to set the new position.
@@ -50,9 +52,15 @@ public final class EntityTeleport extends Packet {
                 this.yaw, this.pitch);
 
         if (entity != null) {
-            entity.setCoordinates(this.x, this.y, this.z);
-            entity.setYaw(this.yaw);
-            entity.setPitch(this.pitch);
+            location = entity.getLocation();
+
+            if (location != null) {
+                location.setRotation(this.yaw, this.pitch);
+            } else {
+                location = new Location(this.x, this.y, this.z);
+                location.setRotation(this.yaw, this.pitch);
+                entity.setLocation(location);
+            }
         }
     }
 

@@ -313,37 +313,38 @@ public final class PacketsHandler extends Thread {
             break;
 
         case 7:
-            this.world.getPlayer().getPosition().move(0, -0.096, 0);
+            this.world.getPlayer().move(0, -0.096, 0);
             this.sendPacket((byte) 0x0D, false);
             break;
 
         case 8:
-            this.world.getPlayer().getPosition().move(0, -0.138, 0);
+            this.world.getPlayer().move(0, -0.138, 0);
             this.sendPacket((byte) 0x0D, false);
             break;
 
         case 9:
-            this.world.getPlayer().getPosition().move(0, -0.23, 0);
+            this.world.getPlayer().move(0, -0.23, 0);
             this.sendPacket((byte) 0x0D, false);
             break;
 
         case 10:
-            this.world.getPlayer().getPosition().move(0, -0.304, 0);
+            this.world.getPlayer().move(0, -0.304, 0);
             this.sendPacket((byte) 0x0D, false);
             break;
 
         case 11:
-            this.world.getPlayer().getPosition().move(0, -0.377, 0);
+            this.world.getPlayer().move(0, -0.377, 0);
             this.sendPacket((byte) 0x0D, false);
             break;
 
         case 12:
-            this.world.getPlayer().getPosition().move(0, -0.448, 0);
+            this.world.getPlayer().move(0, -0.448, 0);
             this.sendPacket((byte) 0x0D, false);
             break;
 
         case 13:
-            this.world.getPlayer().getPosition().move(0, -0.027, 0);
+            this.world.getPlayer().move(0, -0.027, 0);
+            this.world.getPlayer().getLocation().setOnGround(true);
             this.sendPacket((byte) 0x0D, false);
             break;
 
@@ -444,7 +445,10 @@ public final class PacketsHandler extends Thread {
 
         if (packet != null) {
             try {
+                packet.parse();
                 packet.write();
+
+                log.debug("Sent: " + packet);
             } catch (IOException e) {
                 e.printStackTrace();
             }

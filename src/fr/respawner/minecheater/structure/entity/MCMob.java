@@ -16,8 +16,7 @@ public final class MCMob extends MCEntity {
 
         this.type = type;
 
-        this.setYaw(yaw);
-        this.setPitch(pitch);
+        this.location.setRotation(yaw, pitch);
         this.setHeadYaw(headYaw);
         this.setMetadata(new MCEntityMetadata(entityID, metadata));
     }
@@ -36,16 +35,8 @@ public final class MCMob extends MCEntity {
         builder.append(this.getEntityID());
         builder.append(" | Type = ");
         builder.append(MobType.mobForID(this.type));
-        builder.append(" | Position: x = ");
-        builder.append(this.getX());
-        builder.append(", y = ");
-        builder.append(this.getY());
-        builder.append(", z = ");
-        builder.append(this.getZ());
-        builder.append(", yaw = ");
-        builder.append(this.getYaw());
-        builder.append(", pitch = ");
-        builder.append(this.getPitch());
+        builder.append(" | ");
+        builder.append(this.getLocation());
         builder.append(", head yaw = ");
         builder.append(this.getHeadYaw());
         builder.append(" | Metadata = ");

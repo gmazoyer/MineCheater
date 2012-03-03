@@ -3,10 +3,11 @@ package fr.respawner.minecheater.structure.player;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.respawner.minecheater.math.Location;
 import fr.respawner.minecheater.structure.MCIdentifiable;
 
 public final class MCPlayer extends MCIdentifiable {
-    private PositionAndLook position;
+    private Location location;
     private Health health;
     private MCExperience experience;
     private List<MCStatistic> statistics;
@@ -21,12 +22,12 @@ public final class MCPlayer extends MCIdentifiable {
         this(0);
     }
 
-    public final PositionAndLook getPosition() {
-        return this.position;
+    public final Location getLocation() {
+        return this.location;
     }
 
-    public final void setPosition(PositionAndLook position) {
-        this.position = position;
+    public final void setLocation(Location location) {
+        this.location = location;
     }
 
     public final Health getHealth() {
@@ -67,6 +68,16 @@ public final class MCPlayer extends MCIdentifiable {
         return null;
     }
 
+    public void move(double x, double y, double z) {
+        final double newX, newY, newZ;
+
+        newX = this.location.getX() + x;
+        newY = this.location.getY() + y;
+        newZ = this.location.getZ() + z;
+
+        this.location.setPosition(newX, newY, newZ);
+    }
+
     @Override
     public String toString() {
         final StringBuilder builder;
@@ -76,7 +87,7 @@ public final class MCPlayer extends MCIdentifiable {
         builder.append("Player ID = ");
         builder.append(this.getEntityID());
         builder.append(" | ");
-        builder.append(this.position);
+        builder.append(this.location);
         builder.append(" | ");
         builder.append(this.health);
         builder.append(" | ");

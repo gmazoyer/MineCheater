@@ -1,5 +1,7 @@
 package fr.respawner.minecheater.structure.entity;
 
+import fr.respawner.minecheater.math.VectorDouble;
+
 /**
  * This class of all objects that can move in the Minecraft world (players,
  * mobs, etc...).
@@ -7,15 +9,13 @@ package fr.respawner.minecheater.structure.entity;
  * @author Guillaume Mazoyer
  */
 public class MCEntity extends MCObject {
+    private VectorDouble velocity;
     private byte dX;
     private byte dY;
     private byte dZ;
-    private byte yaw;
-    private byte pitch;
     private byte headYaw;
     private MCEntityMetadata metadata;
     private MCStatus status;
-    private MCVelocity velocity;
     private MCAnimation lastAnimation;
 
     public MCEntity(int entityID, int x, int y, int z) {
@@ -56,22 +56,6 @@ public class MCEntity extends MCObject {
         this.dZ = dZ;
     }
 
-    public final byte getYaw() {
-        return this.yaw;
-    }
-
-    public final void setYaw(byte yaw) {
-        this.yaw = yaw;
-    }
-
-    public final byte getPitch() {
-        return this.pitch;
-    }
-
-    public final void setPitch(byte pitch) {
-        this.pitch = pitch;
-    }
-
     public byte getHeadYaw() {
         return this.headYaw;
     }
@@ -96,11 +80,11 @@ public class MCEntity extends MCObject {
         this.status = status;
     }
 
-    public final MCVelocity getVelocity() {
+    public final VectorDouble getVelocity() {
         return this.velocity;
     }
 
-    public final void setVelocity(MCVelocity velocity) {
+    public final void setVelocity(VectorDouble velocity) {
         this.velocity = velocity;
     }
 

@@ -2,8 +2,8 @@ package fr.respawner.minecheater.packet.common;
 
 import java.io.IOException;
 
+import fr.respawner.minecheater.math.Location;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.player.PositionAndLook;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class PlayerPositionAndLook extends Packet {
@@ -15,7 +15,7 @@ public final class PlayerPositionAndLook extends Packet {
     private float pitch;
     private boolean onGround;
 
-    private PositionAndLook instance;
+    private Location instance;
 
     public PlayerPositionAndLook(PacketsHandler handler) {
         super(handler, (byte) 0x0D);
@@ -24,7 +24,7 @@ public final class PlayerPositionAndLook extends Packet {
     public PlayerPositionAndLook(PacketsHandler handler, boolean init) {
         this(handler);
 
-        final PositionAndLook position;
+        final Location location;
 
         if (init) {
             this.x = 8.5;
@@ -35,16 +35,16 @@ public final class PlayerPositionAndLook extends Packet {
             this.pitch = 0.0f;
             this.onGround = false;
         } else {
-            position = this.getWorld().getPlayer().getPosition();
+            location = this.getWorld().getPlayer().getLocation();
 
-            if (position != null) {
-                this.x = position.getX();
-                this.y = position.getY();
-                this.stance = position.getStance();
-                this.z = position.getZ();
-                this.yaw = position.getYaw();
-                this.pitch = position.getPitch();
-                this.onGround = position.isOnGround();
+            if (location != null) {
+                this.x = location.getX();
+                this.y = location.getY();
+                this.stance = location.getStance();
+                this.z = location.getZ();
+                this.yaw = location.getYaw();
+                this.pitch = location.getPitch();
+                this.onGround = location.isOnGround();
             }
         }
     }
@@ -76,9 +76,21 @@ public final class PlayerPositionAndLook extends Packet {
 
     @Override
     public void parse() {
-        this.instance = new PositionAndLook(this.x, this.y, this.z,
-                this.stance, this.yaw, this.pitch, this.onGround);
-        this.getWorld().getPlayer().setPosition(this.instance);
+        final Location location;
+
+        location = this.getWorld().getPlayer().getLocation();
+
+        if (location != null) {
+            location.setPosition(x, y, z);
+            location.setRotation(this.yaw, this.pitch);
+            location.setOnGround(this.onGround);
+        } else {
+            this.instance = new Location(this.x, this.y, this.z);
+            this.instance.setRotation(this.yaw, this.pitch);
+            this.instance.setStance(this.stance);
+            this.instance.setOnGround(this.onGround);
+            this.getWorld().getPlayer().setLocation(this.instance);
+        }
 
         if (!this.getWorld().isLoggedIn()) {
             this.getWorld().setLoggedIn(true);

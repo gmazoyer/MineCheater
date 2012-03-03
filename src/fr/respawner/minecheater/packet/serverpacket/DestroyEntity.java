@@ -3,6 +3,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class DestroyEntity extends Packet {
@@ -26,9 +27,16 @@ public final class DestroyEntity extends Packet {
 
     @Override
     public void parse() {
+        final MCEntity entity;
+
         /*
-         * Nothing to do.
+         * Find the entity to set the velocity.
          */
+        entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
+
+        if (entity != null) {
+            this.getWorld().removeObject(entity);
+        }
     }
 
     @Override

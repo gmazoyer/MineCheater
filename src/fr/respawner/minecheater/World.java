@@ -3,10 +3,10 @@ package fr.respawner.minecheater;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.respawner.minecheater.math.Vector;
 import fr.respawner.minecheater.structure.MCPlayerListEntry;
 import fr.respawner.minecheater.structure.entity.MCObject;
 import fr.respawner.minecheater.structure.player.MCPlayer;
-import fr.respawner.minecheater.structure.world.MCSpawn;
 import fr.respawner.minecheater.structure.world.MCTime;
 import fr.respawner.minecheater.structure.world.MCWorld;
 
@@ -14,7 +14,7 @@ public final class World {
     private boolean loggedIn;
 
     private MCWorld currentWorld;
-    private MCSpawn spawn;
+    private Vector spawn;
     private MCTime time;
 
     private MCPlayer player;
@@ -45,11 +45,11 @@ public final class World {
         this.currentWorld = world;
     }
 
-    public MCSpawn getSpawn() {
+    public Vector getSpawn() {
         return this.spawn;
     }
 
-    public void setSpawn(MCSpawn spawn) {
+    public void setSpawn(Vector spawn) {
         this.spawn = spawn;
     }
 

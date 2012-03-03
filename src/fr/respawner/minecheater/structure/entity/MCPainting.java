@@ -35,12 +35,8 @@ public final class MCPainting extends MCObject {
         builder.append(this.getEntityID());
         builder.append(" | Title = ");
         builder.append(this.title);
-        builder.append(" | Position: x = ");
-        builder.append(this.getX());
-        builder.append(", y = ");
-        builder.append(this.getY());
-        builder.append(", z = ");
-        builder.append(this.getZ());
+        builder.append(" | ");
+        builder.append(this.getLocation());
         builder.append(", direction = ");
         builder.append(this.direction);
 

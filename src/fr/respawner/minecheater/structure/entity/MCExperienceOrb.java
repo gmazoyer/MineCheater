@@ -21,12 +21,8 @@ public final class MCExperienceOrb extends MCEntity {
 
         builder.append("Entity ID = ");
         builder.append(this.getEntityID());
-        builder.append(" | Position: x = ");
-        builder.append(this.getX());
-        builder.append(", y = ");
-        builder.append(this.getY());
-        builder.append(", z = ");
-        builder.append(this.getZ());
+        builder.append(" | ");
+        builder.append(this.getLocation());
         builder.append(" | Count = ");
         builder.append(this.count);
 

@@ -51,8 +51,7 @@ public final class EntityLookAndRelativeMove extends Packet {
 
         if (entity != null) {
             entity.setMove(this.dX, this.dY, this.dZ);
-            entity.setYaw(this.yaw);
-            entity.setPitch(this.pitch);
+            entity.getLocation().setRotationFromPacket(this.yaw, this.pitch);
         }
     }
 

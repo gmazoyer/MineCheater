@@ -2,8 +2,8 @@ package fr.respawner.minecheater.packet.serverpacket;
 
 import java.io.IOException;
 
+import fr.respawner.minecheater.math.Vector;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.world.MCSpawn;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class SpawnPosition extends Packet {
@@ -11,7 +11,7 @@ public final class SpawnPosition extends Packet {
     private int y;
     private int z;
 
-    private MCSpawn instance;
+    private Vector instance;
 
     public SpawnPosition(PacketsHandler handler) {
         super(handler, (byte) 0x06);
@@ -33,7 +33,7 @@ public final class SpawnPosition extends Packet {
 
     @Override
     public void parse() {
-        this.instance = new MCSpawn(this.x, this.y, this.z);
+        this.instance = new Vector(this.x, this.y, this.z);
         this.getWorld().setSpawn(this.instance);
     }
 
