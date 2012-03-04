@@ -14,12 +14,11 @@ public final class Location {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.onGround = true;
     }
 
     public Location(int x, int y, int z) {
-        this.x = x / 32.0;
-        this.y = y / 32.0;
-        this.z = z / 32.0;
+        this((x / 32.0), (y / 32.0), (z / 32.0));
     }
 
     public Location(Vector vector) {

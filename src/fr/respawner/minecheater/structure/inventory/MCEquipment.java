@@ -29,7 +29,7 @@ public final class MCEquipment {
 
         builder = new StringBuilder();
 
-        builder.append("Slot = ");
+        builder.append("Slot: ");
         builder.append(this.slot == 0 ? "held" : ((this.slot) >= 1)
                 && (this.slot <= 4) ? "armor" : this.slot);
         builder.append(" | Item ID = ");

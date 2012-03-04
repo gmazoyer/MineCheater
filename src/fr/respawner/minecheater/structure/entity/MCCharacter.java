@@ -72,6 +72,8 @@ public final class MCCharacter extends MCEntity {
         builder.append(this.equipment);
         builder.append(" | Effect = ");
         builder.append(this.effect);
+        builder.append(" | In bed = ");
+        builder.append(this.useBed);
 
         return builder.toString();
     }
