@@ -3,7 +3,8 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.entity.RemovePlayerEffect;
+import fr.respawner.minecheater.structure.entity.MCCharacter;
+import fr.respawner.minecheater.structure.type.MCEffectType;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class RemoveEntityEffect extends Packet {
@@ -28,10 +29,17 @@ public final class RemoveEntityEffect extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
+        final MCCharacter character;
+
         /*
-         * Nothing to do.
+         * Find the character to remove its effect.
          */
+        character = (MCCharacter) this.getWorld().findObjectByID(this.entityID);
+
+        if (character != null) {
+            character.setEffect(null);
+        }
     }
 
     @Override
@@ -43,8 +51,16 @@ public final class RemoveEntityEffect extends Packet {
     }
 
     @Override
-    public Object getData() {
-        // TODO Auto-generated method stub
-        return new RemovePlayerEffect(this.entityID, this.effectID);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Effect = ");
+        builder.append(MCEffectType.effectForID(this.effectID));
+
+        return builder.toString();
     }
 }

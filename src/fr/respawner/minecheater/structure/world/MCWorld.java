@@ -1,5 +1,8 @@
 package fr.respawner.minecheater.structure.world;
 
+import fr.respawner.minecheater.structure.type.MCDifficultyType;
+import fr.respawner.minecheater.structure.type.MCDimensionType;
+
 public final class MCWorld {
     private int entityID;
     private String levelType;
@@ -61,9 +64,9 @@ public final class MCWorld {
         builder.append(" | ServerMode = ");
         builder.append(this.serverMode);
         builder.append(" | Dimension = ");
-        builder.append(DimensionType.dimensionForID(this.dimension));
+        builder.append(MCDimensionType.dimensionForID(this.dimension));
         builder.append(" | Difficulty = ");
-        builder.append(DifficultyType.difficultyForID(this.difficulty));
+        builder.append(MCDifficultyType.difficultyForID(this.difficulty));
         builder.append(" | WorldHeight = ");
         builder.append(this.worldHeight);
         builder.append(" | MaxPlayers = ");

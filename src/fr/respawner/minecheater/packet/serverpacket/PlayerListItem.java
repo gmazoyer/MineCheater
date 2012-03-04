@@ -11,8 +11,6 @@ public final class PlayerListItem extends Packet {
     private boolean online;
     private short ping;
 
-    private MCPlayerListEntry instance;
-
     public PlayerListItem(PacketsHandler handler) {
         super(handler, (byte) 0xC9);
     }
@@ -32,15 +30,15 @@ public final class PlayerListItem extends Packet {
     }
 
     @Override
-    public void parse() {
-        final MCPlayerListEntry entry;
+    public void process() {
+        MCPlayerListEntry entry;
 
         entry = this.getWorld().findPeopleByName(this.playerName);
-        this.instance = new MCPlayerListEntry(this.playerName, this.online,
-                this.ping);
 
         if (entry == null) {
-            this.getWorld().addPeople(this.instance);
+            entry = new MCPlayerListEntry(this.playerName, this.online,
+                    this.ping);
+            this.getWorld().addPeople(entry);
         } else {
             if (this.online) {
                 entry.setPing(this.ping);
@@ -59,7 +57,18 @@ public final class PlayerListItem extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Player name = ");
+        builder.append(this.playerName);
+        builder.append(" | ");
+        builder.append(this.online ? "Online" : "Not online");
+        builder.append(" | Ping = ");
+        builder.append(this.ping);
+
+        return builder.toString();
     }
 }

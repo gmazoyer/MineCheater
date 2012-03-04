@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.structure.entity.MCRelativeMove;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class EntityRelativeMove extends Packet {
@@ -12,8 +11,6 @@ public final class EntityRelativeMove extends Packet {
     private byte dX;
     private byte dY;
     private byte dZ;
-
-    private MCRelativeMove instance;
 
     public EntityRelativeMove(PacketsHandler handler) {
         super(handler, (byte) 0x1F);
@@ -35,15 +32,13 @@ public final class EntityRelativeMove extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final MCEntity entity;
 
         /*
          * Find the entity to set its look and move.
          */
         entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
-        this.instance = new MCRelativeMove(this.entityID, this.dX, this.dY,
-                this.dZ);
 
         if (entity != null) {
             entity.setMove(this.dX, this.dY, this.dZ);
@@ -59,7 +54,20 @@ public final class EntityRelativeMove extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Move : x = ");
+        builder.append(this.dX);
+        builder.append(", y = ");
+        builder.append(this.dY);
+        builder.append(", z = ");
+        builder.append(this.dZ);
+
+        return builder.toString();
     }
 }

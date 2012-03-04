@@ -5,7 +5,6 @@ import java.io.IOException;
 import fr.respawner.minecheater.math.Location;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.structure.entity.MCTeleport;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class EntityTeleport extends Packet {
@@ -15,8 +14,6 @@ public final class EntityTeleport extends Packet {
     private int z;
     private byte yaw;
     private byte pitch;
-
-    private MCTeleport instance;
 
     public EntityTeleport(PacketsHandler handler) {
         super(handler, (byte) 0x22);
@@ -40,7 +37,7 @@ public final class EntityTeleport extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final MCEntity entity;
         Location location;
 
@@ -48,8 +45,6 @@ public final class EntityTeleport extends Packet {
          * Find the entity to set the new position.
          */
         entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
-        this.instance = new MCTeleport(this.entityID, this.x, this.y, this.z,
-                this.yaw, this.pitch);
 
         if (entity != null) {
             location = entity.getLocation();
@@ -73,7 +68,24 @@ public final class EntityTeleport extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Position: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(", yaw = ");
+        builder.append(this.yaw);
+        builder.append(", pitch = ");
+        builder.append(this.pitch);
+
+        return builder.toString();
     }
 }

@@ -3,7 +3,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.Collected;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class CollectItem extends Packet {
@@ -28,7 +27,7 @@ public final class CollectItem extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -43,7 +42,16 @@ public final class CollectItem extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new Collected(this.collectedID, this.collectorID);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Collected ID = ");
+        builder.append(this.collectedID);
+        builder.append(" | Collector ID = ");
+        builder.append(this.collectorID);
+
+        return builder.toString();
     }
 }

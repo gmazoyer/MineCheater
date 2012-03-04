@@ -3,7 +3,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.block.ActionBlock;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class BlockAction extends Packet {
@@ -34,7 +33,7 @@ public final class BlockAction extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -49,8 +48,22 @@ public final class BlockAction extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new ActionBlock(this.x, this.y, this.z, this.firstByte,
-                this.secondByte);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Position: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(" | Byte 1 = ");
+        builder.append(this.firstByte);
+        builder.append(" | Byte 2 = ");
+        builder.append(this.secondByte);
+
+        return builder.toString();
     }
 }

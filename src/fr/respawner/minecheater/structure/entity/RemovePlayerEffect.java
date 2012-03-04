@@ -1,5 +1,7 @@
 package fr.respawner.minecheater.structure.entity;
 
+import fr.respawner.minecheater.structure.type.MCEffectType;
+
 public final class RemovePlayerEffect {
     private int entityID;
     private byte effectID;
@@ -26,7 +28,7 @@ public final class RemovePlayerEffect {
         builder.append("Entity ID = ");
         builder.append(this.entityID);
         builder.append(" | Effect = ");
-        builder.append(EntityEffectType.effectForID(this.effectID));
+        builder.append(MCEffectType.effectForID(this.effectID));
 
         return builder.toString();
     }

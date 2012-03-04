@@ -112,7 +112,7 @@ public final class PacketProcessor extends Thread {
         /*
          * Extract the data from the packet.
          */
-        packet.parse();
+        packet.process();
 
         log.debug("Received: " + packet);
 
@@ -121,7 +121,7 @@ public final class PacketProcessor extends Thread {
          */
         response = packet.response();
         if (response != null) {
-            response.parse();
+            response.process();
             response.write();
 
             log.debug("Sent: " + response);

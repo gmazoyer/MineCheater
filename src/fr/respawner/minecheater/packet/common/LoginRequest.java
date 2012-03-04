@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.Config;
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.structure.type.MCDifficultyType;
+import fr.respawner.minecheater.structure.type.MCDimensionType;
 import fr.respawner.minecheater.structure.world.MCWorld;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
@@ -24,8 +26,6 @@ public final class LoginRequest extends Packet {
     private byte difficulty;
     private int worldHeight;
     private int maxPlayers;
-
-    private MCWorld instance;
 
     public LoginRequest(PacketsHandler handler) {
         super(handler, (byte) 0x01);
@@ -60,12 +60,14 @@ public final class LoginRequest extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new MCWorld(this.entityID, this.levelType,
-                this.serverMode, this.dimension, this.difficulty,
-                this.worldHeight, this.maxPlayers);
+    public void process() {
+        final MCWorld world;
+
+        world = new MCWorld(this.entityID, this.levelType, this.serverMode,
+                this.dimension, this.difficulty, this.worldHeight,
+                this.maxPlayers);
         this.getWorld().getPlayer().setEntityID(this.entityID);
-        this.getWorld().setCurrentWorld(this.instance);
+        this.getWorld().setCurrentWorld(world);
     }
 
     @Override
@@ -74,7 +76,26 @@ public final class LoginRequest extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("EntityID = ");
+        builder.append(this.entityID);
+        builder.append(" | LevelType = ");
+        builder.append(this.levelType);
+        builder.append(" | ServerMode = ");
+        builder.append(this.serverMode);
+        builder.append(" | Dimension = ");
+        builder.append(MCDimensionType.dimensionForID(this.dimension));
+        builder.append(" | Difficulty = ");
+        builder.append(MCDifficultyType.difficultyForID(this.difficulty));
+        builder.append(" | WorldHeight = ");
+        builder.append(this.worldHeight);
+        builder.append(" | MaxPlayers = ");
+        builder.append(this.maxPlayers);
+
+        return builder.toString();
     }
 }

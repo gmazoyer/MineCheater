@@ -3,15 +3,16 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.ExplosionAnimation;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class Explosion extends Packet {
     private double x;
     private double y;
     private double z;
-    private float unknown;
     private byte[][] records;
+
+    @SuppressWarnings("unused")
+    private float unknown;
 
     public Explosion(PacketsHandler handler) {
         super(handler, (byte) 0x3C);
@@ -43,7 +44,7 @@ public final class Explosion extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -58,8 +59,31 @@ public final class Explosion extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new ExplosionAnimation(this.x, this.y, this.z, this.unknown,
-                this.records);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Position: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(" | Records = { ");
+        for (int i = 0; i < this.records.length; i++) {
+            builder.append("{ ");
+
+            for (byte b = 0; b < 3; b++) {
+                builder.append(this.records[i][b]);
+                builder.append(", ");
+            }
+
+            builder.replace(builder.length() - 2, builder.length(), " }");
+            builder.append(", ");
+        }
+        builder.replace(builder.length() - 2, builder.length(), " }");
+
+        return builder.toString();
     }
 }

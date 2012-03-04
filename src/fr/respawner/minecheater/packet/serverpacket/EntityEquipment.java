@@ -13,8 +13,6 @@ public final class EntityEquipment extends Packet {
     private short itemID;
     private short damage;
 
-    private MCEquipment instance;
-
     public EntityEquipment(PacketsHandler handler) {
         super(handler, (byte) 0x05);
     }
@@ -35,18 +33,19 @@ public final class EntityEquipment extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final MCCharacter character;
+        final MCEquipment equipment;
 
         /*
          * Find the character to set its equipment.
          */
         character = (MCCharacter) this.getWorld().findObjectByID(this.entityID);
-        this.instance = new MCEquipment(this.entityID, this.slot, this.itemID,
+        equipment = new MCEquipment(this.entityID, this.slot, this.itemID,
                 this.damage);
 
         if (character != null) {
-            character.setEquipment(this.instance);
+            character.setEquipment(equipment);
         }
     }
 
@@ -59,7 +58,21 @@ public final class EntityEquipment extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Slot = ");
+        builder.append(this.slot == 0 ? "held" : ((this.slot) >= 1)
+                && (this.slot <= 4) ? "armor" : this.slot);
+        builder.append(" | Item ID = ");
+        builder.append(this.itemID == -1 ? "no item" : this.itemID);
+        builder.append(" | Damage = ");
+        builder.append(this.damage);
+
+        return builder.toString();
     }
 }

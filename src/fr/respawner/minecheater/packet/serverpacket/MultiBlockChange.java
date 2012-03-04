@@ -3,7 +3,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.block.MultiBlockDataChange;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class MultiBlockChange extends Packet {
@@ -39,7 +38,7 @@ public final class MultiBlockChange extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -54,8 +53,34 @@ public final class MultiBlockChange extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new MultiBlockDataChange(this.chunkX, this.chunkZ,
-                this.coordinates, this.types, this.metadatas);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Chunk: x = ");
+        builder.append(this.chunkX);
+        builder.append(", z = ");
+        builder.append(this.chunkZ);
+        builder.append(" | Coordinates = { ");
+        for (short coordinate : this.coordinates) {
+            builder.append(coordinate);
+            builder.append(", ");
+        }
+        builder.replace(builder.length() - 2, builder.length(), " }");
+        builder.append(" | Types = { ");
+        for (byte type : this.types) {
+            builder.append(type);
+            builder.append(", ");
+        }
+        builder.replace(builder.length() - 2, builder.length(), " }");
+        builder.append(" | Metadatas = { ");
+        for (byte metadata : this.metadatas) {
+            builder.append(metadata);
+            builder.append(", ");
+        }
+        builder.replace(builder.length() - 2, builder.length(), " }");
+
+        return builder.toString();
     }
 }

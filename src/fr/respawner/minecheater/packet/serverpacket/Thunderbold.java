@@ -13,8 +13,6 @@ public final class Thunderbold extends Packet {
     private int y;
     private int z;
 
-    private MCThunderbolt instance;
-
     public Thunderbold(PacketsHandler handler) {
         super(handler, (byte) 0x47);
     }
@@ -36,10 +34,11 @@ public final class Thunderbold extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new MCThunderbolt(this.entityID, this.unknown, this.x,
+    public void process() {
+        final MCThunderbolt thunderbolt;
+        thunderbolt = new MCThunderbolt(this.entityID, this.unknown, this.x,
                 this.y, this.z);
-        this.getWorld().addObject(this.instance);
+        this.getWorld().addObject(thunderbolt);
     }
 
     @Override
@@ -51,7 +50,20 @@ public final class Thunderbold extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Location: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+
+        return builder.toString();
     }
 }

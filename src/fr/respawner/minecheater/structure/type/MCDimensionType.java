@@ -1,9 +1,9 @@
-package fr.respawner.minecheater.structure.world;
+package fr.respawner.minecheater.structure.type;
 
-public enum DimensionType {
+public enum MCDimensionType {
     NETHER, OVERWORLD, END;
 
-    public static DimensionType dimensionForID(int dimension) {
+    public static MCDimensionType dimensionForID(int dimension) {
         switch (dimension) {
         case -1:
             return NETHER;

@@ -1,40 +1,9 @@
-package fr.respawner.minecheater.structure.entity;
+package fr.respawner.minecheater.structure.type;
 
-public final class MCStatus {
-    private int entityID;
-    private byte status;
-
-    public MCStatus(int entityID, byte status) {
-        this.entityID = entityID;
-        this.status = status;
-    }
-
-    public final int getEntityID() {
-        return this.entityID;
-    }
-
-    public final byte getStatus() {
-        return this.status;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder builder;
-
-        builder = new StringBuilder();
-
-        builder.append("Entity ID = ");
-        builder.append(this.entityID);
-        builder.append(" | Status = ");
-        builder.append(CurrentStatus.statusForID(this.status));
-
-        return builder.toString();
-    }
-
-    public enum CurrentStatus {
+public enum MCStatusType {
         UNKNOWN, HURT, DEAD, TAMING, TAMED, SHAKING_WATER, EATING;
 
-        public static CurrentStatus statusForID(byte id) {
+        public static MCStatusType statusForID(byte id) {
             switch (id) {
             case 2:
                 return HURT;
@@ -72,5 +41,4 @@ public final class MCStatus {
                 return "Unknown";
             }
         }
-    }
 }

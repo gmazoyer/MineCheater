@@ -29,7 +29,7 @@ public class PreChunk extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -44,8 +44,18 @@ public class PreChunk extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new fr.respawner.minecheater.structure.block.PreChunk(this.x,
-                this.z, this.mode);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Position: x = ");
+        builder.append(this.x);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(" | Mode = ");
+        builder.append(this.mode ? "Initializing chunk" : "Unloading chunk");
+
+        return builder.toString();
     }
 }

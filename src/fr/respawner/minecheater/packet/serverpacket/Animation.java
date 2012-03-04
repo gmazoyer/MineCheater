@@ -3,15 +3,13 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.entity.MCAnimation;
 import fr.respawner.minecheater.structure.entity.MCEntity;
+import fr.respawner.minecheater.structure.type.MCAnimationType;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class Animation extends Packet {
     private int entityID;
     private byte animationID;
-
-    private MCAnimation instance;
 
     public Animation(PacketsHandler handler) {
         super(handler, (byte) 0x12);
@@ -31,17 +29,16 @@ public final class Animation extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final MCEntity entity;
 
         /*
          * Find the entity to apply the animation on.
          */
         entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
-        this.instance = new MCAnimation(this.entityID, this.animationID);
 
         if (entity != null) {
-            entity.setLastAnimation(this.instance);
+            entity.setLastAnimation(this.animationID);
         }
     }
 
@@ -54,7 +51,16 @@ public final class Animation extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Animation = ");
+        builder.append(MCAnimationType.animationForID(this.animationID));
+
+        return builder.toString();
     }
 }

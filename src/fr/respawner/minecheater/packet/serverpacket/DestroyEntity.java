@@ -26,7 +26,7 @@ public final class DestroyEntity extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final MCEntity entity;
 
         /*
@@ -48,7 +48,7 @@ public final class DestroyEntity extends Packet {
     }
 
     @Override
-    public Object getData() {
+    public String getDataAsString() {
         return ("Entity ID = " + this.entityID);
     }
 }

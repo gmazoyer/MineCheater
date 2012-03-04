@@ -1,6 +1,9 @@
 package fr.respawner.minecheater.structure.entity;
 
 import fr.respawner.minecheater.math.VectorDouble;
+import fr.respawner.minecheater.metadata.Metadata;
+import fr.respawner.minecheater.structure.type.MCAnimationType;
+import fr.respawner.minecheater.structure.type.MCStatusType;
 
 /**
  * This class of all objects that can move in the Minecraft world (players,
@@ -14,9 +17,9 @@ public class MCEntity extends MCObject {
     private byte dY;
     private byte dZ;
     private byte headYaw;
-    private MCEntityMetadata metadata;
-    private MCStatus status;
-    private MCAnimation lastAnimation;
+    private Metadata metadata;
+    private byte status;
+    private byte lastAnimation;
 
     public MCEntity(int entityID, int x, int y, int z) {
         super(entityID, x, y, z);
@@ -64,19 +67,19 @@ public class MCEntity extends MCObject {
         this.headYaw = headYaw;
     }
 
-    public final MCEntityMetadata getMetadata() {
+    public final Metadata getMetadata() {
         return this.metadata;
     }
 
-    public final void setMetadata(MCEntityMetadata metadata) {
+    public final void setMetadata(Metadata metadata) {
         this.metadata = metadata;
     }
 
-    public final MCStatus getStatus() {
+    public final byte getStatus() {
         return this.status;
     }
 
-    public final void setStatus(MCStatus status) {
+    public final void setStatus(byte status) {
         this.status = status;
     }
 
@@ -88,11 +91,38 @@ public class MCEntity extends MCObject {
         this.velocity = velocity;
     }
 
-    public final MCAnimation getLastAnimation() {
+    public final byte getLastAnimation() {
         return this.lastAnimation;
     }
 
-    public final void setLastAnimation(MCAnimation lastAnimation) {
+    public final void setLastAnimation(byte lastAnimation) {
         this.lastAnimation = lastAnimation;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append(super.toString());
+        builder.append(" | Velocity = ");
+        builder.append(this.velocity);
+        builder.append(" | Derivative location: x = ");
+        builder.append(this.dX);
+        builder.append(", y = ");
+        builder.append(this.dY);
+        builder.append(", z = ");
+        builder.append(this.dZ);
+        builder.append(" | Head yaw = ");
+        builder.append(this.headYaw);
+        builder.append(" | Metadata = ");
+        builder.append(this.metadata);
+        builder.append(" | Status = ");
+        builder.append(MCStatusType.statusForID(this.status));
+        builder.append(" | Last animation = ");
+        builder.append(MCAnimationType.animationForID(this.lastAnimation));
+
+        return builder.toString();
     }
 }

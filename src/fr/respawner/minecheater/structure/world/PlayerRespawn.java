@@ -1,5 +1,8 @@
 package fr.respawner.minecheater.structure.world;
 
+import fr.respawner.minecheater.structure.type.MCDifficultyType;
+import fr.respawner.minecheater.structure.type.MCDimensionType;
+
 public final class PlayerRespawn {
     private int dimension;
     private byte difficulty;
@@ -43,9 +46,9 @@ public final class PlayerRespawn {
         builder = new StringBuilder();
 
         builder.append("Dimension = ");
-        builder.append(DimensionType.dimensionForID(this.dimension));
+        builder.append(MCDimensionType.dimensionForID(this.dimension));
         builder.append(" | Difficulty = ");
-        builder.append(DifficultyType.difficultyForID(this.difficulty));
+        builder.append(MCDifficultyType.difficultyForID(this.difficulty));
         builder.append(" | Mode = ");
         builder.append(this.mode);
         builder.append(" | WorldHeight = ");

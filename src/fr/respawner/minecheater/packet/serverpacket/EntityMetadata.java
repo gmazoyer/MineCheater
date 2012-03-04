@@ -5,14 +5,11 @@ import java.io.IOException;
 import fr.respawner.minecheater.metadata.Metadata;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.structure.entity.MCEntityMetadata;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class EntityMetadata extends Packet {
     private int entityID;
     private Metadata metadata;
-
-    private MCEntityMetadata instance;
 
     public EntityMetadata(PacketsHandler handler) {
         super(handler, (byte) 0x28);
@@ -33,17 +30,16 @@ public final class EntityMetadata extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final MCEntity entity;
 
         /*
          * Find the entity to set the metadata.
          */
         entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
-        this.instance = new MCEntityMetadata(this.entityID, this.metadata);
 
         if (entity != null) {
-            entity.setMetadata(this.instance);
+            entity.setMetadata(this.metadata);
         }
     }
 
@@ -56,7 +52,16 @@ public final class EntityMetadata extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Metadata = ");
+        builder.append(this.metadata);
+
+        return builder.toString();
     }
 }

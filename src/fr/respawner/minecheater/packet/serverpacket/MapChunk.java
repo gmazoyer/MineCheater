@@ -3,7 +3,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.world.Chunk;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class MapChunk extends Packet {
@@ -43,7 +42,7 @@ public final class MapChunk extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -58,8 +57,30 @@ public final class MapChunk extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new Chunk(this.x, this.y, this.z, this.sizeX, this.sizeY,
-                this.sizeZ, this.zlibData);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Position: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(" | Size: x = ");
+        builder.append(this.sizeX);
+        builder.append(", y = ");
+        builder.append(this.sizeY);
+        builder.append(", z = ");
+        builder.append(this.sizeZ);
+        builder.append(" | Data = { ");
+        for (byte b : this.zlibData) {
+            builder.append(b);
+            builder.append(", ");
+        }
+        builder.replace(builder.length() - 2, builder.length(), " }");
+
+        return builder.toString();
     }
 }

@@ -32,7 +32,7 @@ public final class Player extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -47,7 +47,7 @@ public final class Player extends Packet {
     }
 
     @Override
-    public Object getData() {
+    public String getDataAsString() {
         return this.onGround ? "Walking or Swimming" : "Jumping or Falling";
     }
 }

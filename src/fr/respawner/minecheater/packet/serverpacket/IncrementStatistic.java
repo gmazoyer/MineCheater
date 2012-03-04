@@ -10,8 +10,6 @@ public final class IncrementStatistic extends Packet {
     private int statisticID;
     private byte amount;
 
-    private MCStatistic instance;
-
     public IncrementStatistic(PacketsHandler handler) {
         super(handler, (byte) 0xC8);
     }
@@ -30,17 +28,17 @@ public final class IncrementStatistic extends Packet {
     }
 
     @Override
-    public void parse() {
-        final MCStatistic statistic;
+    public void process() {
+        MCStatistic statistic;
 
         statistic = this.getWorld().getPlayer()
                 .findStatisticByID(this.statisticID);
-        this.instance = new MCStatistic(this.statisticID, this.amount);
 
         if (statistic != null) {
             statistic.setAmount(this.amount);
         } else {
-            this.getWorld().getPlayer().addStatistic(this.instance);
+            statistic = new MCStatistic(this.statisticID, this.amount);
+            this.getWorld().getPlayer().addStatistic(statistic);
         }
     }
 
@@ -53,7 +51,16 @@ public final class IncrementStatistic extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Statistic ID = ");
+        builder.append(this.statisticID);
+        builder.append(" | Amount = ");
+        builder.append(this.amount);
+
+        return builder.toString();
     }
 }

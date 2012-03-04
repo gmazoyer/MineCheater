@@ -9,8 +9,6 @@ import fr.respawner.minecheater.worker.PacketsHandler;
 public final class TimeUpdate extends Packet {
     private long time;
 
-    private MCTime instance;
-
     public TimeUpdate(PacketsHandler handler) {
         super(handler, (byte) 0x04);
     }
@@ -28,9 +26,11 @@ public final class TimeUpdate extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new MCTime(this.time);
-        this.getWorld().setTime(this.instance);
+    public void process() {
+        final MCTime time;
+
+        time = new MCTime(this.time);
+        this.getWorld().setTime(time);
     }
 
     @Override
@@ -42,7 +42,27 @@ public final class TimeUpdate extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final String description;
+
+        if (this.time == 0) {
+            description = "Sunrise";
+        } else if (this.time == 6000) {
+            description = "Noon";
+        } else if (this.time == 12000) {
+            description = "Sunset";
+        } else if (this.time == 18000) {
+            description = "Midnight";
+        } else if ((this.time > 0) && (this.time < 6000)) {
+            description = "Morning";
+        } else if ((this.time > 6000) && (this.time < 12000)) {
+            description = "Afternoon";
+        } else if (this.time > 12000) {
+            description = "Night";
+        } else {
+            description = "What time is it (" + this.time + ")?";
+        }
+
+        return description;
     }
 }

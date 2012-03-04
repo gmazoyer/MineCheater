@@ -11,8 +11,6 @@ public final class SpawnPosition extends Packet {
     private int y;
     private int z;
 
-    private Vector instance;
-
     public SpawnPosition(PacketsHandler handler) {
         super(handler, (byte) 0x06);
     }
@@ -32,9 +30,11 @@ public final class SpawnPosition extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new Vector(this.x, this.y, this.z);
-        this.getWorld().setSpawn(this.instance);
+    public void process() {
+        final Vector spawn;
+
+        spawn = new Vector(this.x, this.y, this.z);
+        this.getWorld().setSpawn(spawn);
     }
 
     @Override
@@ -46,7 +46,18 @@ public final class SpawnPosition extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Position: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+
+        return builder.toString();
     }
 }

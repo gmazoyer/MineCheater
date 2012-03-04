@@ -13,8 +13,6 @@ public final class ExperienceOrb extends Packet {
     private int z;
     private short count;
 
-    private MCExperienceOrb instance;
-
     public ExperienceOrb(PacketsHandler handler) {
         super(handler, (byte) 0x1A);
     }
@@ -36,10 +34,12 @@ public final class ExperienceOrb extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new MCExperienceOrb(this.entityID, this.x, this.y,
-                this.z, this.count);
-        this.handler.getWorld().addObject(this.instance);
+    public void process() {
+        final MCExperienceOrb orb;
+
+        orb = new MCExperienceOrb(this.entityID, this.x, this.y, this.z,
+                this.count);
+        this.handler.getWorld().addObject(orb);
     }
 
     @Override
@@ -51,7 +51,22 @@ public final class ExperienceOrb extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Location: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(" | Count = ");
+        builder.append(this.count);
+
+        return builder.toString();
     }
 }

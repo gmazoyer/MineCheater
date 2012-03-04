@@ -3,7 +3,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.entity.MCBed;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class UseBed extends Packet {
@@ -12,8 +11,6 @@ public final class UseBed extends Packet {
     private int x;
     private byte y;
     private int z;
-
-    private MCBed instance;
 
     public UseBed(PacketsHandler handler) {
         super(handler, (byte) 0x11);
@@ -36,9 +33,10 @@ public final class UseBed extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new MCBed(this.entityID, this.inBed, this.x, this.y,
-                this.z);
+    public void process() {
+        /*
+         * Nothing to do.
+         */
     }
 
     @Override
@@ -50,7 +48,22 @@ public final class UseBed extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Location: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(" | In bed = ");
+        builder.append(this.inBed);
+
+        return builder.toString();
     }
 }

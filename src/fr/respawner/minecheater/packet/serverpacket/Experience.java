@@ -11,8 +11,6 @@ public final class Experience extends Packet {
     private short level;
     private short total;
 
-    private MCExperience instance;
-
     public Experience(PacketsHandler handler) {
         super(handler, (byte) 0x2B);
     }
@@ -32,15 +30,15 @@ public final class Experience extends Packet {
     }
 
     @Override
-    public void parse() {
-        final MCExperience experience;
+    public void process() {
+        MCExperience experience;
 
         experience = this.getWorld().getPlayer().getExperience();
-        this.instance = new MCExperience(this.experienceBar, this.level,
-                this.total);
 
         if (experience == null) {
-            this.getWorld().getPlayer().setExperience(this.instance);
+            experience = new MCExperience(this.experienceBar, this.level,
+                    this.total);
+            this.getWorld().getPlayer().setExperience(experience);
         } else {
             experience.setExperienceBar(this.experienceBar);
             experience.setLevel(this.level);
@@ -57,7 +55,18 @@ public final class Experience extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Experience bar = ");
+        builder.append(this.experienceBar);
+        builder.append(" | Level = ");
+        builder.append(this.level);
+        builder.append(" | Total = ");
+        builder.append(this.total);
+
+        return builder.toString();
     }
 }

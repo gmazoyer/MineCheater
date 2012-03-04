@@ -1,9 +1,9 @@
-package fr.respawner.minecheater.structure.world;
+package fr.respawner.minecheater.structure.type;
 
-public enum DifficultyType {
+public enum MCDifficultyType {
     PEACEFUL, EASY, NORMAL, HARD;
 
-    public static DifficultyType difficultyForID(byte difficulty) {
+    public static MCDifficultyType difficultyForID(byte difficulty) {
         switch (difficulty) {
         case 0:
             return PEACEFUL;

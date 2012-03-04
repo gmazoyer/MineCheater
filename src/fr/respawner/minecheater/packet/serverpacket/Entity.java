@@ -25,7 +25,7 @@ public final class Entity extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -40,7 +40,7 @@ public final class Entity extends Packet {
     }
 
     @Override
-    public Object getData() {
+    public String getDataAsString() {
         return ("Entity ID = " + this.entityID);
     }
 }

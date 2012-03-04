@@ -14,8 +14,6 @@ public final class EntityPainting extends Packet {
     private int z;
     private int direction;
 
-    private MCPainting instance;
-
     public EntityPainting(PacketsHandler handler) {
         super(handler, (byte) 0x19);
     }
@@ -38,10 +36,12 @@ public final class EntityPainting extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new MCPainting(this.entityID, this.title, this.x,
-                this.y, this.z, this.direction);
-        this.getWorld().addObject(this.instance);
+    public void process() {
+        final MCPainting painting;
+
+        painting = new MCPainting(this.entityID, this.title, this.x, this.y,
+                this.z, this.direction);
+        this.getWorld().addObject(painting);
     }
 
     @Override
@@ -53,7 +53,24 @@ public final class EntityPainting extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Title = ");
+        builder.append(this.title);
+        builder.append(" | Location: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(", direction = ");
+        builder.append(this.direction);
+
+        return builder.toString();
     }
 }

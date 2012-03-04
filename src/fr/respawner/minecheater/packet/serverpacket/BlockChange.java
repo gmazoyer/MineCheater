@@ -3,7 +3,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.block.BlockDataChange;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class BlockChange extends Packet {
@@ -34,7 +33,7 @@ public final class BlockChange extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -49,8 +48,22 @@ public final class BlockChange extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new BlockDataChange(this.x, this.y, this.z, this.type,
-                this.metadata);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Position: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(" | Type = ");
+        builder.append(this.type);
+        builder.append(" | Metadata = ");
+        builder.append(this.metadata);
+
+        return builder.toString();
     }
 }

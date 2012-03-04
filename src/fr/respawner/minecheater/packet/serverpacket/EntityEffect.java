@@ -3,7 +3,9 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.entity.PlayerEffect;
+import fr.respawner.minecheater.structure.entity.MCCharacter;
+import fr.respawner.minecheater.structure.entity.MCEffect;
+import fr.respawner.minecheater.structure.type.MCEffectType;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class EntityEffect extends Packet {
@@ -32,10 +34,19 @@ public final class EntityEffect extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
+        final MCCharacter character;
+        final MCEffect effect;
+
         /*
-         * Nothing to do.
+         * Find the character to set its effect.
          */
+        character = (MCCharacter) this.getWorld().findObjectByID(this.entityID);
+        effect = new MCEffect(this.effectID, this.amplifier, this.duration);
+
+        if (character != null) {
+            character.setEffect(effect);
+        }
     }
 
     @Override
@@ -47,8 +58,20 @@ public final class EntityEffect extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new PlayerEffect(this.entityID, this.effectID, this.amplifier,
-                this.duration);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Effect = ");
+        builder.append(MCEffectType.effectForID(this.effectID));
+        builder.append(" | Amplifier = ");
+        builder.append(this.amplifier);
+        builder.append(" | Duration = ");
+        builder.append(this.duration);
+
+        return builder.toString();
     }
 }

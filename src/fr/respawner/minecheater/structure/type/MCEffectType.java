@@ -1,6 +1,6 @@
-package fr.respawner.minecheater.structure.entity;
+package fr.respawner.minecheater.structure.type;
 
-public enum EntityEffectType {
+public enum MCEffectType {
     UNKNOWN,
     MOVE_SPEED,
     MOVE_SLOWDOWN,
@@ -22,7 +22,7 @@ public enum EntityEffectType {
     WEAKNESS,
     POISON;
 
-    public static EntityEffectType effectForID(byte id) {
+    public static MCEffectType effectForID(byte id) {
         switch (id) {
         case 1:
             return MOVE_SPEED;

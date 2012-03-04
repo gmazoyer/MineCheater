@@ -1,5 +1,7 @@
 package fr.respawner.minecheater.structure.entity;
 
+import fr.respawner.minecheater.structure.type.MCItemType;
+
 public final class MCPickup extends MCEntity {
     private short itemID;
     private byte count;
@@ -34,14 +36,11 @@ public final class MCPickup extends MCEntity {
 
         builder = new StringBuilder();
 
-        builder.append("Entity ID = ");
-        builder.append(this.getEntityID());
+        builder.append(super.toString());
         builder.append(" | Item ID = ");
         builder.append(MCItemType.itemForID(this.itemID));
         builder.append(" | Count = ");
         builder.append(this.count);
-        builder.append(" |");
-        builder.append(this.getLocation());
 
         return builder.toString();
     }

@@ -3,7 +3,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.SoundParticle;
+import fr.respawner.minecheater.structure.SoundParticleType;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class SoundParticleEffect extends Packet {
@@ -34,7 +34,7 @@ public final class SoundParticleEffect extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -49,8 +49,22 @@ public final class SoundParticleEffect extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new SoundParticle(this.effectID, this.x, this.y, this.z,
-                this.data);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Effect = ");
+        builder.append(SoundParticleType.effectForID(this.effectID));
+        builder.append(" | Position: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(" | Data = ");
+        builder.append(this.data);
+
+        return builder.toString();
     }
 }

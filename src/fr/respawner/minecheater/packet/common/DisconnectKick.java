@@ -24,7 +24,7 @@ public final class DisconnectKick extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final String[] serverInfos;
 
         /*
@@ -53,7 +53,7 @@ public final class DisconnectKick extends Packet {
     }
 
     @Override
-    public Object getData() {
+    public String getDataAsString() {
         return this.reason;
     }
 }

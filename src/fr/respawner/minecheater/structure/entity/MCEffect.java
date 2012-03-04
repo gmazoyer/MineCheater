@@ -1,22 +1,16 @@
 package fr.respawner.minecheater.structure.entity;
 
+import fr.respawner.minecheater.structure.type.MCEffectType;
 
-public final class PlayerEffect {
-    private int entityID;
+public final class MCEffect {
     private byte effectID;
     private byte amplifier;
     private short duration;
 
-    public PlayerEffect(int entityID, byte effectID, byte amplifier,
-            short duration) {
-        this.entityID = entityID;
+    public MCEffect(byte effectID, byte amplifier, short duration) {
         this.effectID = effectID;
         this.amplifier = amplifier;
         this.duration = duration;
-    }
-
-    public int getEntityID() {
-        return this.entityID;
     }
 
     public byte getEffectID() {
@@ -37,10 +31,8 @@ public final class PlayerEffect {
 
         builder = new StringBuilder();
 
-        builder.append("Entity ID = ");
-        builder.append(this.entityID);
-        builder.append(" | Effect = ");
-        builder.append(EntityEffectType.effectForID(this.effectID));
+        builder.append("Effect = ");
+        builder.append(MCEffectType.effectForID(this.effectID));
         builder.append(" | Amplifier = ");
         builder.append(this.amplifier);
         builder.append(" | Duration = ");

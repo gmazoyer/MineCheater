@@ -445,7 +445,7 @@ public final class PacketsHandler extends Thread {
 
         if (packet != null) {
             try {
-                packet.parse();
+                packet.process();
                 packet.write();
 
                 log.debug("Sent: " + packet);

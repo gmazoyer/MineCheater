@@ -26,7 +26,7 @@ public final class KeepAlive extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -43,7 +43,7 @@ public final class KeepAlive extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.keepAliveID;
+    public String getDataAsString() {
+        return Integer.toString(this.keepAliveID);
     }
 }

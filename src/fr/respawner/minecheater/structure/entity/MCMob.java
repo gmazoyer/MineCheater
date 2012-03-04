@@ -18,7 +18,7 @@ public final class MCMob extends MCEntity {
 
         this.location.setRotation(yaw, pitch);
         this.setHeadYaw(headYaw);
-        this.setMetadata(new MCEntityMetadata(entityID, metadata));
+        this.setMetadata(metadata);
     }
 
     public final byte getType() {
@@ -31,16 +31,11 @@ public final class MCMob extends MCEntity {
 
         builder = new StringBuilder();
 
-        builder.append("Entity ID = ");
-        builder.append(this.getEntityID());
+        builder.append(super.toString());
         builder.append(" | Type = ");
         builder.append(MobType.mobForID(this.type));
-        builder.append(" | ");
-        builder.append(this.getLocation());
-        builder.append(", head yaw = ");
+        builder.append(" | Head yaw = ");
         builder.append(this.getHeadYaw());
-        builder.append(" | Metadata = ");
-        builder.append(this.getMetadata().getMetadata());
 
         return builder.toString();
     }

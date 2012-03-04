@@ -11,8 +11,6 @@ public final class UpdateHealth extends Packet {
     private short food;
     private float foodSaturation;
 
-    private Health instance;
-
     public UpdateHealth(PacketsHandler handler) {
         super(handler, (byte) 0x08);
     }
@@ -32,9 +30,11 @@ public final class UpdateHealth extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new Health(this.health, this.food, this.foodSaturation);
-        this.handler.println(this.instance);
+    public void process() {
+        final Health health;
+
+        health = new Health(this.health, this.food, this.foodSaturation);
+        this.handler.println(health);
     }
 
     @Override
@@ -46,7 +46,23 @@ public final class UpdateHealth extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Health = ");
+        builder.append(this.health);
+        if (this.health == 0) {
+            builder.append(" (dead)");
+        } else if (this.health == 20) {
+            builder.append(" (full HP)");
+        }
+        builder.append(" | Food = ");
+        builder.append(this.food);
+        builder.append(" | Food saturation = ");
+        builder.append(this.foodSaturation);
+
+        return builder.toString();
     }
 }

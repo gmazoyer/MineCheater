@@ -4,14 +4,12 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.structure.entity.MCStatus;
+import fr.respawner.minecheater.structure.type.MCStatusType;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class EntityStatus extends Packet {
     private int entityID;
     private byte status;
-
-    private MCStatus instance;
 
     public EntityStatus(PacketsHandler handler) {
         super(handler, (byte) 0x26);
@@ -31,17 +29,16 @@ public final class EntityStatus extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final MCEntity entity;
 
         /*
          * Find the entity to set the status.
          */
         entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
-        this.instance = new MCStatus(this.entityID, this.status);
 
         if (entity != null) {
-            entity.setStatus(this.instance);
+            entity.setStatus(this.status);
         }
     }
 
@@ -54,7 +51,16 @@ public final class EntityStatus extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return status;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Status = ");
+        builder.append(MCStatusType.statusForID(this.status));
+
+        return builder.toString();
     }
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCObjectVehicle;
+import fr.respawner.minecheater.structure.entity.MCObjectVehicle.ObjectVehicleType;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class AddObjectVehicle extends Packet {
@@ -16,8 +17,6 @@ public final class AddObjectVehicle extends Packet {
     private short speedX;
     private short speedY;
     private short speedZ;
-
-    private MCObjectVehicle instance;
 
     public AddObjectVehicle(PacketsHandler handler) {
         super(handler, (byte) 0x17);
@@ -47,11 +46,12 @@ public final class AddObjectVehicle extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new MCObjectVehicle(this.entityID, this.type, this.x,
-                this.y, this.z, this.throwerID, this.speedX, this.speedY,
-                this.speedZ);
-        this.getWorld().addObject(this.instance);
+    public void process() {
+        final MCObjectVehicle object;
+
+        object = new MCObjectVehicle(this.entityID, this.type, this.x, this.y,
+                this.z, this.throwerID, this.speedX, this.speedY, this.speedZ);
+        this.getWorld().addObject(object);
     }
 
     @Override
@@ -63,7 +63,33 @@ public final class AddObjectVehicle extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Type = ");
+        builder.append(ObjectVehicleType.objectForID(this.type));
+        builder.append(" | Location: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+
+        if (this.throwerID > 0) {
+            builder.append(" | Throwed of = ");
+            builder.append(this.throwerID);
+            builder.append(" | Speed: x = ");
+            builder.append(this.speedX);
+            builder.append(", y = ");
+            builder.append(this.speedY);
+            builder.append(", z = ");
+            builder.append(this.speedZ);
+        }
+
+        return builder.toString();
     }
 }

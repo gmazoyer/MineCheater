@@ -23,7 +23,7 @@ public final class ServerListPing extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -38,7 +38,7 @@ public final class ServerListPing extends Packet {
     }
 
     @Override
-    public Object getData() {
+    public String getDataAsString() {
         return null;
     }
 }

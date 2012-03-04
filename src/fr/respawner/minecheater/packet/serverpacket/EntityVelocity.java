@@ -5,7 +5,6 @@ import java.io.IOException;
 import fr.respawner.minecheater.math.VectorDouble;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.structure.entity.MCVelocity;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class EntityVelocity extends Packet {
@@ -13,8 +12,6 @@ public final class EntityVelocity extends Packet {
     private short velocityX;
     private short velocityY;
     private short velocityZ;
-
-    private MCVelocity instance;
 
     public EntityVelocity(PacketsHandler handler) {
         super(handler, (byte) 0x1C);
@@ -36,7 +33,7 @@ public final class EntityVelocity extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final MCEntity entity;
         VectorDouble velocity;
 
@@ -44,8 +41,6 @@ public final class EntityVelocity extends Packet {
          * Find the entity to set the velocity.
          */
         entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
-        this.instance = new MCVelocity(this.entityID, this.velocityX,
-                this.velocityY, this.velocityZ);
 
         if (entity != null) {
             velocity = entity.getVelocity();
@@ -71,7 +66,20 @@ public final class EntityVelocity extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Velocity X = ");
+        builder.append(this.velocityX);
+        builder.append(" | Velocity Y = ");
+        builder.append(this.velocityY);
+        builder.append(" | Velocity Z = ");
+        builder.append(this.velocityZ);
+
+        return builder.toString();
     }
 }

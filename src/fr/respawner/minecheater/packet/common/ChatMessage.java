@@ -31,7 +31,7 @@ public final class ChatMessage extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final String prefix;
 
         prefix = this.message.startsWith("<" + Config.USERNAME + ">") ? "Message sent: "
@@ -56,7 +56,7 @@ public final class ChatMessage extends Packet {
     }
 
     @Override
-    public Object getData() {
+    public String getDataAsString() {
         return this.message;
     }
 }

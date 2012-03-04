@@ -1,4 +1,4 @@
-package fr.respawner.minecheater.structure.entity;
+package fr.respawner.minecheater.structure.type;
 
 public enum MCItemType {
     UNKNOWN,

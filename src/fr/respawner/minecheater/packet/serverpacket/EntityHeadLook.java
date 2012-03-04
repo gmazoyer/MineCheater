@@ -4,14 +4,11 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.structure.entity.MCHeadYaw;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class EntityHeadLook extends Packet {
     private int entityID;
     private byte headYaw;
-
-    private MCHeadYaw instance;
 
     public EntityHeadLook(PacketsHandler handler) {
         super(handler, (byte) 0x23);
@@ -31,14 +28,13 @@ public final class EntityHeadLook extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         final MCEntity entity;
 
         /*
          * Find the entity to set its look.
          */
         entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
-        this.instance = new MCHeadYaw(this.entityID, this.headYaw);
 
         if (entity != null) {
             entity.setHeadYaw(this.headYaw);
@@ -54,7 +50,16 @@ public final class EntityHeadLook extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Head yaw = ");
+        builder.append(this.headYaw);
+
+        return builder.toString();
     }
 }

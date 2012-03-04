@@ -13,9 +13,8 @@ public abstract class Packet {
     public static final String LINE_SEPARATOR;
     public static final String STRING_DELIMITER;
 
-    private final List<Byte> rawPacket;
-    private final List<Byte> packet;
-
+    protected final List<Byte> packetReceived;
+    protected final List<Byte> packetToSend;
     protected final PacketsHandler handler;
     protected final byte id;
 
@@ -26,12 +25,12 @@ public abstract class Packet {
 
     public Packet(PacketsHandler handler, byte id) {
         this.handler = handler;
-        this.rawPacket = new ArrayList<>();
-        this.packet = new ArrayList<>();
+        this.packetReceived = new ArrayList<>();
+        this.packetToSend = new ArrayList<>();
         this.id = id;
 
-        this.rawPacket.add(this.id);
-        this.packet.add(this.id);
+        this.packetReceived.add(this.id);
+        this.packetToSend.add(this.id);
     }
 
     /**
@@ -41,7 +40,7 @@ public abstract class Packet {
         final byte read;
 
         read = this.handler.getInput().readByte();
-        this.rawPacket.add(read);
+        this.packetReceived.add(read);
 
         return read;
     }
@@ -55,7 +54,7 @@ public abstract class Packet {
         read = this.handler.getInput().readUnsignedByte();
 
         for (byte b : ByteBuffer.allocate(4).putInt(read).array()) {
-            this.rawPacket.add(b);
+            this.packetReceived.add(b);
         }
 
         return read;
@@ -70,7 +69,7 @@ public abstract class Packet {
         read = this.handler.getInput().readShort();
 
         for (byte b : ByteBuffer.allocate(2).putShort(read).array()) {
-            this.rawPacket.add(b);
+            this.packetReceived.add(b);
         }
 
         return read;
@@ -85,7 +84,7 @@ public abstract class Packet {
         read = this.handler.getInput().readInt();
 
         for (byte b : ByteBuffer.allocate(4).putInt(read).array()) {
-            this.rawPacket.add(b);
+            this.packetReceived.add(b);
         }
 
         return read;
@@ -100,7 +99,7 @@ public abstract class Packet {
         read = this.handler.getInput().readLong();
 
         for (byte b : ByteBuffer.allocate(8).putLong(read).array()) {
-            this.rawPacket.add(b);
+            this.packetReceived.add(b);
         }
 
         return read;
@@ -115,7 +114,7 @@ public abstract class Packet {
         read = this.handler.getInput().readFloat();
 
         for (byte b : ByteBuffer.allocate(4).putFloat(read).array()) {
-            this.rawPacket.add(b);
+            this.packetReceived.add(b);
         }
 
         return read;
@@ -130,7 +129,7 @@ public abstract class Packet {
         read = this.handler.getInput().readDouble();
 
         for (byte b : ByteBuffer.allocate(8).putDouble(read).array()) {
-            this.rawPacket.add(b);
+            this.packetReceived.add(b);
         }
 
         return read;
@@ -144,7 +143,7 @@ public abstract class Packet {
 
         read = this.handler.getInput().readBoolean();
 
-        rawPacket.add((byte) (read ? 0x01 : 0x00));
+        packetReceived.add((byte) (read ? 0x01 : 0x00));
 
         return read;
     }
@@ -220,7 +219,7 @@ public abstract class Packet {
      * Write a byte.
      */
     protected final void writeByte(byte v) throws IOException {
-        packet.add(v);
+        packetToSend.add(v);
     }
 
     /**
@@ -230,7 +229,7 @@ public abstract class Packet {
         final byte unsigned;
 
         unsigned = (byte) ((v < 128) ? v : (v - 256));
-        packet.add(unsigned);
+        packetToSend.add(unsigned);
     }
 
     /**
@@ -241,7 +240,7 @@ public abstract class Packet {
 
         bytes = ByteBuffer.allocate(2).putShort(v).array();
         for (byte b : bytes) {
-            packet.add(b);
+            packetToSend.add(b);
         }
     }
 
@@ -253,7 +252,7 @@ public abstract class Packet {
 
         bytes = ByteBuffer.allocate(4).putInt(v).array();
         for (byte b : bytes) {
-            packet.add(b);
+            packetToSend.add(b);
         }
     }
 
@@ -265,7 +264,7 @@ public abstract class Packet {
 
         bytes = ByteBuffer.allocate(8).putLong(v).array();
         for (byte b : bytes) {
-            packet.add(b);
+            packetToSend.add(b);
         }
     }
 
@@ -277,7 +276,7 @@ public abstract class Packet {
 
         bytes = ByteBuffer.allocate(4).putFloat(v).array();
         for (byte b : bytes) {
-            packet.add(b);
+            packetToSend.add(b);
         }
     }
 
@@ -289,7 +288,7 @@ public abstract class Packet {
 
         bytes = ByteBuffer.allocate(8).putDouble(v).array();
         for (byte b : bytes) {
-            packet.add(b);
+            packetToSend.add(b);
         }
     }
 
@@ -297,7 +296,7 @@ public abstract class Packet {
      * Write a boolean.
      */
     protected final void writeBoolean(boolean v) throws IOException {
-        packet.add((byte) (v ? 0x01 : 0x00));
+        packetToSend.add((byte) (v ? 0x01 : 0x00));
     }
 
     /**
@@ -316,7 +315,7 @@ public abstract class Packet {
          */
         unicode = string.getBytes("UTF-16BE");
         for (short s = 0; s < unicode.length; s++) {
-            packet.add(unicode[s]);
+            packetToSend.add(unicode[s]);
         }
     }
 
@@ -326,9 +325,9 @@ public abstract class Packet {
     protected final void send() throws IOException {
         final byte[] bytes;
 
-        bytes = new byte[packet.size()];
+        bytes = new byte[packetToSend.size()];
         for (int i = 0; i < bytes.length; i++) {
-            bytes[i] = packet.get(i);
+            bytes[i] = packetToSend.get(i);
         }
 
         this.handler.getOutput().write(bytes);
@@ -359,14 +358,14 @@ public abstract class Packet {
     public abstract void write() throws IOException;
 
     /**
-     * Parse the packet.
+     * Process the packet.
      * 
      * <p>
      * This method is not used to send a response or get the data of the packet.
      * It is used to make a link between what's happening on the network and
      * what should be done in our code.
      */
-    public abstract void parse();
+    public abstract void process();
 
     /**
      * Get the packet that should be sent as a response to this current packet.
@@ -376,7 +375,7 @@ public abstract class Packet {
     /**
      * Get the data contained by the packet.
      */
-    public abstract Object getData();
+    public abstract String getDataAsString();
 
     @Override
     public final String toString() {
@@ -393,27 +392,27 @@ public abstract class Packet {
         builder.append(LINE_SEPARATOR);
 
         for (Field field : fields) {
-            if (!field.getName().equals("instance")) {
-                builder.append("  * Field '");
-                builder.append(field.getName());
-                builder.append("' of type '");
-                builder.append(field.getType().getName());
-                builder.append("'");
-                builder.append(LINE_SEPARATOR);
-            }
+            builder.append("  * Field '");
+            builder.append(field.getName());
+            builder.append("' of type '");
+            builder.append(field.getType().getName());
+            builder.append("'");
+            builder.append(LINE_SEPARATOR);
         }
 
         builder.append("  * Raw packet  -> '");
 
-        for (Byte b : (this.packet.size() > 1) ? this.packet : this.rawPacket) {
-            builder.append(String.format(" %02X", b));
+        for (Byte b : (this.packetToSend.size() > 1) ? this.packetToSend
+                : this.packetReceived) {
+            builder.append(String.format("%02X ", b));
         }
 
+        builder.deleteCharAt(builder.length() - 1);
         builder.append("'");
         builder.append(LINE_SEPARATOR);
 
         builder.append("  * Parsed data -> '");
-        builder.append(this.getData());
+        builder.append(this.getDataAsString());
         builder.append("'");
         builder.append(LINE_SEPARATOR);
 

@@ -31,13 +31,10 @@ public final class MCPainting extends MCObject {
 
         builder = new StringBuilder();
 
-        builder.append("Entity ID = ");
-        builder.append(this.getEntityID());
+        builder.append(super.toString());
         builder.append(" | Title = ");
         builder.append(this.title);
-        builder.append(" | ");
-        builder.append(this.getLocation());
-        builder.append(", direction = ");
+        builder.append(" | Direction = ");
         builder.append(this.direction);
 
         return builder.toString();

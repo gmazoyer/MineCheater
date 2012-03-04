@@ -3,7 +3,8 @@ package fr.respawner.minecheater.packet.common;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.world.PlayerRespawn;
+import fr.respawner.minecheater.structure.type.MCDifficultyType;
+import fr.respawner.minecheater.structure.type.MCDimensionType;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class Respawn extends Packet {
@@ -39,7 +40,7 @@ public final class Respawn extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -54,8 +55,22 @@ public final class Respawn extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new PlayerRespawn(this.dimension, this.difficulty, this.mode,
-                this.worldHeight, this.levelType);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Dimension = ");
+        builder.append(MCDimensionType.dimensionForID(this.dimension));
+        builder.append(" | Difficulty = ");
+        builder.append(MCDifficultyType.difficultyForID(this.difficulty));
+        builder.append(" | Mode = ");
+        builder.append(this.mode);
+        builder.append(" | WorldHeight = ");
+        builder.append(this.worldHeight);
+        builder.append(" | LevelType = ");
+        builder.append(this.levelType);
+
+        return builder.toString();
     }
 }

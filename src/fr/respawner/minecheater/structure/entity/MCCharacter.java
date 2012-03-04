@@ -12,6 +12,7 @@ public final class MCCharacter extends MCEntity {
     private String name;
     private short item;
     private MCEquipment equipment;
+    private MCEffect effect;
 
     public MCCharacter(int entityID, String name, int x, int y, int z,
             byte rotation, byte pitch, short item) {
@@ -39,20 +40,29 @@ public final class MCCharacter extends MCEntity {
         this.equipment = equipment;
     }
 
+    public MCEffect getEffect() {
+        return effect;
+    }
+
+    public void setEffect(MCEffect effect) {
+        this.effect = effect;
+    }
+
     @Override
     public String toString() {
         final StringBuilder builder;
 
         builder = new StringBuilder();
 
-        builder.append("Entity ID = ");
-        builder.append(this.getEntityID());
+        builder.append(super.toString());
         builder.append(" | Name = ");
         builder.append(this.name);
-        builder.append(" | ");
-        builder.append(this.getLocation());
         builder.append(" | Item = ");
         builder.append(this.item == 0 ? "Nothing" : this.item);
+        builder.append(" | Equipment = ");
+        builder.append(this.equipment);
+        builder.append(" | Effect = ");
+        builder.append(this.effect);
 
         return builder.toString();
     }

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.metadata.Slotdata;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.inventory.InventorySlots;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class WindowItems extends Packet {
@@ -32,7 +31,7 @@ public final class WindowItems extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -47,7 +46,16 @@ public final class WindowItems extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return new InventorySlots(this.windowID, this.count, this.slots);
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Window ID = ");
+        builder.append(this.windowID);
+        builder.append(" | Slots = ");
+        builder.append(this.slots);
+
+        return builder.toString();
     }
 }

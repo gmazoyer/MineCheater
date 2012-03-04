@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCPickup;
+import fr.respawner.minecheater.structure.type.MCItemType;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class PickupSpawn extends Packet {
@@ -17,8 +18,6 @@ public final class PickupSpawn extends Packet {
     private byte rotation;
     private byte pitch;
     private byte roll;
-
-    private MCPickup instance;
 
     public PickupSpawn(PacketsHandler handler) {
         super(handler, (byte) 0x15);
@@ -46,11 +45,13 @@ public final class PickupSpawn extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new MCPickup(this.entityID, this.itemID, this.count,
+    public void process() {
+        final MCPickup pickup;
+
+        pickup = new MCPickup(this.entityID, this.itemID, this.count,
                 this.damage, this.x, this.y, this.z, this.rotation, this.pitch,
                 this.roll);
-        this.getWorld().addObject(this.instance);
+        this.getWorld().addObject(pickup);
     }
 
     @Override
@@ -62,7 +63,30 @@ public final class PickupSpawn extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Item ID = ");
+        builder.append(MCItemType.itemForID(this.itemID));
+        builder.append(" | Count = ");
+        builder.append(this.count);
+        builder.append(" | Location: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(", rotation = ");
+        builder.append(this.rotation);
+        builder.append(", pitch = ");
+        builder.append(this.pitch);
+        builder.append(", roll = ");
+        builder.append(this.roll);
+
+        return builder.toString();
     }
 }

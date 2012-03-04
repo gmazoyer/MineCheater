@@ -43,12 +43,9 @@ public final class MCObjectVehicle extends MCEntity {
 
         builder = new StringBuilder();
 
-        builder.append("Entity ID = ");
-        builder.append(this.getEntityID());
+        builder.append(super.toString());
         builder.append(" | Type = ");
         builder.append(ObjectVehicleType.objectForID(this.type));
-        builder.append(" | ");
-        builder.append(this.getLocation());
 
         if (this.throwerID > 0) {
             builder.append(" | Throwed of = ");

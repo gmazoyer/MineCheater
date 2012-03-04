@@ -1,10 +1,10 @@
 package fr.respawner.minecheater.structure.world;
 
-public final class State {
+public final class MCState {
     private byte reason;
     private byte mode;
 
-    public State(byte reason, byte mode) {
+    public MCState(byte reason, byte mode) {
         this.reason = reason;
         this.mode = mode;
     }

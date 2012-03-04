@@ -15,8 +15,6 @@ public final class PlayerPositionAndLook extends Packet {
     private float pitch;
     private boolean onGround;
 
-    private Location instance;
-
     public PlayerPositionAndLook(PacketsHandler handler) {
         super(handler, (byte) 0x0D);
     }
@@ -75,8 +73,8 @@ public final class PlayerPositionAndLook extends Packet {
     }
 
     @Override
-    public void parse() {
-        final Location location;
+    public void process() {
+        Location location;
 
         location = this.getWorld().getPlayer().getLocation();
 
@@ -85,11 +83,11 @@ public final class PlayerPositionAndLook extends Packet {
             location.setRotation(this.yaw, this.pitch);
             location.setOnGround(this.onGround);
         } else {
-            this.instance = new Location(this.x, this.y, this.z);
-            this.instance.setRotation(this.yaw, this.pitch);
-            this.instance.setStance(this.stance);
-            this.instance.setOnGround(this.onGround);
-            this.getWorld().getPlayer().setLocation(this.instance);
+            location = new Location(this.x, this.y, this.z);
+            location.setRotation(this.yaw, this.pitch);
+            location.setStance(this.stance);
+            location.setOnGround(this.onGround);
+            this.getWorld().getPlayer().setLocation(location);
         }
 
         if (!this.getWorld().isLoggedIn()) {
@@ -106,7 +104,27 @@ public final class PlayerPositionAndLook extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Location: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(", stance = ");
+        builder.append(this.stance);
+        builder.append(", yaw = ");
+        builder.append(this.yaw);
+        builder.append(", pitch = ");
+        builder.append(this.pitch);
+        builder.append(" | ");
+        builder.append(this.onGround ? "Walking or Swimming"
+                : "Jumping or Falling");
+
+        return builder.toString();
     }
 }

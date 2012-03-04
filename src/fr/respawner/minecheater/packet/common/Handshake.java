@@ -36,7 +36,7 @@ public final class Handshake extends Packet {
     }
 
     @Override
-    public void parse() {
+    public void process() {
         /*
          * Nothing to do.
          */
@@ -48,7 +48,7 @@ public final class Handshake extends Packet {
     }
 
     @Override
-    public Object getData() {
+    public String getDataAsString() {
         if (this.hash == null) {
             return this.usernameAndHost;
         } else {

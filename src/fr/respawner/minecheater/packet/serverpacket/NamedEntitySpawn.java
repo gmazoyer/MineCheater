@@ -16,8 +16,6 @@ public final class NamedEntitySpawn extends Packet {
     private byte pitch;
     private short item;
 
-    private MCCharacter instance;
-
     public NamedEntitySpawn(PacketsHandler handler) {
         super(handler, (byte) 0x14);
     }
@@ -42,10 +40,12 @@ public final class NamedEntitySpawn extends Packet {
     }
 
     @Override
-    public void parse() {
-        this.instance = new MCCharacter(this.entityID, this.name, this.x,
-                this.y, this.z, this.rotation, this.pitch, this.item);
-        this.getWorld().addObject(this.instance);
+    public void process() {
+        final MCCharacter character;
+
+        character = new MCCharacter(this.entityID, this.name, this.x, this.y,
+                this.z, this.rotation, this.pitch, this.item);
+        this.getWorld().addObject(character);
     }
 
     @Override
@@ -57,7 +57,28 @@ public final class NamedEntitySpawn extends Packet {
     }
 
     @Override
-    public Object getData() {
-        return this.instance;
+    public String getDataAsString() {
+        final StringBuilder builder;
+
+        builder = new StringBuilder();
+
+        builder.append("Entity ID = ");
+        builder.append(this.entityID);
+        builder.append(" | Name = ");
+        builder.append(this.name);
+        builder.append(" | Location: x = ");
+        builder.append(this.x);
+        builder.append(", y = ");
+        builder.append(this.y);
+        builder.append(", z = ");
+        builder.append(this.z);
+        builder.append(", rotation = ");
+        builder.append(this.rotation);
+        builder.append(", pitch = ");
+        builder.append(this.pitch);
+        builder.append(" | Item = ");
+        builder.append(this.item == 0 ? "Nothing" : this.item);
+
+        return builder.toString();
     }
 }
