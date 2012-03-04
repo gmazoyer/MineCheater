@@ -297,63 +297,6 @@ public final class PacketsHandler extends Thread {
         return packet;
     }
 
-    private void sendInitSequence(byte step) {
-        switch (step) {
-        case 0:
-            this.sendPacket((byte) 0x0D, true);
-            break;
-
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-            this.sendPacket((byte) 0x0A, false);
-            break;
-
-        case 7:
-            this.world.getPlayer().move(0, -0.096, 0);
-            this.sendPacket((byte) 0x0D, false);
-            break;
-
-        case 8:
-            this.world.getPlayer().move(0, -0.138, 0);
-            this.sendPacket((byte) 0x0D, false);
-            break;
-
-        case 9:
-            this.world.getPlayer().move(0, -0.23, 0);
-            this.sendPacket((byte) 0x0D, false);
-            break;
-
-        case 10:
-            this.world.getPlayer().move(0, -0.304, 0);
-            this.sendPacket((byte) 0x0D, false);
-            break;
-
-        case 11:
-            this.world.getPlayer().move(0, -0.377, 0);
-            this.sendPacket((byte) 0x0D, false);
-            break;
-
-        case 12:
-            this.world.getPlayer().move(0, -0.448, 0);
-            this.sendPacket((byte) 0x0D, false);
-            break;
-
-        case 13:
-            this.world.getPlayer().move(0, -0.027, 0);
-            this.world.getPlayer().getLocation().setOnGround(true);
-            this.sendPacket((byte) 0x0D, false);
-            break;
-
-        default:
-            this.sendPacket((byte) 0x0D, false);
-            break;
-        }
-    }
-
     public DataInputStream getInput() {
         return this.in;
     }
@@ -587,14 +530,6 @@ public final class PacketsHandler extends Thread {
     }
 
     private class AutoPacketSender extends TimerTask {
-        private byte step;
-
-        private AutoPacketSender() {
-            super();
-
-            this.step = 0;
-        }
-
         @Override
         public void run() {
             final PacketsHandler handler;
@@ -609,16 +544,10 @@ public final class PacketsHandler extends Thread {
             }
 
             /*
-             * Send the first packets to initialize (aka 'really spawn') the
-             * fake player in the world.
+             * Send packets containing our position regularly.
              */
-            if (this.step > 13) {
-                handler.sendPacket((byte) 0x0A);
-                handler.sendPacket((byte) 0x0D, false);
-            } else {
-                handler.sendInitSequence(this.step);
-                this.step++;
-            }
+            handler.sendPacket((byte) 0x0A);
+            handler.sendPacket((byte) 0x0D, false);
         }
     }
 }
