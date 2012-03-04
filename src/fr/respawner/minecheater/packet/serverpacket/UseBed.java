@@ -3,6 +3,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class UseBed extends Packet {
@@ -34,9 +35,16 @@ public final class UseBed extends Packet {
 
     @Override
     public void process() {
+        final MCCharacter character;
+
         /*
-         * Nothing to do.
+         * Find the character to set its equipment.
          */
+        character = (MCCharacter) this.getWorld().findObjectByID(this.entityID);
+
+        if (character != null) {
+            character.setUseBed(this.inBed == 0 ? true : false);
+        }
     }
 
     @Override

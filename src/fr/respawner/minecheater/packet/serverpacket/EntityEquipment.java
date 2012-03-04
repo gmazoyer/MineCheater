@@ -41,8 +41,7 @@ public final class EntityEquipment extends Packet {
          * Find the character to set its equipment.
          */
         character = (MCCharacter) this.getWorld().findObjectByID(this.entityID);
-        equipment = new MCEquipment(this.entityID, this.slot, this.itemID,
-                this.damage);
+        equipment = new MCEquipment(this.slot, this.itemID, this.damage);
 
         if (character != null) {
             character.setEquipment(equipment);

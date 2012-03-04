@@ -13,6 +13,7 @@ public final class MCCharacter extends MCEntity {
     private short item;
     private MCEquipment equipment;
     private MCEffect effect;
+    private boolean useBed;
 
     public MCCharacter(int entityID, String name, int x, int y, int z,
             byte rotation, byte pitch, short item) {
@@ -41,11 +42,19 @@ public final class MCCharacter extends MCEntity {
     }
 
     public MCEffect getEffect() {
-        return effect;
+        return this.effect;
     }
 
     public void setEffect(MCEffect effect) {
         this.effect = effect;
+    }
+
+    public boolean isUsingBed() {
+        return this.useBed;
+    }
+
+    public void setUseBed(boolean useBed) {
+        this.useBed = useBed;
     }
 
     @Override

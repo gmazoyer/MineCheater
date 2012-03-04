@@ -395,7 +395,7 @@ public abstract class Packet {
             builder.append("  * Field '");
             builder.append(field.getName());
             builder.append("' of type '");
-            builder.append(field.getType().getName());
+            builder.append(field.getType().getSimpleName());
             builder.append("'");
             builder.append(LINE_SEPARATOR);
         }
