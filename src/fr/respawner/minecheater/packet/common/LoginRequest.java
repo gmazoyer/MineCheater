@@ -10,16 +10,8 @@ import fr.respawner.minecheater.structure.world.MCWorld;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class LoginRequest extends Packet {
-    /*
-     * Client -> Server fields
-     */
-    private int protocolVersion;
+    private int protocolVersionOrEntityID;
     private String username;
-
-    /*
-     * Server -> Client fields
-     */
-    private int entityID;
     private String levelType;
     private int serverMode;
     private int dimension;
@@ -30,13 +22,13 @@ public final class LoginRequest extends Packet {
     public LoginRequest(PacketsHandler handler) {
         super(handler, (byte) 0x01);
 
-        this.protocolVersion = Config.PROTOCOL_VERSION;
+        this.protocolVersionOrEntityID = Config.PROTOCOL_VERSION;
         this.username = Config.USERNAME;
     }
 
     @Override
     public void read() throws IOException {
-        this.entityID = this.readInt();
+        this.protocolVersionOrEntityID = this.readInt();
         this.username = this.readUnicodeString();
         this.levelType = this.readUnicodeString();
         this.serverMode = this.readInt();
@@ -48,7 +40,7 @@ public final class LoginRequest extends Packet {
 
     @Override
     public void write() throws IOException {
-        this.writeInt(this.protocolVersion);
+        this.writeInt(this.protocolVersionOrEntityID);
         this.writeUnicodeString(this.username);
         this.writeUnicodeString("");
         this.writeInt(0);
@@ -63,10 +55,10 @@ public final class LoginRequest extends Packet {
     public void process() {
         final MCWorld world;
 
-        world = new MCWorld(this.entityID, this.levelType, this.serverMode,
-                this.dimension, this.difficulty, this.worldHeight,
-                this.maxPlayers);
-        this.getWorld().getPlayer().setEntityID(this.entityID);
+        world = new MCWorld(this.protocolVersionOrEntityID, this.levelType,
+                this.serverMode, this.dimension, this.difficulty,
+                this.worldHeight, this.maxPlayers);
+        this.getWorld().getPlayer().setEntityID(this.protocolVersionOrEntityID);
         this.getWorld().setCurrentWorld(world);
     }
 
@@ -82,7 +74,7 @@ public final class LoginRequest extends Packet {
         builder = new StringBuilder();
 
         builder.append("EntityID = ");
-        builder.append(this.entityID);
+        builder.append(this.protocolVersionOrEntityID);
         builder.append(" | LevelType = ");
         builder.append(this.levelType);
         builder.append(" | ServerMode = ");

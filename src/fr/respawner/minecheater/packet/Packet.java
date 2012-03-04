@@ -390,16 +390,21 @@ public abstract class Packet {
         builder.append(" : ");
         builder.append(this.getClass().getName());
         builder.append(LINE_SEPARATOR);
+        builder.append("  * Structure   -> '");
 
-        for (Field field : fields) {
-            builder.append("  * Field '");
-            builder.append(field.getName());
-            builder.append("' of type '");
-            builder.append(field.getType().getSimpleName());
-            builder.append("'");
-            builder.append(LINE_SEPARATOR);
+        if (fields.length == 0) {
+            builder.append("no fields");
+        } else {
+            for (Field field : fields) {
+                builder.append(field.getType().getSimpleName().toLowerCase());
+                builder.append(" | ");
+            }
+
+            builder.delete(builder.length() - 3, builder.length());
         }
 
+        builder.append("'");
+        builder.append(LINE_SEPARATOR);
         builder.append("  * Raw packet  -> '");
 
         for (Byte b : (this.packetToSend.size() > 1) ? this.packetToSend
@@ -407,7 +412,6 @@ public abstract class Packet {
             builder.append(String.format("%02X ", b));
         }
 
-        builder.deleteCharAt(builder.length() - 1);
         builder.append("'");
         builder.append(LINE_SEPARATOR);
 
