@@ -17,7 +17,7 @@ import fr.respawner.minecheater.structure.MCPlayerListEntry;
 import fr.respawner.minecheater.structure.entity.MCObject;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
-public final class ClientWorker implements Runnable {
+public final class MinecraftClient extends Thread {
     private static final Logger log;
     private static final InputStream stdin;
     private static final PrintStream stdout;
@@ -26,12 +26,12 @@ public final class ClientWorker implements Runnable {
     private boolean running;
 
     static {
-        log = Logger.getLogger(MineCheater.class);
+        log = Logger.getLogger(MinecraftClient.class);
         stdin = System.in;
         stdout = System.out;
     }
 
-    public ClientWorker(String ip, int port) {
+    public MinecraftClient(String ip, int port) {
         InetAddress address;
 
         address = null;
@@ -49,6 +49,14 @@ public final class ClientWorker implements Runnable {
                     + ".");
         }
         this.running = true;
+    }
+
+    public boolean isRunning() {
+        return this.running;
+    }
+
+    public void stopClient() {
+        this.running = false;
     }
 
     public Socket getSocket() {
@@ -207,6 +215,13 @@ public final class ClientWorker implements Runnable {
             } catch (IOException e) {
                 log.error("Can't read user input.");
             }
+        }
+
+        /*
+         * Stop the packets handler.
+         */
+        if (handler.isRunning()) {
+            handler.stopHandler();
         }
 
         try {

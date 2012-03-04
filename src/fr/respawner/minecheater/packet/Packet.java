@@ -390,7 +390,7 @@ public abstract class Packet {
         builder.append(" : ");
         builder.append(this.getClass().getName());
         builder.append(LINE_SEPARATOR);
-        builder.append("  * Structure   -> '");
+        builder.append("  * Structure   -> [ ");
 
         if (fields.length == 0) {
             builder.append("no fields");
@@ -403,7 +403,7 @@ public abstract class Packet {
             builder.delete(builder.length() - 3, builder.length());
         }
 
-        builder.append("'");
+        builder.append(" ]");
         builder.append(LINE_SEPARATOR);
         builder.append("  * Raw packet  -> '");
 

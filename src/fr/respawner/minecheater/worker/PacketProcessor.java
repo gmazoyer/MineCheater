@@ -6,7 +6,6 @@ import java.util.Queue;
 
 import org.apache.log4j.Logger;
 
-import fr.respawner.minecheater.MineCheater;
 import fr.respawner.minecheater.packet.Packet;
 
 public final class PacketProcessor extends Thread {
@@ -20,7 +19,7 @@ public final class PacketProcessor extends Thread {
     private boolean running;
 
     static {
-        log = Logger.getLogger(MineCheater.class);
+        log = Logger.getLogger(PacketProcessor.class);
     }
 
     public PacketProcessor() {

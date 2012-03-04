@@ -9,8 +9,7 @@ import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 
-import fr.respawner.minecheater.ClientWorker;
-import fr.respawner.minecheater.MineCheater;
+import fr.respawner.minecheater.MinecraftClient;
 import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.packet.clientpacket.Player;
@@ -68,18 +67,18 @@ public final class PacketsHandler extends Thread {
 
     private final PacketProcessor processor;
 
-    private ClientWorker client;
+    private MinecraftClient client;
     private DataInputStream in;
     private DataOutputStream out;
     private boolean running;
     private World world;
 
     static {
-        log = Logger.getLogger(MineCheater.class);
+        log = Logger.getLogger(PacketsHandler.class);
         stdout = System.out;
     }
 
-    public PacketsHandler(ClientWorker client) {
+    public PacketsHandler(MinecraftClient client) {
         this.client = client;
         this.in = null;
         this.out = null;

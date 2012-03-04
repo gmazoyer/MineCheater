@@ -6,7 +6,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 public final class MineCheater {
     public static void main(String[] args) {
-        final Thread worker;
+        final MinecraftClient worker;
 
         try {
             /*
@@ -24,9 +24,18 @@ public final class MineCheater {
         /*
          * Start the worker thread that handles packets and user inputs.
          */
-        worker = new Thread(new ClientWorker(Config.SERVER_HOST,
-                Config.SERVER_PORT));
+        worker = new MinecraftClient(Config.SERVER_HOST, Config.SERVER_PORT);
         worker.start();
+
+        /*
+         * Setup the shutdown hook.
+         */
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                worker.stopClient();
+            }
+        });
 
         try {
             /*
