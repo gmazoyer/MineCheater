@@ -545,8 +545,8 @@ public final class PacketsHandler extends Thread {
             /*
              * Send packets containing our position regularly.
              */
-            handler.sendPacket((byte) 0x0A);
-            handler.sendPacket((byte) 0x0D, false);
+            // handler.sendPacket((byte) 0x0A);
+            // handler.sendPacket((byte) 0x0D, false);
         }
     }
 }

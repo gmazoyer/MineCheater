@@ -47,15 +47,6 @@ public final class Config {
     }
 
     public static void showStartupInfo() {
-        final Runtime runtime;
-        final long maxMemory, totalMemory, freeMemory, usedMemory;
-
-        runtime = Runtime.getRuntime();
-        maxMemory = runtime.maxMemory();
-        totalMemory = runtime.totalMemory();
-        freeMemory = runtime.freeMemory();
-        usedMemory = totalMemory - freeMemory;
-
         stdout.println("================================================================================");
         stdout.println("  __  __ _             ____ _                _");
         stdout.println(" |  \\/  (_)_ __   ___ / ___| |__   ___  __ _| |_ ___ _ __");
@@ -65,6 +56,19 @@ public final class Config {
         stdout.println();
         stdout.println("[Version " + Config.VERSION + "]");
         stdout.println();
+
+    }
+
+    public static void showSystemInfo() {
+        final Runtime runtime;
+        final long maxMemory, totalMemory, freeMemory, usedMemory;
+
+        runtime = Runtime.getRuntime();
+        maxMemory = runtime.maxMemory();
+        totalMemory = runtime.totalMemory();
+        freeMemory = runtime.freeMemory();
+        usedMemory = totalMemory - freeMemory;
+
         stdout.println("[System informations]");
         stdout.println("== Available processors: "
                 + runtime.availableProcessors());
@@ -72,10 +76,10 @@ public final class Config {
         stdout.println("== Total memory:         " + formatSize(totalMemory));
         stdout.println("== Used memory:          " + formatSize(usedMemory));
         stdout.println("== Free memory:          " + formatSize(freeMemory));
-        stdout.println();
     }
 
     public static void showConnectionInfo() {
+        stdout.println();
         stdout.println("[Server informations]");
         stdout.println("== Hostname: " + Config.SERVER_HOST);
         stdout.println("== Port:     " + Config.SERVER_PORT);

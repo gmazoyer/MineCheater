@@ -150,25 +150,28 @@ public final class MinecraftClient extends Thread {
                 args = command.split(" ", 2);
 
                 switch (args[0]) {
+                case "help":
+                case "?":
+                    stdout.println("Available commands:");
+                    stdout.println("  * help|?         - print this help");
+                    stdout.println("  * message <text> - send a message");
+                    stdout.println("  * mobs           - show all the nearest mobs");
+                    stdout.println("  * objects        - list all objects of the world");
+                    stdout.println("  * online         - show who is online");
+                    stdout.println("  * player         - show information about the player");
+                    stdout.println("  * players         - show all the nearest players and NPC");
+                    stdout.println("  * quit|exit      - stop this program");
+                    stdout.println("  * respawn        - respawn the player");
+                    stdout.println("  * time           - display the time of the world");
+                    stdout.println("  * system         - show informations about the system");
+                    break;
+
                 case "message":
                     if (args.length < 2) {
                         stdout.println("The 'message' command needs an argument.");
                     } else {
                         handler.sendPacket((byte) 0x03, args[1]);
                     }
-                    break;
-
-                case "respawn":
-                    handler.sendPacket((byte) 0x09);
-                    break;
-
-                case "objects":
-                    objects = handler.getWorld().getAllObjects();
-
-                    for (MCObject object : objects) {
-                        stdout.println(object);
-                    }
-
                     break;
 
                 case "mobs":
@@ -182,6 +185,39 @@ public final class MinecraftClient extends Thread {
 
                     for (MCObject object : objects) {
                         stdout.println(object);
+                    }
+
+                    break;
+
+                case "move":
+                    double[] move = new double[3];
+                    String[] numb = args[1].split(" ");
+
+                    for (byte b = 0; b < move.length; b++) {
+                        move[b] = Double.parseDouble(numb[b]);
+                    }
+
+                    handler.getWorld().getPlayer()
+                            .move(move[0], move[1], move[2]);
+                    handler.sendPacket((byte) 0x0D, false);
+                    break;
+
+                case "objects":
+                    objects = handler.getWorld().getAllObjects();
+
+                    for (MCObject object : objects) {
+                        stdout.println(object);
+                    }
+
+                    break;
+
+                case "online":
+                    final List<MCPlayerListEntry> people;
+
+                    people = handler.getWorld().getOnlinePeople();
+
+                    for (MCPlayerListEntry entry : people) {
+                        stdout.println(entry);
                     }
 
                     break;
@@ -205,21 +241,6 @@ public final class MinecraftClient extends Thread {
 
                     break;
 
-                case "online":
-                    final List<MCPlayerListEntry> people;
-
-                    people = handler.getWorld().getOnlinePeople();
-
-                    for (MCPlayerListEntry entry : people) {
-                        stdout.println(entry);
-                    }
-
-                    break;
-
-                case "time":
-                    stdout.println(handler.getWorld().getTime());
-                    break;
-
                 case "quit":
                 case "exit":
                     if (!this.socket.isClosed()) {
@@ -228,19 +249,16 @@ public final class MinecraftClient extends Thread {
                     this.running = false;
                     break;
 
-                case "help":
-                case "?":
-                    stdout.println("Available commands:");
-                    stdout.println("  * help|?         - print this help");
-                    stdout.println("  * message <text> - send a message");
-                    stdout.println("  * mobs           - show all the nearest mobs");
-                    stdout.println("  * objects        - list all objects of the world");
-                    stdout.println("  * online         - show who is online");
-                    stdout.println("  * player         - show information about the player");
-                    stdout.println("  * players         - show all the nearest players and NPC");
-                    stdout.println("  * respawn        - respawn the player");
-                    stdout.println("  * time           - display the time of the world");
-                    stdout.println("  * quit|exit      - stop this program");
+                case "respawn":
+                    handler.sendPacket((byte) 0x09);
+                    break;
+
+                case "time":
+                    stdout.println(handler.getWorld().getTime());
+                    break;
+
+                case "system":
+                    Config.showSystemInfo();
                     break;
 
                 default:

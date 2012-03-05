@@ -1,11 +1,11 @@
 package fr.respawner.minecheater.structure.player;
 
-public final class Health {
+public final class MCHealth {
     private short health;
     private short food;
     private float foodSaturation;
 
-    public Health(short health, short food, float foodSaturation) {
+    public MCHealth(short health, short food, float foodSaturation) {
         this.health = health;
         this.food = food;
         this.foodSaturation = foodSaturation;

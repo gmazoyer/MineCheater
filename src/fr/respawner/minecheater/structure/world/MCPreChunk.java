@@ -1,11 +1,11 @@
-package fr.respawner.minecheater.structure.block;
+package fr.respawner.minecheater.structure.world;
 
-public final class PreChunk {
+public final class MCPreChunk {
     private int x;
     private int z;
     private boolean mode;
 
-    public PreChunk(int x, int z, boolean mode) {
+    public MCPreChunk(int x, int z, boolean mode) {
         this.x = x;
         this.z = z;
         this.mode = mode;

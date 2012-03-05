@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.InflaterInputStream;
 
-public final class Chunk {
+public final class MCChunk {
     private int x;
     private short y;
     private int z;
@@ -15,7 +15,7 @@ public final class Chunk {
     private byte sizeZ;
     private byte[] data;
 
-    public Chunk(int x, short y, int z, byte sizeX, byte sizeY, byte sizeZ,
+    public MCChunk(int x, short y, int z, byte sizeX, byte sizeY, byte sizeZ,
             byte[] data) {
         this.x = x;
         this.y = y;

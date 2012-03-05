@@ -8,7 +8,7 @@ import fr.respawner.minecheater.structure.MCIdentifiable;
 
 public final class MCPlayer extends MCIdentifiable {
     private Location location;
-    private Health health;
+    private MCHealth health;
     private MCExperience experience;
     private List<MCStatistic> statistics;
 
@@ -30,11 +30,11 @@ public final class MCPlayer extends MCIdentifiable {
         this.location = location;
     }
 
-    public final Health getHealth() {
+    public final MCHealth getHealth() {
         return this.health;
     }
 
-    public final void setHealth(Health health) {
+    public final void setHealth(MCHealth health) {
         this.health = health;
     }
 

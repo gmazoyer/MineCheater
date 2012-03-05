@@ -19,6 +19,7 @@ public final class MineCheater {
         }
 
         Config.showStartupInfo();
+        Config.showSystemInfo();
         Config.showConnectionInfo();
 
         /*
