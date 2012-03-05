@@ -1,6 +1,7 @@
 package fr.respawner.minecheater.structure.entity;
 
 import fr.respawner.minecheater.structure.inventory.MCEquipment;
+import fr.respawner.minecheater.structure.type.MCItemType;
 
 /**
  * This is the class that represents a named entity. It could be a player - but
@@ -67,7 +68,8 @@ public final class MCCharacter extends MCEntity {
         builder.append(" | Name = ");
         builder.append(this.name);
         builder.append(" | Item = ");
-        builder.append(this.item == 0 ? "Nothing" : this.item);
+        builder.append(this.item == 0 ? "Nothing" : MCItemType
+                .itemForID(this.item));
         builder.append(" | Equipment = ");
         builder.append(this.equipment);
         builder.append(" | Effect = ");

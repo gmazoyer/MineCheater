@@ -1,5 +1,7 @@
 package fr.respawner.minecheater.structure.inventory;
 
+import fr.respawner.minecheater.structure.type.MCItemType;
+
 public final class MCEquipment {
     private short slot;
     private short itemID;
@@ -33,7 +35,8 @@ public final class MCEquipment {
         builder.append(this.slot == 0 ? "held" : ((this.slot) >= 1)
                 && (this.slot <= 4) ? "armor" : this.slot);
         builder.append(" | Item ID = ");
-        builder.append(this.itemID == -1 ? "no item" : this.itemID);
+        builder.append(this.itemID == -1 ? "no item" : MCItemType
+                .itemForID(this.itemID));
         builder.append(" | Damage = ");
         builder.append(this.damage);
 

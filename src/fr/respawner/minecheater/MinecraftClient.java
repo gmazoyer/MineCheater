@@ -9,11 +9,14 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import fr.respawner.minecheater.structure.MCPlayerListEntry;
+import fr.respawner.minecheater.structure.entity.MCCharacter;
+import fr.respawner.minecheater.structure.entity.MCMob;
 import fr.respawner.minecheater.structure.entity.MCObject;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
@@ -113,6 +116,8 @@ public final class MinecraftClient extends Thread {
         String command;
         String[] args;
 
+        List<MCObject> objects;
+
         if (this.socket == null) {
             this.running = false;
             return;
@@ -158,9 +163,22 @@ public final class MinecraftClient extends Thread {
                     break;
 
                 case "objects":
-                    final List<MCObject> objects;
-
                     objects = handler.getWorld().getAllObjects();
+
+                    for (MCObject object : objects) {
+                        stdout.println(object);
+                    }
+
+                    break;
+
+                case "mobs":
+                    objects = new ArrayList<>();
+
+                    for (MCObject object : handler.getWorld().getAllObjects()) {
+                        if (object instanceof MCMob) {
+                            objects.add(object);
+                        }
+                    }
 
                     for (MCObject object : objects) {
                         stdout.println(object);
@@ -170,6 +188,21 @@ public final class MinecraftClient extends Thread {
 
                 case "player":
                     stdout.println(handler.getWorld().getPlayer());
+                    break;
+
+                case "players":
+                    objects = new ArrayList<>();
+
+                    for (MCObject object : handler.getWorld().getAllObjects()) {
+                        if (object instanceof MCCharacter) {
+                            objects.add(object);
+                        }
+                    }
+
+                    for (MCObject object : objects) {
+                        stdout.println(object);
+                    }
+
                     break;
 
                 case "online":
@@ -200,9 +233,11 @@ public final class MinecraftClient extends Thread {
                     stdout.println("Available commands:");
                     stdout.println("  * help|?         - print this help");
                     stdout.println("  * message <text> - send a message");
+                    stdout.println("  * mobs           - show all the nearest mobs");
                     stdout.println("  * objects        - list all objects of the world");
-                    stdout.println("  * online         - show online players");
+                    stdout.println("  * online         - show who is online");
                     stdout.println("  * player         - show information about the player");
+                    stdout.println("  * players         - show all the nearest players and NPC");
                     stdout.println("  * respawn        - respawn the player");
                     stdout.println("  * time           - display the time of the world");
                     stdout.println("  * quit|exit      - stop this program");
