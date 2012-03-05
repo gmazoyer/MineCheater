@@ -392,16 +392,15 @@ public abstract class Packet {
         builder.append(LINE_SEPARATOR);
         builder.append("  * Structure   -> [ ");
 
-        if (fields.length == 0) {
-            builder.append("no fields");
-        } else {
-            for (Field field : fields) {
-                builder.append(field.getType().getSimpleName().toLowerCase());
-                builder.append(" | ");
-            }
+        builder.append(Byte.class.getSimpleName().toLowerCase());
+        builder.append(" | ");
 
-            builder.delete(builder.length() - 3, builder.length());
+        for (Field field : fields) {
+            builder.append(field.getType().getSimpleName().toLowerCase());
+            builder.append(" | ");
         }
+
+        builder.delete(builder.length() - 3, builder.length());
 
         builder.append(" ]");
         builder.append(LINE_SEPARATOR);
@@ -412,6 +411,7 @@ public abstract class Packet {
             builder.append(String.format("%02X ", b));
         }
 
+        builder.deleteCharAt(builder.length() - 1);
         builder.append("'");
         builder.append(LINE_SEPARATOR);
 
