@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import fr.respawner.minecheater.MinecraftClient;
 import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.Packet.PacketAction;
 import fr.respawner.minecheater.packet.clientpacket.Player;
 import fr.respawner.minecheater.packet.clientpacket.ServerListPing;
 import fr.respawner.minecheater.packet.common.ChatMessage;
@@ -371,6 +372,7 @@ public final class PacketsHandler extends Thread {
         case (byte) 0xFF:
             packet = new DisconnectKick(this);
             try {
+                packet.setAction(PacketAction.WRITING);
                 packet.write();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -386,14 +388,8 @@ public final class PacketsHandler extends Thread {
         }
 
         if (packet != null) {
-            try {
-                packet.process();
-                packet.write();
-
-                log.debug("Sent: " + packet);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            packet.setAction(PacketAction.WRITING);
+            this.processor.addPacketToQueue(packet);
         }
     }
 
@@ -467,6 +463,15 @@ public final class PacketsHandler extends Thread {
                 packet = this.packetFromID(packetID);
                 if (packet != null) {
                     packet.read();
+
+                    /*
+                     * Put the packet in the processing queue.
+                     */
+                    this.processor.addPacketToQueue(packet);
+
+                    if (packet.getID() == (byte) 0xFF) {
+                        this.stopHandler();
+                    }
                 }
             } catch (IOException e) {
                 log.error("Can't read packet from the network.");
@@ -479,17 +484,6 @@ public final class PacketsHandler extends Thread {
 
                 this.processor.stopProcessor();
                 this.stopHandler();
-            }
-
-            if (packet != null) {
-                /*
-                 * Put the packet in the processing queue.
-                 */
-                this.processor.addPacketToQueue(packet);
-
-                if (packet.getID() == (byte) 0xFF) {
-                    this.stopHandler();
-                }
             }
         }
 
@@ -545,8 +539,8 @@ public final class PacketsHandler extends Thread {
             /*
              * Send packets containing our position regularly.
              */
-            // handler.sendPacket((byte) 0x0A);
-            // handler.sendPacket((byte) 0x0D, false);
+            handler.sendPacket((byte) 0x0A, true);
+            handler.sendPacket((byte) 0x0D, false);
         }
     }
 }

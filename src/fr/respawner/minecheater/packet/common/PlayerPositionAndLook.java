@@ -17,6 +17,8 @@ public final class PlayerPositionAndLook extends Packet {
 
     public PlayerPositionAndLook(PacketsHandler handler) {
         super(handler, (byte) 0x0D);
+
+        this.priority = 1;
     }
 
     public PlayerPositionAndLook(PacketsHandler handler, boolean init) {

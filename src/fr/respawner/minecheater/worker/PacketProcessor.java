@@ -1,12 +1,13 @@
 package fr.respawner.minecheater.worker;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 import org.apache.log4j.Logger;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.Packet.PacketAction;
 
 public final class PacketProcessor extends Thread {
     private static final Logger log;
@@ -23,7 +24,7 @@ public final class PacketProcessor extends Thread {
     }
 
     public PacketProcessor() {
-        this.packets = new LinkedList<>();
+        this.packets = new PriorityQueue<>();
         this.processedPackets = 0;
         this.chunksReceived = 0;
         this.running = true;
@@ -64,6 +65,7 @@ public final class PacketProcessor extends Thread {
         case (byte) 0x06:
         case (byte) 0x08:
         case (byte) 0x09:
+        case (byte) 0x0A:
         case (byte) 0x0D:
         case (byte) 0x11:
         case (byte) 0x12:
@@ -108,22 +110,24 @@ public final class PacketProcessor extends Thread {
             return;
         }
 
-        /*
-         * Extract the data from the packet.
-         */
-        packet.process();
+        if (packet.getAction() == PacketAction.WRITING) {
+            packet.write();
+            log.debug("Sent: " + packet);
+        } else {
+            /*
+             * Extract the data from the packet.
+             */
+            packet.process();
+            log.debug("Received: " + packet);
 
-        log.debug("Received: " + packet);
-
-        /*
-         * Get the packet we need to send to respond.
-         */
-        response = packet.response();
-        if (response != null) {
-            response.process();
-            response.write();
-
-            log.debug("Sent: " + response);
+            /*
+             * Get the packet we need to send to respond.
+             */
+            response = packet.response();
+            if (response != null) {
+                response.setAction(PacketAction.WRITING);
+                this.addPacketToQueue(response);
+            }
         }
 
         /*

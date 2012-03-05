@@ -9,7 +9,7 @@ import java.util.List;
 import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
-public abstract class Packet {
+public abstract class Packet implements Comparable<Packet> {
     public static final String LINE_SEPARATOR;
     public static final String STRING_DELIMITER;
 
@@ -18,15 +18,24 @@ public abstract class Packet {
     protected final PacketsHandler handler;
     protected final byte id;
 
+    protected byte priority;
+    protected PacketAction action;
+
     static {
         LINE_SEPARATOR = System.lineSeparator();
         STRING_DELIMITER = new String(new char[] { 0xA7 });
+    }
+
+    public enum PacketAction {
+        READING, WRITING;
     }
 
     public Packet(PacketsHandler handler, byte id) {
         this.handler = handler;
         this.packetReceived = new ArrayList<>();
         this.packetToSend = new ArrayList<>();
+        this.priority = 0;
+        this.action = PacketAction.READING;
         this.id = id;
 
         this.packetReceived.add(this.id);
@@ -341,6 +350,27 @@ public abstract class Packet {
     }
 
     /**
+     * Get the priority of the packet.
+     */
+    public byte getPriority() {
+        return priority;
+    }
+
+    /**
+     * The action to do with the packet (read or write).
+     */
+    public final PacketAction getAction() {
+        return this.action;
+    }
+
+    /**
+     * Change the action to do with the packet (read or write).
+     */
+    public final void setAction(PacketAction action) {
+        this.action = action;
+    }
+
+    /**
      * The ID of the packet.
      */
     public final int getID() {
@@ -378,6 +408,12 @@ public abstract class Packet {
     public abstract String getDataAsString();
 
     @Override
+    public int compareTo(Packet packet) {
+        return (this.priority == packet.priority) ? 0
+                : (this.priority < packet.priority) ? -1 : 1;
+    }
+
+    @Override
     public final String toString() {
         final StringBuilder builder;
         final Field[] fields;
@@ -391,7 +427,6 @@ public abstract class Packet {
         builder.append(this.getClass().getName());
         builder.append(LINE_SEPARATOR);
         builder.append("  * Structure   -> [ ");
-
         builder.append(Byte.class.getSimpleName().toLowerCase());
         builder.append(" | ");
 
@@ -401,12 +436,11 @@ public abstract class Packet {
         }
 
         builder.delete(builder.length() - 3, builder.length());
-
         builder.append(" ]");
         builder.append(LINE_SEPARATOR);
         builder.append("  * Raw packet  -> '");
 
-        for (Byte b : (this.packetToSend.size() > 1) ? this.packetToSend
+        for (Byte b : (this.action == PacketAction.WRITING) ? this.packetToSend
                 : this.packetReceived) {
             builder.append(String.format("%02X ", b));
         }
@@ -414,7 +448,6 @@ public abstract class Packet {
         builder.deleteCharAt(builder.length() - 1);
         builder.append("'");
         builder.append(LINE_SEPARATOR);
-
         builder.append("  * Parsed data -> '");
         builder.append(this.getDataAsString());
         builder.append("'");
