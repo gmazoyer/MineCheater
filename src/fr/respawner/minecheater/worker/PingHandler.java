@@ -69,8 +69,8 @@ public final class PingHandler extends Thread implements IHandler {
         final int port;
         final ServerListPing ping;
         final DisconnectKick pong;
+        final byte packetID;
 
-        byte packetID;
         InetAddress address;
 
         ip = this.client.getIP();

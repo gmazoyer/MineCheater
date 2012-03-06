@@ -440,6 +440,7 @@ public final class PacketsHandler extends Thread implements IHandler {
         final Timer timer;
 
         InetAddress address;
+        int readByte;
         byte packetID;
 
         ip = this.client.getIP();
@@ -491,9 +492,18 @@ public final class PacketsHandler extends Thread implements IHandler {
 
             try {
                 /*
+                 * Get a first byte that should be the packet ID.
+                 */
+                readByte = this.in.read();
+                if (readByte == -1) {
+                    throw new IOException(
+                            "The stream has been closed by the server.");
+                }
+
+                /*
                  * Get the ID of the packet.
                  */
-                packetID = (byte) this.in.read();
+                packetID = (byte) readByte;
 
                 /*
                  * Get the packet and read it from the network.
