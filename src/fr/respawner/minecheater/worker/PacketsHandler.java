@@ -502,13 +502,6 @@ public final class PacketsHandler extends Thread {
                  */
                 packet = this.packetFromID(packetID);
                 if (packet != null) {
-                    /*
-                     * We received a kick.
-                     */
-                    if (packet.getID() == (byte) 0xFF) {
-                        this.stopHandler();
-                    }
-
                     this.respondToPacket(packet);
                 }
             } catch (IOException e) {

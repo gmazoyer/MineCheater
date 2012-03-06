@@ -149,7 +149,7 @@ public final class MinecraftClient extends Thread {
                  */
                 args = command.split(" ", 2);
 
-                switch (args[0]) {
+                switch (args[0].toLowerCase()) {
                 case "help":
                 case "?":
                     stdout.println("Available commands:");
@@ -190,8 +190,11 @@ public final class MinecraftClient extends Thread {
                     break;
 
                 case "move":
-                    double[] move = new double[3];
-                    String[] numb = args[1].split(" ");
+                    final double[] move;
+                    final String[] numb;
+
+                    move = new double[3];
+                    numb = args[1].split(" ");
 
                     for (byte b = 0; b < move.length; b++) {
                         move[b] = Double.parseDouble(numb[b]);
