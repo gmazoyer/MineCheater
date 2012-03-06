@@ -9,7 +9,7 @@ import java.util.List;
 import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
-public abstract class Packet implements Comparable<Packet> {
+public abstract class Packet {
     public static final String LINE_SEPARATOR;
     public static final String STRING_DELIMITER;
 
@@ -18,7 +18,6 @@ public abstract class Packet implements Comparable<Packet> {
     protected final PacketsHandler handler;
     protected final byte id;
 
-    protected byte priority;
     protected PacketAction action;
 
     static {
@@ -34,7 +33,6 @@ public abstract class Packet implements Comparable<Packet> {
         this.handler = handler;
         this.packetReceived = new ArrayList<>();
         this.packetToSend = new ArrayList<>();
-        this.priority = 0;
         this.action = PacketAction.READING;
         this.id = id;
 
@@ -339,7 +337,14 @@ public abstract class Packet implements Comparable<Packet> {
             bytes[i] = packetToSend.get(i);
         }
 
-        this.handler.getOutput().write(bytes);
+        /*
+         * Since we can write packets from 2 different threads we should lock
+         * the output so we can ensure that a thread will write a packet without
+         * being interrupted by the other one.
+         */
+        synchronized (this.handler.getOutput()) {
+            this.handler.getOutput().write(bytes);
+        }
     }
 
     /**
@@ -347,13 +352,6 @@ public abstract class Packet implements Comparable<Packet> {
      */
     protected final World getWorld() {
         return this.handler.getWorld();
-    }
-
-    /**
-     * Get the priority of the packet.
-     */
-    public byte getPriority() {
-        return priority;
     }
 
     /**
@@ -406,12 +404,6 @@ public abstract class Packet implements Comparable<Packet> {
      * Get the data contained by the packet.
      */
     public abstract String getDataAsString();
-
-    @Override
-    public int compareTo(Packet packet) {
-        return (this.priority == packet.priority) ? 0
-                : (this.priority < packet.priority) ? -1 : 1;
-    }
 
     @Override
     public final String toString() {

@@ -14,6 +14,8 @@ import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.packet.Packet.PacketAction;
 import fr.respawner.minecheater.packet.clientpacket.Player;
+import fr.respawner.minecheater.packet.clientpacket.PlayerLook;
+import fr.respawner.minecheater.packet.clientpacket.PlayerPosition;
 import fr.respawner.minecheater.packet.clientpacket.ServerListPing;
 import fr.respawner.minecheater.packet.common.ChatMessage;
 import fr.respawner.minecheater.packet.common.DisconnectKick;
@@ -66,11 +68,10 @@ public final class PacketsHandler extends Thread {
     private static final Logger log;
     private static final PrintStream stdout;
 
-    private final PacketProcessor processor;
-
     private MinecraftClient client;
     private DataInputStream in;
     private DataOutputStream out;
+    private long receivedPackets;
     private boolean running;
     private World world;
 
@@ -83,7 +84,7 @@ public final class PacketsHandler extends Thread {
         this.client = client;
         this.in = null;
         this.out = null;
-        this.processor = new PacketProcessor();
+        this.receivedPackets = 0;
         this.running = true;
         this.world = new World();
 
@@ -98,7 +99,7 @@ public final class PacketsHandler extends Thread {
      * Get a complete packet from its ID. This method is only used for packets
      * that are sent from the server to the client.
      */
-    private Packet packetFromID(byte id) {
+    private Packet packetFromID(byte id) throws IOException {
         Packet packet;
 
         packet = null;
@@ -294,7 +295,32 @@ public final class PacketsHandler extends Thread {
             break;
         }
 
+        if (packet != null) {
+            packet.read();
+            packet.process();
+
+            log.debug("Received: " + packet);
+
+            this.receivedPackets++;
+        }
+
         return packet;
+    }
+
+    /**
+     * Respond to a packet if we need to.
+     */
+    private void respondToPacket(Packet packet) throws IOException {
+        final Packet response;
+
+        response = packet.response();
+
+        if (response != null) {
+            response.setAction(PacketAction.WRITING);
+            response.write();
+
+            log.debug("Sent: " + response);
+        }
     }
 
     public DataInputStream getInput() {
@@ -357,6 +383,14 @@ public final class PacketsHandler extends Thread {
             }
             break;
 
+        case (byte) 0x0B:
+            packet = new PlayerPosition(this);
+            break;
+
+        case (byte) 0x0C:
+            packet = new PlayerLook(this);
+            break;
+
         case (byte) 0x0D:
             if ((args.length < 1) || !(args[0] instanceof Boolean)) {
                 log.warn("Packet 0x0D needs a boolean in parameters.");
@@ -377,7 +411,7 @@ public final class PacketsHandler extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            this.processor.stopProcessor();
+
             this.stopHandler();
             packet = null;
             break;
@@ -389,7 +423,12 @@ public final class PacketsHandler extends Thread {
 
         if (packet != null) {
             packet.setAction(PacketAction.WRITING);
-            this.processor.addPacketToQueue(packet);
+            try {
+                packet.write();
+                log.debug("Sent: " + packet);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -400,7 +439,7 @@ public final class PacketsHandler extends Thread {
 
         byte packetID;
 
-        this.processor.start();
+        // this.processor.start();
 
         try {
             /*
@@ -418,7 +457,8 @@ public final class PacketsHandler extends Thread {
             /*
              * Put the packet in the processing queue.
              */
-            this.processor.addPacketToQueue(pong);
+            // this.processor.addPacketToQueue(pong);
+            pong.process();
 
             /*
              * Since the connection is closed, release our objects.
@@ -462,16 +502,14 @@ public final class PacketsHandler extends Thread {
                  */
                 packet = this.packetFromID(packetID);
                 if (packet != null) {
-                    packet.read();
-
                     /*
-                     * Put the packet in the processing queue.
+                     * We received a kick.
                      */
-                    this.processor.addPacketToQueue(packet);
-
                     if (packet.getID() == (byte) 0xFF) {
                         this.stopHandler();
                     }
+
+                    this.respondToPacket(packet);
                 }
             } catch (IOException e) {
                 log.error("Can't read packet from the network.");
@@ -482,7 +520,6 @@ public final class PacketsHandler extends Thread {
                 timer.cancel();
                 timer.purge();
 
-                this.processor.stopProcessor();
                 this.stopHandler();
             }
         }
@@ -494,22 +531,6 @@ public final class PacketsHandler extends Thread {
         timer.purge();
 
         /*
-         * Stop the processor if it wasn't already done.
-         */
-        if (this.processor.isRunning()) {
-            this.processor.stopProcessor();
-        }
-
-        try {
-            /*
-             * Wait for the processor to stop.
-             */
-            this.processor.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        /*
          * Close the streams.
          */
         try {
@@ -519,6 +540,7 @@ public final class PacketsHandler extends Thread {
             log.error("Streams already closed?");
         }
 
+        log.info("Received and processed " + this.receivedPackets + " packets.");
         log.info("Shutting down packets handler.");
     }
 
