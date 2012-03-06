@@ -471,8 +471,8 @@ public final class PacketsHandler extends Thread implements IHandler {
             /*
              * Open the IO channels to be able to communicate.
              */
-            this.in = new DataInputStream(socket.getInputStream());
-            this.out = new DataOutputStream(socket.getOutputStream());
+            this.in = new DataInputStream(this.socket.getInputStream());
+            this.out = new DataOutputStream(this.socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -537,6 +537,7 @@ public final class PacketsHandler extends Thread implements IHandler {
         try {
             this.in.close();
             this.out.close();
+            this.socket.close();
         } catch (IOException e) {
             log.error("Streams already closed?");
         }
