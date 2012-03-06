@@ -3,14 +3,14 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public class PreChunk extends Packet {
     private int x;
     private int z;
     private boolean mode;
 
-    public PreChunk(PacketsHandler handler) {
+    public PreChunk(IHandler handler) {
         super(handler, (byte) 0x32);
     }
 

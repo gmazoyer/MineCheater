@@ -4,14 +4,14 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.math.Vector;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class SpawnPosition extends Packet {
     private int x;
     private int y;
     private int z;
 
-    public SpawnPosition(PacketsHandler handler) {
+    public SpawnPosition(IHandler handler) {
         super(handler, (byte) 0x06);
     }
 

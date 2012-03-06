@@ -4,11 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +15,15 @@ import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.structure.entity.MCMob;
 import fr.respawner.minecheater.structure.entity.MCObject;
 import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.PingHandler;
 
 public final class MinecraftClient extends Thread {
     private static final Logger log;
     private static final InputStream stdin;
     private static final PrintStream stdout;
 
-    private Socket socket;
+    private String ip;
+    private int port;
     private boolean running;
 
     static {
@@ -35,23 +33,17 @@ public final class MinecraftClient extends Thread {
     }
 
     public MinecraftClient(String ip, int port) {
-        InetAddress address;
-
-        address = null;
-        try {
-            address = InetAddress.getByName(ip);
-        } catch (UnknownHostException e) {
-            log.warn("Can't find server at " + ip + ".");
-        }
-
-        try {
-            this.socket = new Socket(address, port);
-            this.socket.setTcpNoDelay(true);
-        } catch (IOException e) {
-            log.warn("Can't connect to server at " + ip + " with port " + port
-                    + ".");
-        }
+        this.ip = ip;
+        this.port = port;
         this.running = true;
+    }
+
+    public String getIP() {
+        return ip;
+    }
+
+    public int getPort() {
+        return port;
     }
 
     public boolean isRunning() {
@@ -62,72 +54,20 @@ public final class MinecraftClient extends Thread {
         this.running = false;
     }
 
-    public Socket getSocket() {
-        return this.socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-    }
-
-    public InputStream getNetworkInput() {
-        try {
-            return this.socket.getInputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public OutputStream getNetworkOutput() {
-        try {
-            return this.socket.getOutputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public void reopenSocket() {
-        try {
-            this.socket = new Socket(this.socket.getInetAddress(),
-                    this.socket.getPort());
-            this.socket.setTcpNoDelay(true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void closeSocket() {
-        try {
-            this.socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void run() {
-        final PacketsHandler handler;
         final BufferedReader userInput;
+
+        PingHandler ping;
+        PacketsHandler handler;
 
         String command;
         String[] args;
 
         List<MCObject> objects;
 
-        if (this.socket == null) {
-            this.running = false;
-            return;
-        }
-
-        /*
-         * Handle incoming packet.
-         */
-        handler = new PacketsHandler(this);
-        handler.start();
+        ping = null;
+        handler = null;
 
         /*
          * Handle user inputs.
@@ -150,14 +90,28 @@ public final class MinecraftClient extends Thread {
                 args = command.split(" ", 2);
 
                 switch (args[0].toLowerCase()) {
+                case "connect":
+                    /*
+                     * Handle incoming packet.
+                     */
+                    if (handler != null) {
+                        stdout.println("Already connected to the server.");
+                    } else {
+                        handler = new PacketsHandler(this);
+                        handler.start();
+                    }
+                    break;
+
                 case "help":
                 case "?":
                     stdout.println("Available commands:");
+                    stdout.println("  * connect        - connect to the server and login");
                     stdout.println("  * help|?         - print this help");
                     stdout.println("  * message <text> - send a message");
                     stdout.println("  * mobs           - show all the nearest mobs");
                     stdout.println("  * objects        - list all objects of the world");
                     stdout.println("  * online         - show who is online");
+                    stdout.println("  * ping           - try to ping the server");
                     stdout.println("  * player         - show information about the player");
                     stdout.println("  * players         - show all the nearest players and NPC");
                     stdout.println("  * quit|exit      - stop this program");
@@ -227,6 +181,27 @@ public final class MinecraftClient extends Thread {
 
                     break;
 
+                case "ping":
+                    /*
+                     * Just a simple handler that ping the server.
+                     */
+                    if (handler != null) {
+                        stdout.println("Already connected to the server.");
+                    } else {
+                        ping = new PingHandler(this);
+                        ping.start();
+
+                        try {
+                            /*
+                             * Wait for the ping to terminate.
+                             */
+                            ping.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+
                 case "player":
                     stdout.println(handler.getWorld().getPlayer());
                     break;
@@ -248,7 +223,7 @@ public final class MinecraftClient extends Thread {
 
                 case "quit":
                 case "exit":
-                    if (!this.socket.isClosed()) {
+                    if (handler != null) {
                         handler.sendPacket((byte) 0xFF);
                     }
                     this.running = false;
@@ -292,15 +267,9 @@ public final class MinecraftClient extends Thread {
         }
 
         try {
-            /*
-             * End the connection with the server.
-             */
-            if (!this.socket.isClosed()) {
-                this.socket.close();
-            }
             userInput.close();
         } catch (IOException e) {
-            log.error("Socket already closed.");
+            log.error("User input already closed.");
         }
 
         log.info("Shutting down client worker.");

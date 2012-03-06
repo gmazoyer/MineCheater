@@ -5,13 +5,13 @@ import java.io.IOException;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.structure.type.MCAnimationType;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class Animation extends Packet {
     private int entityID;
     private byte animationID;
 
-    public Animation(PacketsHandler handler) {
+    public Animation(IHandler handler) {
         super(handler, (byte) 0x12);
     }
 

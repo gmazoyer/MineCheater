@@ -7,7 +7,7 @@ import java.util.List;
 
 import fr.respawner.minecheater.nbt.CompoundTag;
 import fr.respawner.minecheater.nbt.NBTInputStream;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class Slotdata {
     private final static short[] enchantables = new short[] { 0x103, 0x105,
@@ -18,10 +18,10 @@ public final class Slotdata {
             0x133, 0x134, 0x135, 0x136, 0x137, 0x138, 0x139, 0x13A, 0x13B,
             0x13C, 0x13D };
 
-    private final PacketsHandler handler;
+    private final IHandler handler;
     private final List<Triplet<Short, Byte, Short>> slotdata;
 
-    public Slotdata(PacketsHandler handler) {
+    public Slotdata(IHandler handler) {
         this.handler = handler;
         this.slotdata = new ArrayList<>();
     }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCPickup;
 import fr.respawner.minecheater.structure.type.MCItemType;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class PickupSpawn extends Packet {
     private int entityID;
@@ -19,7 +19,7 @@ public final class PickupSpawn extends Packet {
     private byte pitch;
     private byte roll;
 
-    public PickupSpawn(PacketsHandler handler) {
+    public PickupSpawn(IHandler handler) {
         super(handler, (byte) 0x15);
     }
 

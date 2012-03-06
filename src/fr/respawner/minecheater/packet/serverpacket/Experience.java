@@ -4,14 +4,14 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.player.MCExperience;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class Experience extends Packet {
     private float experienceBar;
     private short level;
     private short total;
 
-    public Experience(PacketsHandler handler) {
+    public Experience(IHandler handler) {
         super(handler, (byte) 0x2B);
     }
 

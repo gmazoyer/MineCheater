@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.respawner.minecheater.World;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public abstract class Packet {
     public static final String LINE_SEPARATOR;
@@ -15,7 +15,7 @@ public abstract class Packet {
 
     protected final List<Byte> packetReceived;
     protected final List<Byte> packetToSend;
-    protected final PacketsHandler handler;
+    protected final IHandler handler;
     protected final byte id;
 
     protected PacketAction action;
@@ -29,7 +29,7 @@ public abstract class Packet {
         READING, WRITING;
     }
 
-    public Packet(PacketsHandler handler, byte id) {
+    public Packet(IHandler handler, byte id) {
         this.handler = handler;
         this.packetReceived = new ArrayList<>();
         this.packetToSend = new ArrayList<>();

@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.world.MCState;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class NewOrInvalidState extends Packet {
     private byte reason;
     private byte mode;
 
-    public NewOrInvalidState(PacketsHandler handler) {
+    public NewOrInvalidState(IHandler handler) {
         super(handler, (byte) 0x46);
     }
 

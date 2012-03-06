@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCCharacter;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class NamedEntitySpawn extends Packet {
     private int entityID;
@@ -16,7 +16,7 @@ public final class NamedEntitySpawn extends Packet {
     private byte pitch;
     private short item;
 
-    public NamedEntitySpawn(PacketsHandler handler) {
+    public NamedEntitySpawn(IHandler handler) {
         super(handler, (byte) 0x14);
     }
 

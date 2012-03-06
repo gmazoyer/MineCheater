@@ -3,7 +3,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class MultiBlockChange extends Packet {
     private int chunkX;
@@ -12,7 +12,7 @@ public final class MultiBlockChange extends Packet {
     private byte[] types;
     private byte[] metadatas;
 
-    public MultiBlockChange(PacketsHandler handler) {
+    public MultiBlockChange(IHandler handler) {
         super(handler, (byte) 0x34);
     }
 

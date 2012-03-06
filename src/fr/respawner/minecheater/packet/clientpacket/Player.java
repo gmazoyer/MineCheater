@@ -3,18 +3,18 @@ package fr.respawner.minecheater.packet.clientpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class Player extends Packet {
     private boolean onGround;
 
-    public Player(PacketsHandler handler, boolean onGround) {
+    public Player(IHandler handler, boolean onGround) {
         super(handler, (byte) 0x0A);
 
         this.onGround = onGround;
     }
 
-    public Player(PacketsHandler handler) {
+    public Player(IHandler handler) {
         this(handler, handler.getWorld().getPlayer().getLocation().isOnGround());
     }
 

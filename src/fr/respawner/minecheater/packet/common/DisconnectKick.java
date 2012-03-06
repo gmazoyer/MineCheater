@@ -3,12 +3,12 @@ package fr.respawner.minecheater.packet.common;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class DisconnectKick extends Packet {
     private String reason;
 
-    public DisconnectKick(PacketsHandler handler) {
+    public DisconnectKick(IHandler handler) {
         super(handler, (byte) 0xFF);
     }
 

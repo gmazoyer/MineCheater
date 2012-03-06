@@ -3,7 +3,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class BlockAction extends Packet {
     private int x;
@@ -12,7 +12,7 @@ public final class BlockAction extends Packet {
     private byte firstByte;
     private byte secondByte;
 
-    public BlockAction(PacketsHandler handler) {
+    public BlockAction(IHandler handler) {
         super(handler, (byte) 0x36);
     }
 

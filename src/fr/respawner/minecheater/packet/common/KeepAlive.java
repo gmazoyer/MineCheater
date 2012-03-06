@@ -3,12 +3,12 @@ package fr.respawner.minecheater.packet.common;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class KeepAlive extends Packet {
     private int keepAliveID;
 
-    public KeepAlive(PacketsHandler handler) {
+    public KeepAlive(IHandler handler) {
         super(handler, (byte) 0x00);
 
         this.keepAliveID = 0;

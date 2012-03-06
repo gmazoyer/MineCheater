@@ -5,7 +5,7 @@ import java.io.IOException;
 import fr.respawner.minecheater.math.Location;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class EntityTeleport extends Packet {
     private int entityID;
@@ -15,7 +15,7 @@ public final class EntityTeleport extends Packet {
     private byte yaw;
     private byte pitch;
 
-    public EntityTeleport(PacketsHandler handler) {
+    public EntityTeleport(IHandler handler) {
         super(handler, (byte) 0x22);
     }
 

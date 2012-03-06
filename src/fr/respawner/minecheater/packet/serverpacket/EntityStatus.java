@@ -5,13 +5,13 @@ import java.io.IOException;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.structure.type.MCStatusType;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class EntityStatus extends Packet {
     private int entityID;
     private byte status;
 
-    public EntityStatus(PacketsHandler handler) {
+    public EntityStatus(IHandler handler) {
         super(handler, (byte) 0x26);
     }
 

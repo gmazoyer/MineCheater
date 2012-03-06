@@ -5,13 +5,13 @@ import java.io.IOException;
 import fr.respawner.minecheater.metadata.Metadata;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class EntityMetadata extends Packet {
     private int entityID;
     private Metadata metadata;
 
-    public EntityMetadata(PacketsHandler handler) {
+    public EntityMetadata(IHandler handler) {
         super(handler, (byte) 0x28);
     }
 

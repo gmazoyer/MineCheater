@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.world.MCTime;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class TimeUpdate extends Packet {
     private long time;
 
-    public TimeUpdate(PacketsHandler handler) {
+    public TimeUpdate(IHandler handler) {
         super(handler, (byte) 0x04);
     }
 

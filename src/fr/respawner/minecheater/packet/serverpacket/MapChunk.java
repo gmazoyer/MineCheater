@@ -3,7 +3,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class MapChunk extends Packet {
     private int x;
@@ -14,7 +14,7 @@ public final class MapChunk extends Packet {
     private byte sizeZ;
     private byte[] zlibData;
 
-    public MapChunk(PacketsHandler handler) {
+    public MapChunk(IHandler handler) {
         super(handler, (byte) 0x33);
     }
 

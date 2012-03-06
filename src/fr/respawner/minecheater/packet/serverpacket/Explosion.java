@@ -3,7 +3,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class Explosion extends Packet {
     private double x;
@@ -14,7 +14,7 @@ public final class Explosion extends Packet {
     @SuppressWarnings("unused")
     private float unknown;
 
-    public Explosion(PacketsHandler handler) {
+    public Explosion(IHandler handler) {
         super(handler, (byte) 0x3C);
     }
 

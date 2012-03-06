@@ -5,7 +5,7 @@ import java.io.IOException;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCObjectVehicle;
 import fr.respawner.minecheater.structure.entity.MCObjectVehicle.ObjectVehicleType;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class AddObjectVehicle extends Packet {
     private int entityID;
@@ -18,7 +18,7 @@ public final class AddObjectVehicle extends Packet {
     private short speedY;
     private short speedZ;
 
-    public AddObjectVehicle(PacketsHandler handler) {
+    public AddObjectVehicle(IHandler handler) {
         super(handler, (byte) 0x17);
     }
 

@@ -5,13 +5,13 @@ import java.io.IOException;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.structure.type.MCEffectType;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class RemoveEntityEffect extends Packet {
     private int entityID;
     private byte effectID;
 
-    public RemoveEntityEffect(PacketsHandler handler) {
+    public RemoveEntityEffect(IHandler handler) {
         super(handler, (byte) 0x2A);
     }
 

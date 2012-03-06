@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCPainting;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class EntityPainting extends Packet {
     private int entityID;
@@ -14,7 +14,7 @@ public final class EntityPainting extends Packet {
     private int z;
     private int direction;
 
-    public EntityPainting(PacketsHandler handler) {
+    public EntityPainting(IHandler handler) {
         super(handler, (byte) 0x19);
     }
 

@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.player.MCStatistic;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class IncrementStatistic extends Packet {
     private int statisticID;
     private byte amount;
 
-    public IncrementStatistic(PacketsHandler handler) {
+    public IncrementStatistic(IHandler handler) {
         super(handler, (byte) 0xC8);
     }
 

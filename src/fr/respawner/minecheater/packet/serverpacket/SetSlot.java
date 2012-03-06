@@ -4,14 +4,14 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.metadata.Slotdata;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class SetSlot extends Packet {
     private byte windowID;
     private short slot;
     private Slotdata data;
 
-    public SetSlot(PacketsHandler handler) {
+    public SetSlot(IHandler handler) {
         super(handler, (byte) 0x67);
     }
 

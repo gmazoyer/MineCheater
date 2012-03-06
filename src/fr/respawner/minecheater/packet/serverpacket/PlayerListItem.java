@@ -4,14 +4,14 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.MCPlayerListEntry;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class PlayerListItem extends Packet {
     private String playerName;
     private boolean online;
     private short ping;
 
-    public PlayerListItem(PacketsHandler handler) {
+    public PlayerListItem(IHandler handler) {
         super(handler, (byte) 0xC9);
     }
 

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCExperienceOrb;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class ExperienceOrb extends Packet {
     private int entityID;
@@ -13,7 +13,7 @@ public final class ExperienceOrb extends Packet {
     private int z;
     private short count;
 
-    public ExperienceOrb(PacketsHandler handler) {
+    public ExperienceOrb(IHandler handler) {
         super(handler, (byte) 0x1A);
     }
 

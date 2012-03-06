@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.math.Location;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class PlayerPosition extends Packet {
     private double x;
@@ -13,7 +13,7 @@ public final class PlayerPosition extends Packet {
     private double z;
     private boolean onGround;
 
-    public PlayerPosition(PacketsHandler handler) {
+    public PlayerPosition(IHandler handler) {
         super(handler, (byte) 0x0B);
 
         final Location location;

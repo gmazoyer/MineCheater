@@ -6,7 +6,7 @@ import fr.respawner.minecheater.metadata.Metadata;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCMob;
 import fr.respawner.minecheater.structure.entity.MCMob.MobType;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class MobSpawn extends Packet {
     private int entityID;
@@ -19,7 +19,7 @@ public final class MobSpawn extends Packet {
     private byte headYaw;
     private Metadata metadata;
 
-    public MobSpawn(PacketsHandler handler) {
+    public MobSpawn(IHandler handler) {
         super(handler, (byte) 0x18);
     }
 

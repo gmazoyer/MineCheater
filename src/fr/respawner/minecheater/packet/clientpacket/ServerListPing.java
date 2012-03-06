@@ -3,10 +3,10 @@ package fr.respawner.minecheater.packet.clientpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class ServerListPing extends Packet {
-    public ServerListPing(PacketsHandler handler) {
+    public ServerListPing(IHandler handler) {
         super(handler, (byte) 0xFE);
     }
 

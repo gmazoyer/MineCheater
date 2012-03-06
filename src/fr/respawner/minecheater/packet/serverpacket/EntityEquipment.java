@@ -5,7 +5,7 @@ import java.io.IOException;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.structure.inventory.MCEquipment;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class EntityEquipment extends Packet {
     private int entityID;
@@ -13,7 +13,7 @@ public final class EntityEquipment extends Packet {
     private short itemID;
     private short damage;
 
-    public EntityEquipment(PacketsHandler handler) {
+    public EntityEquipment(IHandler handler) {
         super(handler, (byte) 0x05);
     }
 

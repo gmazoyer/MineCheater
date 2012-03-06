@@ -5,7 +5,7 @@ import java.io.IOException;
 import fr.respawner.minecheater.math.VectorDouble;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class EntityVelocity extends Packet {
     private int entityID;
@@ -13,7 +13,7 @@ public final class EntityVelocity extends Packet {
     private short velocityY;
     private short velocityZ;
 
-    public EntityVelocity(PacketsHandler handler) {
+    public EntityVelocity(IHandler handler) {
         super(handler, (byte) 0x1C);
     }
 

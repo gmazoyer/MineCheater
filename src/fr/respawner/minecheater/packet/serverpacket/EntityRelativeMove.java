@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class EntityRelativeMove extends Packet {
     private int entityID;
@@ -12,7 +12,7 @@ public final class EntityRelativeMove extends Packet {
     private byte dY;
     private byte dZ;
 
-    public EntityRelativeMove(PacketsHandler handler) {
+    public EntityRelativeMove(IHandler handler) {
         super(handler, (byte) 0x1F);
     }
 

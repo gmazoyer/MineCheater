@@ -7,7 +7,7 @@ import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.type.MCDifficultyType;
 import fr.respawner.minecheater.structure.type.MCDimensionType;
 import fr.respawner.minecheater.structure.world.MCWorld;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class LoginRequest extends Packet {
     private int protocolVersionOrEntityID;
@@ -19,7 +19,7 @@ public final class LoginRequest extends Packet {
     private int worldHeight;
     private int maxPlayers;
 
-    public LoginRequest(PacketsHandler handler) {
+    public LoginRequest(IHandler handler) {
         super(handler, (byte) 0x01);
 
         this.protocolVersionOrEntityID = Config.PROTOCOL_VERSION;

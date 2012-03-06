@@ -6,7 +6,7 @@ import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.structure.entity.MCEffect;
 import fr.respawner.minecheater.structure.type.MCEffectType;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class EntityEffect extends Packet {
     private int entityID;
@@ -14,7 +14,7 @@ public final class EntityEffect extends Packet {
     private byte amplifier;
     private short duration;
 
-    public EntityEffect(PacketsHandler handler) {
+    public EntityEffect(IHandler handler) {
         super(handler, (byte) 0x29);
     }
 

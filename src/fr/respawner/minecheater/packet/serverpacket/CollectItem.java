@@ -3,13 +3,13 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class CollectItem extends Packet {
     private int collectedID;
     private int collectorID;
 
-    public CollectItem(PacketsHandler handler) {
+    public CollectItem(IHandler handler) {
         super(handler, (byte) 0x16);
     }
 

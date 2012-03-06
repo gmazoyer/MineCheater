@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public class Metadata {
-    private final PacketsHandler handler;
+    private final IHandler handler;
     private final List<Triplet<?, ?, ?>> metadata;
 
-    public Metadata(PacketsHandler handler) {
+    public Metadata(IHandler handler) {
         this.handler = handler;
         this.metadata = new ArrayList<>();
     }
@@ -126,8 +126,8 @@ public class Metadata {
                 value = this.readFloat();
                 break;
             case 5:
-                value = new int[] { (int) this.readShort(),
-                        (int) this.readByte(), (int) this.readShort() };
+                value = new int[] { this.readShort(), this.readByte(),
+                        this.readShort() };
                 break;
             case 6:
                 value = new int[] { this.readInt(), this.readInt(),

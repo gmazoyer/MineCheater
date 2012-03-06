@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCThunderbolt;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class Thunderbold extends Packet {
     private int entityID;
@@ -13,7 +13,7 @@ public final class Thunderbold extends Packet {
     private int y;
     private int z;
 
-    public Thunderbold(PacketsHandler handler) {
+    public Thunderbold(IHandler handler) {
         super(handler, (byte) 0x47);
     }
 

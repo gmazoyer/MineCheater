@@ -4,13 +4,13 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class EntityHeadLook extends Packet {
     private int entityID;
     private byte headYaw;
 
-    public EntityHeadLook(PacketsHandler handler) {
+    public EntityHeadLook(IHandler handler) {
         super(handler, (byte) 0x23);
     }
 

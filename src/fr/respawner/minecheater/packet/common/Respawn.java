@@ -5,7 +5,7 @@ import java.io.IOException;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.type.MCDifficultyType;
 import fr.respawner.minecheater.structure.type.MCDimensionType;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class Respawn extends Packet {
     private int dimension;
@@ -14,7 +14,7 @@ public final class Respawn extends Packet {
     private short worldHeight;
     private String levelType;
 
-    public Respawn(PacketsHandler handler) {
+    public Respawn(IHandler handler) {
         super(handler, (byte) 0x09);
     }
 

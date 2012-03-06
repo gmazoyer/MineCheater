@@ -4,14 +4,14 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.player.MCHealth;
-import fr.respawner.minecheater.worker.PacketsHandler;
+import fr.respawner.minecheater.worker.IHandler;
 
 public final class UpdateHealth extends Packet {
     private short health;
     private short food;
     private float foodSaturation;
 
-    public UpdateHealth(PacketsHandler handler) {
+    public UpdateHealth(IHandler handler) {
         super(handler, (byte) 0x08);
     }
 

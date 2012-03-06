@@ -4,6 +4,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -64,11 +67,12 @@ import fr.respawner.minecheater.packet.serverpacket.UpdateHealth;
 import fr.respawner.minecheater.packet.serverpacket.UseBed;
 import fr.respawner.minecheater.packet.serverpacket.WindowItems;
 
-public final class PacketsHandler extends Thread {
+public final class PacketsHandler extends Thread implements IHandler {
     private static final Logger log;
     private static final PrintStream stdout;
 
     private MinecraftClient client;
+    private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
     private long receivedPackets;
@@ -82,17 +86,9 @@ public final class PacketsHandler extends Thread {
 
     public PacketsHandler(MinecraftClient client) {
         this.client = client;
-        this.in = null;
-        this.out = null;
         this.receivedPackets = 0;
         this.running = true;
         this.world = new World();
-
-        /*
-         * Get input and output streams.
-         */
-        this.in = new DataInputStream(this.client.getNetworkInput());
-        this.out = new DataOutputStream(this.client.getNetworkOutput());
     }
 
     /**
@@ -323,14 +319,17 @@ public final class PacketsHandler extends Thread {
         }
     }
 
+    @Override
     public DataInputStream getInput() {
         return this.in;
     }
 
+    @Override
     public DataOutputStream getOutput() {
         return this.out;
     }
 
+    @Override
     public World getWorld() {
         return this.world;
     }
@@ -339,18 +338,9 @@ public final class PacketsHandler extends Thread {
         return this.running;
     }
 
+    @Override
     public void stopHandler() {
         this.running = false;
-    }
-
-    public void println(Object... messages) {
-        if (messages.length == 0) {
-            stdout.println();
-        } else {
-            for (Object message : messages) {
-                stdout.println(message);
-            }
-        }
     }
 
     public void sendPacket(byte id, Object... args) {
@@ -433,50 +423,58 @@ public final class PacketsHandler extends Thread {
     }
 
     @Override
+    public void println(Object... messages) {
+        if (messages.length == 0) {
+            stdout.println();
+        } else {
+            for (Object message : messages) {
+                stdout.println(message);
+            }
+        }
+    }
+
+    @Override
     public void run() {
-        final DisconnectKick pong;
+        final String ip;
+        final int port;
         final Timer timer;
 
+        InetAddress address;
         byte packetID;
 
-        // this.processor.start();
+        ip = this.client.getIP();
+        port = this.client.getPort();
+        address = null;
 
         try {
             /*
-             * First we send a ping.
+             * Translate the given string to a usable address.
              */
-            this.sendPacket((byte) 0xFE);
-
-            /*
-             * And we get the pong.
-             */
-            packetID = (byte) this.in.read();
-            pong = new DisconnectKick(this);
-            pong.read();
-
-            /*
-             * Put the packet in the processing queue.
-             */
-            // this.processor.addPacketToQueue(pong);
-            pong.process();
-
-            /*
-             * Since the connection is closed, release our objects.
-             */
-            this.in.close();
-            this.out.close();
-            this.client.closeSocket();
-        } catch (IOException e) {
-            log.error("Can't ping the server.");
+            address = InetAddress.getByName(ip);
+        } catch (UnknownHostException e) {
+            log.warn("Can't find server at " + ip + ".");
         }
 
-        /*
-         * Open a new socket since the other one was closed. Also open the new
-         * IO channels to be able to communicate.
-         */
-        this.client.reopenSocket();
-        this.in = new DataInputStream(this.client.getNetworkInput());
-        this.out = new DataOutputStream(this.client.getNetworkOutput());
+        try {
+            /*
+             * Try to open the connection with the server.
+             */
+            this.socket = new Socket(address, port);
+            this.socket.setTcpNoDelay(true);
+        } catch (IOException e) {
+            log.warn("Can't connect to server at " + ip + " with port " + port
+                    + ".");
+        }
+
+        try {
+            /*
+             * Open the IO channels to be able to communicate.
+             */
+            this.in = new DataInputStream(socket.getInputStream());
+            this.out = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         /*
          * Start the communication by sending a handshake.
