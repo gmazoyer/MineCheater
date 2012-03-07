@@ -18,38 +18,24 @@ public final class PlayerPositionAndLook extends Packet {
 
     public PlayerPositionAndLook(IHandler handler) {
         super(handler, (byte) 0x0D);
-    }
-
-    public PlayerPositionAndLook(IHandler handler, boolean init) {
-        this(handler);
 
         final Location location;
         final Rotation rotation;
 
-        if (init) {
-            this.x = 8.5;
-            this.y = 65;
-            this.stance = this.y + 1.62;
-            this.z = 8.5;
-            this.yaw = -180f;
-            this.pitch = 0.0f;
-            this.onGround = false;
-        } else {
-            location = this.getWorld().getPlayer().getLocation();
-            rotation = this.getWorld().getPlayer().getRotation();
+        location = this.getWorld().getPlayer().getLocation();
+        rotation = this.getWorld().getPlayer().getRotation();
 
-            if (location != null) {
-                this.x = location.getX();
-                this.y = location.getY();
-                this.stance = location.getStance();
-                this.z = location.getZ();
-                this.onGround = location.isOnGround();
-            }
+        if (location != null) {
+            this.x = location.getX();
+            this.y = location.getY();
+            this.stance = location.getStance();
+            this.z = location.getZ();
+            this.onGround = location.isOnGround();
+        }
 
-            if (rotation != null) {
-                this.yaw = rotation.getX();
-                this.pitch = rotation.getY();
-            }
+        if (rotation != null) {
+            this.yaw = rotation.getX();
+            this.pitch = rotation.getY();
         }
     }
 

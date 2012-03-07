@@ -382,11 +382,7 @@ public final class PacketsHandler extends Thread implements IHandler {
             break;
 
         case (byte) 0x0D:
-            if ((args.length < 1) || !(args[0] instanceof Boolean)) {
-                log.warn("Packet 0x0D needs a boolean in parameters.");
-            } else {
-                packet = new PlayerPositionAndLook(this, (boolean) args[0]);
-            }
+            packet = new PlayerPositionAndLook(this);
             break;
 
         case (byte) 0xFE:
@@ -564,7 +560,7 @@ public final class PacketsHandler extends Thread implements IHandler {
              * Send packets containing our position regularly.
              */
             handler.sendPacket((byte) 0x0A, true);
-            handler.sendPacket((byte) 0x0D, false);
+            handler.sendPacket((byte) 0x0D);
         }
     }
 }
