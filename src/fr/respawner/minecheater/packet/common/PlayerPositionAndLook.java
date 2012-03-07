@@ -3,6 +3,7 @@ package fr.respawner.minecheater.packet.common;
 import java.io.IOException;
 
 import fr.respawner.minecheater.math.Location;
+import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -23,6 +24,7 @@ public final class PlayerPositionAndLook extends Packet {
         this(handler);
 
         final Location location;
+        final Rotation rotation;
 
         if (init) {
             this.x = 8.5;
@@ -34,15 +36,19 @@ public final class PlayerPositionAndLook extends Packet {
             this.onGround = false;
         } else {
             location = this.getWorld().getPlayer().getLocation();
+            rotation = this.getWorld().getPlayer().getRotation();
 
             if (location != null) {
                 this.x = location.getX();
                 this.y = location.getY();
                 this.stance = location.getStance();
                 this.z = location.getZ();
-                this.yaw = location.getYaw();
-                this.pitch = location.getPitch();
                 this.onGround = location.isOnGround();
+            }
+
+            if (rotation != null) {
+                this.yaw = rotation.getX();
+                this.pitch = rotation.getY();
             }
         }
     }
@@ -75,19 +81,27 @@ public final class PlayerPositionAndLook extends Packet {
     @Override
     public void process() {
         Location location;
+        Rotation rotation;
 
         location = this.getWorld().getPlayer().getLocation();
+        rotation = this.getWorld().getPlayer().getRotation();
 
         if (location != null) {
             location.setPosition(x, y, z);
-            location.setRotation(this.yaw, this.pitch);
             location.setOnGround(this.onGround);
         } else {
             location = new Location(this.x, this.y, this.z);
-            location.setRotation(this.yaw, this.pitch);
             location.setStance(this.stance);
             location.setOnGround(this.onGround);
             this.getWorld().getPlayer().setLocation(location);
+        }
+
+        if (rotation != null) {
+            rotation.setX(this.yaw);
+            rotation.setY(this.pitch);
+        } else {
+            rotation = new Rotation(this.yaw, this.pitch);
+            this.getWorld().getPlayer().setRotation(rotation);
         }
 
         if (!this.getWorld().isLoggedIn()) {

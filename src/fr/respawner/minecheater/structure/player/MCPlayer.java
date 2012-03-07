@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.respawner.minecheater.math.Location;
+import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.structure.MCIdentifiable;
 
 public final class MCPlayer extends MCIdentifiable {
     private Location location;
+    private Rotation rotation;
     private MCHealth health;
     private MCExperience experience;
     private List<MCStatistic> statistics;
@@ -28,6 +30,14 @@ public final class MCPlayer extends MCIdentifiable {
 
     public final void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Rotation getRotation() {
+        return this.rotation;
+    }
+
+    public void setRotation(Rotation rotation) {
+        this.rotation = rotation;
     }
 
     public final MCHealth getHealth() {
@@ -88,6 +98,8 @@ public final class MCPlayer extends MCIdentifiable {
         builder.append(this.getEntityID());
         builder.append(" | ");
         builder.append(this.location);
+        builder.append(" | ");
+        builder.append(this.rotation);
         builder.append(" | ");
         builder.append(this.health);
         builder.append(" | ");

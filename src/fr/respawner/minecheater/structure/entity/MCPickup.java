@@ -1,5 +1,6 @@
 package fr.respawner.minecheater.structure.entity;
 
+import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.structure.type.MCItemType;
 
 public final class MCPickup extends MCEntity {
@@ -11,7 +12,8 @@ public final class MCPickup extends MCEntity {
             int x, int y, int z, byte rotation, byte pitch, byte roll) {
         super(entityID, x, y, z);
 
-        this.location.setPitch(pitch);
+        this.rotation = new Rotation();
+        this.rotation.setRotationFromPacket(rotation, pitch);
 
         this.itemID = itemID;
         this.count = count;

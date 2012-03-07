@@ -1,6 +1,7 @@
 package fr.respawner.minecheater.structure.entity;
 
 import fr.respawner.minecheater.math.Location;
+import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.structure.MCIdentifiable;
 
 /**
@@ -11,6 +12,7 @@ import fr.respawner.minecheater.structure.MCIdentifiable;
  */
 public abstract class MCObject extends MCIdentifiable {
     protected Location location;
+    protected Rotation rotation;
 
     public MCObject(int entityID) {
         super(entityID);
@@ -30,6 +32,14 @@ public abstract class MCObject extends MCIdentifiable {
         this.location = location;
     }
 
+    public Rotation getRotation() {
+        return this.rotation;
+    }
+
+    public void setRotation(Rotation rotation) {
+        this.rotation = rotation;
+    }
+
     @Override
     public String toString() {
         final StringBuilder builder;
@@ -40,6 +50,8 @@ public abstract class MCObject extends MCIdentifiable {
         builder.append(this.getEntityID());
         builder.append(" | ");
         builder.append(this.location);
+        builder.append(" | ");
+        builder.append(this.rotation);
 
         return builder.toString();
     }

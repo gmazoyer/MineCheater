@@ -121,7 +121,9 @@ public final class MinecraftClient extends Thread {
                     break;
 
                 case "message":
-                    if (args.length < 2) {
+                    if (handler == null) {
+                        stdout.println("You need to connect to the server.");
+                    } else if (args.length < 2) {
                         stdout.println("The 'message' command needs an argument.");
                     } else {
                         handler.sendPacket((byte) 0x03, args[1]);
@@ -129,16 +131,21 @@ public final class MinecraftClient extends Thread {
                     break;
 
                 case "mobs":
-                    objects = new ArrayList<>();
+                    if (handler == null) {
+                        stdout.println("You need to connect to the server.");
+                    } else {
+                        objects = new ArrayList<>();
 
-                    for (MCObject object : handler.getWorld().getAllObjects()) {
-                        if (object instanceof MCMob) {
-                            objects.add(object);
+                        for (MCObject object : handler.getWorld()
+                                .getAllObjects()) {
+                            if (object instanceof MCMob) {
+                                objects.add(object);
+                            }
                         }
-                    }
 
-                    for (MCObject object : objects) {
-                        stdout.println(object);
+                        for (MCObject object : objects) {
+                            stdout.println(object);
+                        }
                     }
 
                     break;
@@ -147,25 +154,34 @@ public final class MinecraftClient extends Thread {
                     final double[] move;
                     final String[] numb;
 
-                    move = new double[3];
-                    numb = args[1].split(" ");
+                    if (handler == null) {
+                        stdout.println("You need to connect to the server.");
+                    } else {
+                        move = new double[3];
+                        numb = args[1].split(" ");
 
-                    for (byte b = 0; b < move.length; b++) {
-                        move[b] = Double.parseDouble(numb[b]);
+                        for (byte b = 0; b < move.length; b++) {
+                            move[b] = Double.parseDouble(numb[b]);
+                        }
+
+                        handler.getWorld().getPlayer().getLocation()
+                                .setOnGround(true);
+                        handler.getWorld().getPlayer()
+                                .move(move[0], move[1], move[2]);
+                        handler.sendPacket((byte) 0x0D, false);
                     }
 
-                    handler.getWorld().getPlayer().getLocation()
-                            .setOnGround(true);
-                    handler.getWorld().getPlayer()
-                            .move(move[0], move[1], move[2]);
-                    handler.sendPacket((byte) 0x0D, false);
                     break;
 
                 case "objects":
-                    objects = handler.getWorld().getAllObjects();
+                    if (handler == null) {
+                        stdout.println("You need to connect to the server.");
+                    } else {
+                        objects = handler.getWorld().getAllObjects();
 
-                    for (MCObject object : objects) {
-                        stdout.println(object);
+                        for (MCObject object : objects) {
+                            stdout.println(object);
+                        }
                     }
 
                     break;
@@ -173,10 +189,14 @@ public final class MinecraftClient extends Thread {
                 case "online":
                     final List<MCPlayerListEntry> people;
 
-                    people = handler.getWorld().getOnlinePeople();
+                    if (handler == null) {
+                        stdout.println("You need to connect to the server.");
+                    } else {
+                        people = handler.getWorld().getOnlinePeople();
 
-                    for (MCPlayerListEntry entry : people) {
-                        stdout.println(entry);
+                        for (MCPlayerListEntry entry : people) {
+                            stdout.println(entry);
+                        }
                     }
 
                     break;
@@ -203,20 +223,29 @@ public final class MinecraftClient extends Thread {
                     break;
 
                 case "player":
-                    stdout.println(handler.getWorld().getPlayer());
+                    if (handler == null) {
+                        stdout.println("You need to connect to the server.");
+                    } else {
+                        stdout.println(handler.getWorld().getPlayer());
+                    }
                     break;
 
                 case "players":
-                    objects = new ArrayList<>();
+                    if (handler == null) {
+                        stdout.println("You need to connect to the server.");
+                    } else {
+                        objects = new ArrayList<>();
 
-                    for (MCObject object : handler.getWorld().getAllObjects()) {
-                        if (object instanceof MCCharacter) {
-                            objects.add(object);
+                        for (MCObject object : handler.getWorld()
+                                .getAllObjects()) {
+                            if (object instanceof MCCharacter) {
+                                objects.add(object);
+                            }
                         }
-                    }
 
-                    for (MCObject object : objects) {
-                        stdout.println(object);
+                        for (MCObject object : objects) {
+                            stdout.println(object);
+                        }
                     }
 
                     break;
@@ -230,11 +259,19 @@ public final class MinecraftClient extends Thread {
                     break;
 
                 case "respawn":
-                    handler.sendPacket((byte) 0x09);
+                    if (handler == null) {
+                        stdout.println("You need to connect to the server.");
+                    } else {
+                        handler.sendPacket((byte) 0x09);
+                    }
                     break;
 
                 case "time":
-                    stdout.println(handler.getWorld().getTime());
+                    if (handler == null) {
+                        stdout.println("You need to connect to the server.");
+                    } else {
+                        stdout.println(handler.getWorld().getTime());
+                    }
                     break;
 
                 case "system":

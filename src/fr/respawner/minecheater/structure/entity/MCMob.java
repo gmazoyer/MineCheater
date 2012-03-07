@@ -1,5 +1,6 @@
 package fr.respawner.minecheater.structure.entity;
 
+import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.metadata.Metadata;
 
 /**
@@ -16,7 +17,9 @@ public final class MCMob extends MCEntity {
 
         this.type = type;
 
-        this.location.setRotation(yaw, pitch);
+        this.rotation = new Rotation();
+        this.rotation.setRotationFromPacket(yaw, pitch);
+
         this.setHeadYaw(headYaw);
         this.setMetadata(metadata);
     }

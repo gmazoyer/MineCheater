@@ -5,9 +5,6 @@ public final class Location {
     private double y;
     private double z;
     private double stance;
-    private float yaw;
-    private float pitch;
-    private float roll;
     private boolean onGround;
 
     public Location(double x, double y, double z) {
@@ -57,30 +54,6 @@ public final class Location {
         this.stance = stance;
     }
 
-    public float getYaw() {
-        return this.yaw;
-    }
-
-    public void setYaw(float yaw) {
-        this.yaw = yaw;
-    }
-
-    public float getPitch() {
-        return this.pitch;
-    }
-
-    public void setPitch(float pitch) {
-        this.pitch = pitch;
-    }
-
-    public float getRoll() {
-        return this.roll;
-    }
-
-    public void setRoll(float roll) {
-        this.roll = roll;
-    }
-
     public boolean isOnGround() {
         return this.onGround;
     }
@@ -93,28 +66,6 @@ public final class Location {
         this.x = x;
         this.y = y;
         this.z = z;
-    }
-
-    public void setRotation(float yaw, float pitch) {
-        this.yaw = yaw;
-        this.pitch = pitch;
-    }
-
-    public void setRotationFromPacket(byte yaw, byte pitch) {
-        this.yaw = (float) ((yaw * 2 * Math.PI) / 256);
-        this.pitch = (float) ((pitch * 2 * Math.PI) / 256);
-    }
-
-    public void setRotation(float yaw, float pitch, float roll) {
-        this.yaw = yaw;
-        this.pitch = pitch;
-        this.roll = roll;
-    }
-
-    public void setRotationFromPacket(byte yaw, byte pitch, byte roll) {
-        this.yaw = (float) ((yaw * 2 * Math.PI) / 256);
-        this.pitch = (float) ((pitch * 2 * Math.PI) / 256);
-        this.roll = (float) ((roll * 2 * Math.PI) / 256);
     }
 
     public Vector toVector() {
@@ -136,12 +87,6 @@ public final class Location {
         builder.append(this.z);
         builder.append(", stance = ");
         builder.append(this.stance);
-        builder.append(", yaw = ");
-        builder.append(this.yaw);
-        builder.append(", pitch = ");
-        builder.append(this.pitch);
-        builder.append(", roll = ");
-        builder.append(this.roll);
         builder.append(" | ");
         builder.append(this.onGround ? "Walking or Swimming"
                 : "Jumping or Falling");

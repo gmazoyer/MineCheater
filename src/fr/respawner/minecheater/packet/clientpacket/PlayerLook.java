@@ -3,6 +3,7 @@ package fr.respawner.minecheater.packet.clientpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.math.Location;
+import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -15,13 +16,18 @@ public final class PlayerLook extends Packet {
         super(handler, (byte) 0x0C);
 
         final Location location;
+        final Rotation rotation;
 
         location = this.getWorld().getPlayer().getLocation();
+        rotation = this.getWorld().getPlayer().getRotation();
 
         if (location != null) {
-            this.yaw = location.getYaw();
-            this.pitch = location.getPitch();
             this.onGround = location.isOnGround();
+        }
+
+        if (rotation != null) {
+            this.yaw = rotation.getX();
+            this.pitch = rotation.getY();
         }
     }
 

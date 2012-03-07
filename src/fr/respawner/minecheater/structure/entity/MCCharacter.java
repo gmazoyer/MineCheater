@@ -1,5 +1,6 @@
 package fr.respawner.minecheater.structure.entity;
 
+import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.structure.inventory.MCEquipment;
 import fr.respawner.minecheater.structure.type.MCItemType;
 
@@ -20,7 +21,8 @@ public final class MCCharacter extends MCEntity {
             byte rotation, byte pitch, short item) {
         super(entityID, x, y, z);
 
-        this.location.setPitch(pitch);
+        this.rotation = new Rotation();
+        this.rotation.setRotationFromPacket(rotation, pitch);
 
         this.name = name;
         this.item = item;
