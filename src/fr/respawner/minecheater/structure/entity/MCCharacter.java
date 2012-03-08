@@ -72,9 +72,9 @@ public final class MCCharacter extends MCEntity {
         builder.append(" | Item = ");
         builder.append(this.item == 0 ? "Nothing" : MCItemType
                 .itemForID(this.item));
-        builder.append(" | Equipment = ");
+        builder.append(" | ");
         builder.append(this.equipment);
-        builder.append(" | Effect = ");
+        builder.append(" | ");
         builder.append(this.effect);
         builder.append(" | In bed = ");
         builder.append(this.useBed);

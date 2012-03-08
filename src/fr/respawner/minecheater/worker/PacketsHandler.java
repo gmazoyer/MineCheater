@@ -7,8 +7,6 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 
@@ -66,8 +64,10 @@ import fr.respawner.minecheater.packet.serverpacket.TimeUpdate;
 import fr.respawner.minecheater.packet.serverpacket.UpdateHealth;
 import fr.respawner.minecheater.packet.serverpacket.UseBed;
 import fr.respawner.minecheater.packet.serverpacket.WindowItems;
+import fr.respawner.minecheater.worker.TickClock.ClockReceiver;
 
-public final class PacketsHandler extends Thread implements IHandler {
+public final class PacketsHandler extends Thread implements IHandler,
+        ClockReceiver {
     private static final Logger log;
     private static final PrintStream stdout;
 
@@ -75,6 +75,7 @@ public final class PacketsHandler extends Thread implements IHandler {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
+    private long chunksPackets;
     private long receivedPackets;
     private boolean running;
     private World world;
@@ -86,6 +87,7 @@ public final class PacketsHandler extends Thread implements IHandler {
 
     public PacketsHandler(MinecraftClient client) {
         this.client = client;
+        this.chunksPackets = 0;
         this.receivedPackets = 0;
         this.running = true;
         this.world = new World();
@@ -235,6 +237,7 @@ public final class PacketsHandler extends Thread implements IHandler {
 
         case (byte) 0x33:
             packet = new MapChunk(this);
+            this.chunksPackets++;
             break;
 
         case (byte) 0x34:
@@ -340,7 +343,28 @@ public final class PacketsHandler extends Thread implements IHandler {
 
     @Override
     public void stopHandler() {
+        /*
+         * Tell the server that we leave.
+         */
+        this.sendPacket((byte) 0xFF);
+
         this.running = false;
+    }
+
+    @Override
+    public void tick() {
+        /*
+         * We need to wait for the login to complete before sending packets.
+         */
+        if (!this.world.isLoggedIn()) {
+            return;
+        }
+
+        /*
+         * Send packets containing our position regularly.
+         */
+        this.sendPacket((byte) 0x0A, true);
+        this.sendPacket((byte) 0x0D);
     }
 
     public void sendPacket(byte id, Object... args) {
@@ -391,15 +415,6 @@ public final class PacketsHandler extends Thread implements IHandler {
 
         case (byte) 0xFF:
             packet = new DisconnectKick(this);
-            try {
-                packet.setAction(PacketAction.WRITING);
-                packet.write();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            this.stopHandler();
-            packet = null;
             break;
 
         default:
@@ -409,8 +424,11 @@ public final class PacketsHandler extends Thread implements IHandler {
 
         if (packet != null) {
             packet.setAction(PacketAction.WRITING);
+
             try {
                 packet.write();
+                packet.freeBuffers();
+
                 log.debug("Sent: " + packet);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -433,7 +451,7 @@ public final class PacketsHandler extends Thread implements IHandler {
     public void run() {
         final String ip;
         final int port;
-        final Timer timer;
+        final TickClock clock;
 
         InetAddress address;
         int readByte;
@@ -478,8 +496,11 @@ public final class PacketsHandler extends Thread implements IHandler {
          */
         this.sendPacket((byte) 0x02);
 
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new AutoPacketSender(), 0, 50);
+        /*
+         * Listen for ticks.
+         */
+        clock = new TickClock(this);
+        clock.start();
 
         while (this.running) {
             Packet packet;
@@ -507,6 +528,7 @@ public final class PacketsHandler extends Thread implements IHandler {
                 packet = this.packetFromID(packetID);
                 if (packet != null) {
                     this.respondToPacket(packet);
+                    packet.freeBuffers();
                 }
             } catch (IOException e) {
                 log.error("Can't read packet from the network.");
@@ -514,53 +536,34 @@ public final class PacketsHandler extends Thread implements IHandler {
 
                 packet = null;
 
-                timer.cancel();
-                timer.purge();
+                clock.stop();
 
                 this.stopHandler();
             }
         }
 
         /*
-         * Stop the automatic sending of packets.
+         * Stop the listening of ticks.
          */
-        timer.cancel();
-        timer.purge();
+        clock.stop();
 
         /*
-         * Close the streams.
+         * Since the connection is closed, release our objects.
          */
         try {
+            this.socket.shutdownInput();
+            this.socket.shutdownOutput();
+
             this.in.close();
             this.out.close();
+
             this.socket.close();
         } catch (IOException e) {
             log.error("Streams already closed?");
         }
 
+        log.info("Received and processed " + this.chunksPackets + " chunks.");
         log.info("Received and processed " + this.receivedPackets + " packets.");
         log.info("Shutting down packets handler.");
-    }
-
-    private class AutoPacketSender extends TimerTask {
-        @Override
-        public void run() {
-            final PacketsHandler handler;
-
-            handler = PacketsHandler.this;
-
-            /*
-             * We need to wait for the login to complete before sending packets.
-             */
-            if (!handler.world.isLoggedIn()) {
-                return;
-            }
-
-            /*
-             * Send packets containing our position regularly.
-             */
-            handler.sendPacket((byte) 0x0A, true);
-            handler.sendPacket((byte) 0x0D);
-        }
     }
 }

@@ -1,10 +1,9 @@
 package fr.respawner.minecheater.packet;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.worker.IHandler;
@@ -13,8 +12,8 @@ public abstract class Packet {
     public static final String LINE_SEPARATOR;
     public static final String STRING_DELIMITER;
 
-    protected final List<Byte> packetReceived;
-    protected final List<Byte> packetToSend;
+    protected final ByteArrayOutputStream packetReceived;
+    protected final ByteArrayOutputStream packetToSend;
     protected final IHandler handler;
     protected final byte id;
 
@@ -31,13 +30,21 @@ public abstract class Packet {
 
     public Packet(IHandler handler, byte id) {
         this.handler = handler;
-        this.packetReceived = new ArrayList<>();
-        this.packetToSend = new ArrayList<>();
+        this.packetReceived = new ByteArrayOutputStream();
+        this.packetToSend = new ByteArrayOutputStream();
         this.action = PacketAction.READING;
         this.id = id;
 
-        this.packetReceived.add(this.id);
-        this.packetToSend.add(this.id);
+        this.packetReceived.write(this.id);
+        this.packetToSend.write(this.id);
+    }
+
+    /**
+     * Return the buffer that is currently used.
+     */
+    private ByteArrayOutputStream getUsedBuffer() {
+        return (this.action == PacketAction.READING) ? this.packetReceived
+                : this.packetToSend;
     }
 
     /**
@@ -47,7 +54,8 @@ public abstract class Packet {
         final byte read;
 
         read = this.handler.getInput().readByte();
-        this.packetReceived.add(read);
+
+        this.packetReceived.write(read);
 
         return read;
     }
@@ -57,12 +65,12 @@ public abstract class Packet {
      */
     protected final int readUnsignedByte() throws IOException {
         final int read;
+        final byte[] bytes;
 
         read = this.handler.getInput().readUnsignedByte();
+        bytes = ByteBuffer.allocate(4).putInt(read).array();
 
-        for (byte b : ByteBuffer.allocate(4).putInt(read).array()) {
-            this.packetReceived.add(b);
-        }
+        this.packetReceived.write(bytes);
 
         return read;
     }
@@ -72,12 +80,12 @@ public abstract class Packet {
      */
     protected final short readShort() throws IOException {
         final short read;
+        final byte[] bytes;
 
         read = this.handler.getInput().readShort();
+        bytes = ByteBuffer.allocate(2).putShort(read).array();
 
-        for (byte b : ByteBuffer.allocate(2).putShort(read).array()) {
-            this.packetReceived.add(b);
-        }
+        this.packetReceived.write(bytes);
 
         return read;
     }
@@ -87,12 +95,12 @@ public abstract class Packet {
      */
     protected final int readInt() throws IOException {
         final int read;
+        final byte[] bytes;
 
         read = this.handler.getInput().readInt();
+        bytes = ByteBuffer.allocate(4).putInt(read).array();
 
-        for (byte b : ByteBuffer.allocate(4).putInt(read).array()) {
-            this.packetReceived.add(b);
-        }
+        this.packetReceived.write(bytes);
 
         return read;
     }
@@ -102,12 +110,12 @@ public abstract class Packet {
      */
     protected final long readLong() throws IOException {
         final long read;
+        final byte[] bytes;
 
         read = this.handler.getInput().readLong();
+        bytes = ByteBuffer.allocate(8).putLong(read).array();
 
-        for (byte b : ByteBuffer.allocate(8).putLong(read).array()) {
-            this.packetReceived.add(b);
-        }
+        this.packetReceived.write(bytes);
 
         return read;
     }
@@ -117,12 +125,12 @@ public abstract class Packet {
      */
     protected final float readFloat() throws IOException {
         final float read;
+        final byte[] bytes;
 
         read = this.handler.getInput().readFloat();
+        bytes = ByteBuffer.allocate(4).putFloat(read).array();
 
-        for (byte b : ByteBuffer.allocate(4).putFloat(read).array()) {
-            this.packetReceived.add(b);
-        }
+        this.packetReceived.write(bytes);
 
         return read;
     }
@@ -132,12 +140,12 @@ public abstract class Packet {
      */
     protected final double readDouble() throws IOException {
         final double read;
+        final byte[] bytes;
 
         read = this.handler.getInput().readDouble();
+        bytes = ByteBuffer.allocate(8).putDouble(read).array();
 
-        for (byte b : ByteBuffer.allocate(8).putDouble(read).array()) {
-            this.packetReceived.add(b);
-        }
+        this.packetReceived.write(bytes);
 
         return read;
     }
@@ -150,7 +158,7 @@ public abstract class Packet {
 
         read = this.handler.getInput().readBoolean();
 
-        packetReceived.add((byte) (read ? 0x01 : 0x00));
+        this.packetReceived.write((byte) (read ? 0x01 : 0x00));
 
         return read;
     }
@@ -226,7 +234,7 @@ public abstract class Packet {
      * Write a byte.
      */
     protected final void writeByte(byte v) throws IOException {
-        packetToSend.add(v);
+        this.packetToSend.write(v);
     }
 
     /**
@@ -236,7 +244,7 @@ public abstract class Packet {
         final byte unsigned;
 
         unsigned = (byte) ((v < 128) ? v : (v - 256));
-        packetToSend.add(unsigned);
+        this.packetToSend.write(unsigned);
     }
 
     /**
@@ -246,9 +254,8 @@ public abstract class Packet {
         final byte[] bytes;
 
         bytes = ByteBuffer.allocate(2).putShort(v).array();
-        for (byte b : bytes) {
-            packetToSend.add(b);
-        }
+
+        this.packetToSend.write(bytes);
     }
 
     /**
@@ -258,9 +265,8 @@ public abstract class Packet {
         final byte[] bytes;
 
         bytes = ByteBuffer.allocate(4).putInt(v).array();
-        for (byte b : bytes) {
-            packetToSend.add(b);
-        }
+
+        this.packetToSend.write(bytes);
     }
 
     /**
@@ -270,9 +276,8 @@ public abstract class Packet {
         final byte[] bytes;
 
         bytes = ByteBuffer.allocate(8).putLong(v).array();
-        for (byte b : bytes) {
-            packetToSend.add(b);
-        }
+
+        this.packetToSend.write(bytes);
     }
 
     /**
@@ -282,9 +287,8 @@ public abstract class Packet {
         final byte[] bytes;
 
         bytes = ByteBuffer.allocate(4).putFloat(v).array();
-        for (byte b : bytes) {
-            packetToSend.add(b);
-        }
+
+        this.packetToSend.write(bytes);
     }
 
     /**
@@ -294,23 +298,22 @@ public abstract class Packet {
         final byte[] bytes;
 
         bytes = ByteBuffer.allocate(8).putDouble(v).array();
-        for (byte b : bytes) {
-            packetToSend.add(b);
-        }
+
+        this.packetToSend.write(bytes);
     }
 
     /**
      * Write a boolean.
      */
     protected final void writeBoolean(boolean v) throws IOException {
-        packetToSend.add((byte) (v ? 0x01 : 0x00));
+        this.packetToSend.write((byte) (v ? 0x01 : 0x00));
     }
 
     /**
      * Write a UTF-16 string.
      */
     protected final void writeUnicodeString(String string) throws IOException {
-        final byte[] unicode;
+        final byte[] bytes;
 
         /*
          * We first send the size of the string.
@@ -320,10 +323,9 @@ public abstract class Packet {
         /*
          * Convert the string to unicode and send it byte per byte.
          */
-        unicode = string.getBytes("UTF-16BE");
-        for (short s = 0; s < unicode.length; s++) {
-            packetToSend.add(unicode[s]);
-        }
+        bytes = string.getBytes("UTF-16BE");
+
+        this.packetToSend.write(bytes);
     }
 
     /**
@@ -332,10 +334,7 @@ public abstract class Packet {
     protected final void send() throws IOException {
         final byte[] bytes;
 
-        bytes = new byte[packetToSend.size()];
-        for (int i = 0; i < bytes.length; i++) {
-            bytes[i] = packetToSend.get(i);
-        }
+        bytes = this.packetToSend.toByteArray();
 
         /*
          * Since we can write packets from 2 different threads we should lock
@@ -373,6 +372,18 @@ public abstract class Packet {
      */
     public final int getID() {
         return this.id;
+    }
+
+    /**
+     * Close the buffers that contains bytes so we can release them later.
+     */
+    public final void freeBuffers() {
+        try {
+            this.packetReceived.close();
+            this.packetToSend.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -432,8 +443,7 @@ public abstract class Packet {
         builder.append(LINE_SEPARATOR);
         builder.append("  * Raw packet  -> '");
 
-        for (Byte b : (this.action == PacketAction.WRITING) ? this.packetToSend
-                : this.packetReceived) {
+        for (Byte b : this.getUsedBuffer().toByteArray()) {
             builder.append(String.format("%02X ", b));
         }
 

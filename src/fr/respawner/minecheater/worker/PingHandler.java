@@ -135,8 +135,12 @@ public final class PingHandler extends Thread implements IHandler {
              * Since the connection is closed, release our objects.
              */
             try {
+                this.socket.shutdownInput();
+                this.socket.shutdownOutput();
+
                 this.in.close();
                 this.out.close();
+
                 this.socket.close();
             } catch (IOException e) {
                 e.printStackTrace();

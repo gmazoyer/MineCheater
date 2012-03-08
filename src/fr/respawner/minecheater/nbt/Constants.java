@@ -18,5 +18,8 @@ public final class Constants {
     public static final int TYPE_COMPOUND = 10;
 
     private Constants() {
+        /*
+         * No instance.
+         */
     }
 }

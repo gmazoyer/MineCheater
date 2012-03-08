@@ -102,10 +102,20 @@ public final class MinecraftClient extends Thread {
                     }
                     break;
 
+                case "disconnect":
+                    if (handler == null) {
+                        stdout.println("You need to connect to the server.");
+                    } else {
+                        handler.stopHandler();
+                        handler = null;
+                    }
+                    break;
+
                 case "help":
                 case "?":
                     stdout.println("Available commands:");
                     stdout.println("  * connect        - connect to the server and login");
+                    stdout.println("  * disconnect     - disconnect from the server");
                     stdout.println("  * help|?         - print this help");
                     stdout.println("  * message <text> - send a message");
                     stdout.println("  * mobs           - show all the nearest mobs");
@@ -252,9 +262,6 @@ public final class MinecraftClient extends Thread {
 
                 case "quit":
                 case "exit":
-                    if (handler != null) {
-                        handler.sendPacket((byte) 0xFF);
-                    }
                     this.running = false;
                     break;
 
@@ -288,19 +295,19 @@ public final class MinecraftClient extends Thread {
         }
 
         /*
-         * Stop the packets handler.
+         * Stop the packets handler if it is still running.
          */
-        if (handler.isRunning()) {
+        if ((handler != null) && handler.isRunning()) {
             handler.stopHandler();
-        }
 
-        try {
-            /*
-             * Wait for the packet handler to stop.
-             */
-            handler.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                /*
+                 * Wait for the packet handler to stop.
+                 */
+                handler.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         try {

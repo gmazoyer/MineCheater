@@ -2,6 +2,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 
 import java.io.IOException;
 
+import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.worker.IHandler;
@@ -32,6 +33,7 @@ public final class EntityLook extends Packet {
     @Override
     public void process() {
         final MCEntity entity;
+        Rotation rotation;
 
         /*
          * Find the entity to set its look.
@@ -39,7 +41,15 @@ public final class EntityLook extends Packet {
         entity = (MCEntity) this.getWorld().findObjectByID(this.entityID);
 
         if (entity != null) {
-            entity.getRotation().setRotationFromPacket(this.yaw, this.pitch);
+            rotation = entity.getRotation();
+
+            if (rotation != null) {
+                rotation.setRotationFromPacket(this.yaw, this.pitch);
+            } else {
+                rotation = new Rotation();
+                rotation.setRotationFromPacket(this.yaw, this.pitch);
+                entity.setRotation(rotation);
+            }
         }
     }
 

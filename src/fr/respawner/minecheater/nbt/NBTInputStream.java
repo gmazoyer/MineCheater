@@ -11,10 +11,10 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 public final class NBTInputStream implements Closeable {
-    private final DataInputStream is;
+    private final DataInputStream input;
 
-    public NBTInputStream(InputStream is) throws IOException {
-        this.is = new DataInputStream(new GZIPInputStream(is));
+    public NBTInputStream(InputStream input) throws IOException {
+        this.input = new DataInputStream(new GZIPInputStream(input));
     }
 
     private Tag readTagPayload(int type, String name, int depth)
@@ -33,34 +33,34 @@ public final class NBTInputStream implements Closeable {
                 return new EndTag();
             }
         case Constants.TYPE_BYTE:
-            return new ByteTag(name, is.readByte());
+            return new ByteTag(name, this.input.readByte());
         case Constants.TYPE_SHORT:
-            return new ShortTag(name, is.readShort());
+            return new ShortTag(name, this.input.readShort());
         case Constants.TYPE_INT:
-            return new IntTag(name, is.readInt());
+            return new IntTag(name, this.input.readInt());
         case Constants.TYPE_LONG:
-            return new LongTag(name, is.readLong());
+            return new LongTag(name, this.input.readLong());
         case Constants.TYPE_FLOAT:
-            return new FloatTag(name, is.readFloat());
+            return new FloatTag(name, this.input.readFloat());
         case Constants.TYPE_DOUBLE:
-            return new DoubleTag(name, is.readDouble());
+            return new DoubleTag(name, this.input.readDouble());
         case Constants.TYPE_BYTE_ARRAY:
-            length = is.readInt();
+            length = this.input.readInt();
             bytes = new byte[length];
 
-            is.readFully(bytes);
+            this.input.readFully(bytes);
 
             return new ByteArrayTag(name, bytes);
         case Constants.TYPE_STRING:
-            length = is.readShort();
+            length = this.input.readShort();
             bytes = new byte[length];
 
-            is.readFully(bytes);
+            this.input.readFully(bytes);
 
             return new StringTag(name, new String(bytes, Constants.CHARSET));
         case Constants.TYPE_LIST:
-            childType = is.readByte();
-            length = is.readInt();
+            childType = this.input.readByte();
+            length = this.input.readInt();
 
             tagList = new ArrayList<Tag>();
             for (int i = 0; i < length; i++) {
@@ -97,17 +97,17 @@ public final class NBTInputStream implements Closeable {
     private Tag readTag(int depth) throws IOException {
         final int type, nameLength;
         final byte[] nameBytes;
-        String name;
+        final String name;
 
-        type = is.readByte() & 0xFF;
+        type = this.input.readByte() & 0xFF;
 
         if (type == Constants.TYPE_END) {
             name = "";
         } else {
-            nameLength = is.readShort() & 0xFFFF;
+            nameLength = input.readShort() & 0xFFFF;
             nameBytes = new byte[nameLength];
 
-            is.readFully(nameBytes);
+            this.input.readFully(nameBytes);
 
             name = new String(nameBytes, Constants.CHARSET);
         }
@@ -121,6 +121,6 @@ public final class NBTInputStream implements Closeable {
 
     @Override
     public void close() throws IOException {
-        is.close();
+        this.input.close();
     }
 }

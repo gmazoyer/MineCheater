@@ -19,7 +19,9 @@ public final class DisconnectKick extends Packet {
 
     @Override
     public void write() throws IOException {
-        this.writeUnicodeString("Quitting");
+        this.reason = "Quitting";
+
+        this.writeUnicodeString(this.reason);
         this.send();
     }
 
