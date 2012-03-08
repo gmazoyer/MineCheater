@@ -513,8 +513,8 @@ public final class PacketsHandler extends Thread implements IHandler,
                  */
                 readByte = this.in.read();
                 if (readByte == -1) {
-                    throw new IOException(
-                            "The stream has been closed by the server.");
+                    log.warn("The connection has been closed by the server.");
+                    break;
                 }
 
                 /*
@@ -546,6 +546,17 @@ public final class PacketsHandler extends Thread implements IHandler,
          * Stop the listening of ticks.
          */
         clock.stop();
+
+        try {
+            /*
+             * Read and drop data until the server closes the connection.
+             */
+            while (this.in.read() != -1) {
+                ;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         /*
          * Since the connection is closed, release our objects.

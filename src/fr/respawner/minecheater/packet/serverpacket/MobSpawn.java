@@ -5,7 +5,7 @@ import java.io.IOException;
 import fr.respawner.minecheater.metadata.Metadata;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCMob;
-import fr.respawner.minecheater.structure.entity.MCMob.MobType;
+import fr.respawner.minecheater.structure.type.MCMobType;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class MobSpawn extends Packet {
@@ -70,7 +70,7 @@ public final class MobSpawn extends Packet {
         builder.append("Entity ID = ");
         builder.append(this.entityID);
         builder.append(" | Type = ");
-        builder.append(MobType.mobForID(this.type));
+        builder.append(MCMobType.mobForID(this.type));
         builder.append(" | Location: x = ");
         builder.append(this.x);
         builder.append(", y = ");

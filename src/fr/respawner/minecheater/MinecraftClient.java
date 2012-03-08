@@ -178,7 +178,7 @@ public final class MinecraftClient extends Thread {
                                 .setOnGround(true);
                         handler.getWorld().getPlayer()
                                 .move(move[0], move[1], move[2]);
-                        handler.sendPacket((byte) 0x0D, false);
+                        handler.sendPacket((byte) 0x0D);
                     }
 
                     break;
