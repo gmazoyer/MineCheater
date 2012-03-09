@@ -4,9 +4,13 @@ import java.io.IOException;
 
 import org.apache.log4j.PropertyConfigurator;
 
+import fr.respawner.minecheater.worker.UncaughtExceptionHandler;
+
 public final class MineCheater {
     public static void main(String[] args) {
         final MinecraftClient worker;
+
+        new UncaughtExceptionHandler();
 
         try {
             /*
