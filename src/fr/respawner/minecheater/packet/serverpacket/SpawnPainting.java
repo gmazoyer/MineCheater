@@ -3,27 +3,29 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.entity.MCExperienceOrb;
+import fr.respawner.minecheater.structure.entity.MCPainting;
 import fr.respawner.minecheater.worker.IHandler;
 
-public final class ExperienceOrb extends Packet {
+public final class SpawnPainting extends Packet {
     private int entityID;
+    private String title;
     private int x;
     private int y;
     private int z;
-    private short count;
+    private int direction;
 
-    public ExperienceOrb(IHandler handler) {
-        super(handler, (byte) 0x1A);
+    public SpawnPainting(IHandler handler) {
+        super(handler, (byte) 0x19);
     }
 
     @Override
     public void read() throws IOException {
         this.entityID = this.readInt();
+        this.title = this.readUnicodeString();
         this.x = this.readInt();
         this.y = this.readInt();
         this.z = this.readInt();
-        this.count = this.readShort();
+        this.direction = this.readInt();
     }
 
     @Override
@@ -35,11 +37,11 @@ public final class ExperienceOrb extends Packet {
 
     @Override
     public void process() {
-        final MCExperienceOrb orb;
+        final MCPainting painting;
 
-        orb = new MCExperienceOrb(this.entityID, this.x, this.y, this.z,
-                this.count);
-        this.handler.getWorld().addObject(orb);
+        painting = new MCPainting(this.entityID, this.title, this.x, this.y,
+                this.z, this.direction);
+        this.getWorld().addObject(painting);
     }
 
     @Override
@@ -58,14 +60,16 @@ public final class ExperienceOrb extends Packet {
 
         builder.append("Entity ID = ");
         builder.append(this.entityID);
+        builder.append(" | Title = ");
+        builder.append(this.title);
         builder.append(" | Location: x = ");
         builder.append(this.x);
         builder.append(", y = ");
         builder.append(this.y);
         builder.append(", z = ");
         builder.append(this.z);
-        builder.append(" | Count = ");
-        builder.append(this.count);
+        builder.append(", direction = ");
+        builder.append(this.direction);
 
         return builder.toString();
     }

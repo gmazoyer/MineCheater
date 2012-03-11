@@ -5,19 +5,19 @@ import java.io.IOException;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.worker.IHandler;
 
-public class PreChunk extends Packet {
-    private int x;
-    private int z;
+public class MapColumnAllocation extends Packet {
+    private int columnX;
+    private int columnZ;
     private boolean mode;
 
-    public PreChunk(IHandler handler) {
+    public MapColumnAllocation(IHandler handler) {
         super(handler, (byte) 0x32);
     }
 
     @Override
     public void read() throws IOException {
-        this.x = this.readInt();
-        this.z = this.readInt();
+        this.columnX = this.readInt();
+        this.columnZ = this.readInt();
         this.mode = this.readBoolean();
     }
 
@@ -49,10 +49,10 @@ public class PreChunk extends Packet {
 
         builder = new StringBuilder();
 
-        builder.append("Position: x = ");
-        builder.append(this.x);
+        builder.append("Column: x = ");
+        builder.append(this.columnX);
         builder.append(", z = ");
-        builder.append(this.z);
+        builder.append(this.columnZ);
         builder.append(" | Mode = ");
         builder.append(this.mode ? "Initializing chunk" : "Unloading chunk");
 

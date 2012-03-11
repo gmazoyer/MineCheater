@@ -6,7 +6,7 @@ import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.worker.IHandler;
 
-public final class NamedEntitySpawn extends Packet {
+public final class SpawnNamedEntity extends Packet {
     private int entityID;
     private String name;
     private int x;
@@ -16,7 +16,7 @@ public final class NamedEntitySpawn extends Packet {
     private byte pitch;
     private short item;
 
-    public NamedEntitySpawn(IHandler handler) {
+    public SpawnNamedEntity(IHandler handler) {
         super(handler, (byte) 0x14);
     }
 

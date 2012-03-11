@@ -25,7 +25,7 @@ import fr.respawner.minecheater.packet.common.KeepAlive;
 import fr.respawner.minecheater.packet.common.LoginRequest;
 import fr.respawner.minecheater.packet.common.PlayerPositionAndLook;
 import fr.respawner.minecheater.packet.common.Respawn;
-import fr.respawner.minecheater.packet.serverpacket.AddObjectVehicle;
+import fr.respawner.minecheater.packet.serverpacket.SpawnObjectVehicle;
 import fr.respawner.minecheater.packet.serverpacket.Animation;
 import fr.respawner.minecheater.packet.serverpacket.BlockAction;
 import fr.respawner.minecheater.packet.serverpacket.BlockChange;
@@ -38,23 +38,23 @@ import fr.respawner.minecheater.packet.serverpacket.EntityHeadLook;
 import fr.respawner.minecheater.packet.serverpacket.EntityLook;
 import fr.respawner.minecheater.packet.serverpacket.EntityLookAndRelativeMove;
 import fr.respawner.minecheater.packet.serverpacket.EntityMetadata;
-import fr.respawner.minecheater.packet.serverpacket.EntityPainting;
+import fr.respawner.minecheater.packet.serverpacket.SpawnPainting;
 import fr.respawner.minecheater.packet.serverpacket.EntityRelativeMove;
 import fr.respawner.minecheater.packet.serverpacket.EntityStatus;
 import fr.respawner.minecheater.packet.serverpacket.EntityTeleport;
 import fr.respawner.minecheater.packet.serverpacket.EntityVelocity;
-import fr.respawner.minecheater.packet.serverpacket.Experience;
-import fr.respawner.minecheater.packet.serverpacket.ExperienceOrb;
+import fr.respawner.minecheater.packet.serverpacket.SetExperience;
+import fr.respawner.minecheater.packet.serverpacket.SpawnExperienceOrb;
 import fr.respawner.minecheater.packet.serverpacket.Explosion;
 import fr.respawner.minecheater.packet.serverpacket.IncrementStatistic;
 import fr.respawner.minecheater.packet.serverpacket.MapChunk;
-import fr.respawner.minecheater.packet.serverpacket.MobSpawn;
+import fr.respawner.minecheater.packet.serverpacket.SpawnMob;
 import fr.respawner.minecheater.packet.serverpacket.MultiBlockChange;
-import fr.respawner.minecheater.packet.serverpacket.NamedEntitySpawn;
-import fr.respawner.minecheater.packet.serverpacket.NewOrInvalidState;
-import fr.respawner.minecheater.packet.serverpacket.PickupSpawn;
+import fr.respawner.minecheater.packet.serverpacket.SpawnNamedEntity;
+import fr.respawner.minecheater.packet.serverpacket.ChangeGameState;
+import fr.respawner.minecheater.packet.serverpacket.SpawnDroppedItem;
 import fr.respawner.minecheater.packet.serverpacket.PlayerListItem;
-import fr.respawner.minecheater.packet.serverpacket.PreChunk;
+import fr.respawner.minecheater.packet.serverpacket.MapColumnAllocation;
 import fr.respawner.minecheater.packet.serverpacket.RemoveEntityEffect;
 import fr.respawner.minecheater.packet.serverpacket.SetSlot;
 import fr.respawner.minecheater.packet.serverpacket.SoundParticleEffect;
@@ -152,11 +152,11 @@ public final class PacketsHandler extends Thread implements IHandler,
             break;
 
         case (byte) 0x14:
-            packet = new NamedEntitySpawn(this);
+            packet = new SpawnNamedEntity(this);
             break;
 
         case (byte) 0x15:
-            packet = new PickupSpawn(this);
+            packet = new SpawnDroppedItem(this);
             break;
 
         case (byte) 0x16:
@@ -164,19 +164,19 @@ public final class PacketsHandler extends Thread implements IHandler,
             break;
 
         case (byte) 0x17:
-            packet = new AddObjectVehicle(this);
+            packet = new SpawnObjectVehicle(this);
             break;
 
         case (byte) 0x18:
-            packet = new MobSpawn(this);
+            packet = new SpawnMob(this);
             break;
 
         case (byte) 0x19:
-            packet = new EntityPainting(this);
+            packet = new SpawnPainting(this);
             break;
 
         case (byte) 0x1A:
-            packet = new ExperienceOrb(this);
+            packet = new SpawnExperienceOrb(this);
             break;
 
         case (byte) 0x1C:
@@ -228,11 +228,11 @@ public final class PacketsHandler extends Thread implements IHandler,
             break;
 
         case (byte) 0x2B:
-            packet = new Experience(this);
+            packet = new SetExperience(this);
             break;
 
         case (byte) 0x32:
-            packet = new PreChunk(this);
+            packet = new MapColumnAllocation(this);
             break;
 
         case (byte) 0x33:
@@ -261,7 +261,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             break;
 
         case (byte) 0x46:
-            packet = new NewOrInvalidState(this);
+            packet = new ChangeGameState(this);
             break;
 
         case (byte) 0x47:

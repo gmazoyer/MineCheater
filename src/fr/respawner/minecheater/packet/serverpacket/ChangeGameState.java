@@ -3,14 +3,14 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.world.MCState;
+import fr.respawner.minecheater.structure.world.MCGameState;
 import fr.respawner.minecheater.worker.IHandler;
 
-public final class NewOrInvalidState extends Packet {
+public final class ChangeGameState extends Packet {
     private byte reason;
     private byte mode;
 
-    public NewOrInvalidState(IHandler handler) {
+    public ChangeGameState(IHandler handler) {
         super(handler, (byte) 0x46);
     }
 
@@ -29,9 +29,9 @@ public final class NewOrInvalidState extends Packet {
 
     @Override
     public void process() {
-        final MCState state;
+        final MCGameState state;
 
-        state = new MCState(this.reason, this.mode);
+        state = new MCGameState(this.reason, this.mode);
         this.handler.println(state);
     }
 

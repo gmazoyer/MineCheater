@@ -2,30 +2,39 @@ package fr.respawner.minecheater.packet.serverpacket;
 
 import java.io.IOException;
 
+import fr.respawner.minecheater.metadata.Metadata;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.entity.MCPainting;
+import fr.respawner.minecheater.structure.entity.MCMob;
+import fr.respawner.minecheater.structure.type.MCMobType;
 import fr.respawner.minecheater.worker.IHandler;
 
-public final class EntityPainting extends Packet {
+public final class SpawnMob extends Packet {
     private int entityID;
-    private String title;
+    private byte type;
     private int x;
     private int y;
     private int z;
-    private int direction;
+    private byte yaw;
+    private byte pitch;
+    private byte headYaw;
+    private Metadata metadata;
 
-    public EntityPainting(IHandler handler) {
-        super(handler, (byte) 0x19);
+    public SpawnMob(IHandler handler) {
+        super(handler, (byte) 0x18);
     }
 
     @Override
     public void read() throws IOException {
         this.entityID = this.readInt();
-        this.title = this.readUnicodeString();
+        this.type = this.readByte();
         this.x = this.readInt();
         this.y = this.readInt();
         this.z = this.readInt();
-        this.direction = this.readInt();
+        this.yaw = this.readByte();
+        this.pitch = this.readByte();
+        this.headYaw = this.readByte();
+        this.metadata = new Metadata(this.handler);
+        this.metadata.parse();
     }
 
     @Override
@@ -37,11 +46,11 @@ public final class EntityPainting extends Packet {
 
     @Override
     public void process() {
-        final MCPainting painting;
+        final MCMob mob;
 
-        painting = new MCPainting(this.entityID, this.title, this.x, this.y,
-                this.z, this.direction);
-        this.getWorld().addObject(painting);
+        mob = new MCMob(this.entityID, this.type, this.x, this.y, this.z,
+                this.yaw, this.pitch, this.headYaw, this.metadata);
+        this.getWorld().addObject(mob);
     }
 
     @Override
@@ -60,16 +69,22 @@ public final class EntityPainting extends Packet {
 
         builder.append("Entity ID = ");
         builder.append(this.entityID);
-        builder.append(" | Title = ");
-        builder.append(this.title);
+        builder.append(" | Type = ");
+        builder.append(MCMobType.mobForID(this.type));
         builder.append(" | Location: x = ");
         builder.append(this.x);
         builder.append(", y = ");
         builder.append(this.y);
         builder.append(", z = ");
         builder.append(this.z);
-        builder.append(", direction = ");
-        builder.append(this.direction);
+        builder.append(", yaw = ");
+        builder.append(this.yaw);
+        builder.append(", pitch = ");
+        builder.append(this.pitch);
+        builder.append(", head yaw = ");
+        builder.append(this.headYaw);
+        builder.append(" | Metadata = ");
+        builder.append(this.metadata);
 
         return builder.toString();
     }

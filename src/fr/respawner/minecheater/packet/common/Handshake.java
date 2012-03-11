@@ -41,13 +41,7 @@ public final class Handshake extends Packet {
 
     @Override
     public String getDataAsString() {
-        switch (this.usernameAndHostOrHash) {
-        case "-":
-            return "Name authentication disabled.";
-        case "+":
-            return "Password authentication enabled.";
-        default:
-            return this.usernameAndHostOrHash;
-        }
+        return (this.usernameAndHostOrHash.equals("+") ? "Password authentication enabled."
+                : this.usernameAndHostOrHash);
     }
 }

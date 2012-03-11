@@ -7,7 +7,7 @@ import fr.respawner.minecheater.structure.entity.MCObjectVehicle;
 import fr.respawner.minecheater.structure.entity.MCObjectVehicle.ObjectVehicleType;
 import fr.respawner.minecheater.worker.IHandler;
 
-public final class AddObjectVehicle extends Packet {
+public final class SpawnObjectVehicle extends Packet {
     private int entityID;
     private byte type;
     private int x;
@@ -18,7 +18,7 @@ public final class AddObjectVehicle extends Packet {
     private short speedY;
     private short speedZ;
 
-    public AddObjectVehicle(IHandler handler) {
+    public SpawnObjectVehicle(IHandler handler) {
         super(handler, (byte) 0x17);
     }
 
