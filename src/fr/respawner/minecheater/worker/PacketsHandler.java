@@ -25,10 +25,10 @@ import fr.respawner.minecheater.packet.common.KeepAlive;
 import fr.respawner.minecheater.packet.common.LoginRequest;
 import fr.respawner.minecheater.packet.common.PlayerPositionAndLook;
 import fr.respawner.minecheater.packet.common.Respawn;
-import fr.respawner.minecheater.packet.serverpacket.SpawnObjectVehicle;
 import fr.respawner.minecheater.packet.serverpacket.Animation;
 import fr.respawner.minecheater.packet.serverpacket.BlockAction;
 import fr.respawner.minecheater.packet.serverpacket.BlockChange;
+import fr.respawner.minecheater.packet.serverpacket.ChangeGameState;
 import fr.respawner.minecheater.packet.serverpacket.CollectItem;
 import fr.respawner.minecheater.packet.serverpacket.DestroyEntity;
 import fr.respawner.minecheater.packet.serverpacket.Entity;
@@ -38,26 +38,26 @@ import fr.respawner.minecheater.packet.serverpacket.EntityHeadLook;
 import fr.respawner.minecheater.packet.serverpacket.EntityLook;
 import fr.respawner.minecheater.packet.serverpacket.EntityLookAndRelativeMove;
 import fr.respawner.minecheater.packet.serverpacket.EntityMetadata;
-import fr.respawner.minecheater.packet.serverpacket.SpawnPainting;
 import fr.respawner.minecheater.packet.serverpacket.EntityRelativeMove;
 import fr.respawner.minecheater.packet.serverpacket.EntityStatus;
 import fr.respawner.minecheater.packet.serverpacket.EntityTeleport;
 import fr.respawner.minecheater.packet.serverpacket.EntityVelocity;
-import fr.respawner.minecheater.packet.serverpacket.SetExperience;
-import fr.respawner.minecheater.packet.serverpacket.SpawnExperienceOrb;
 import fr.respawner.minecheater.packet.serverpacket.Explosion;
 import fr.respawner.minecheater.packet.serverpacket.IncrementStatistic;
 import fr.respawner.minecheater.packet.serverpacket.MapChunk;
-import fr.respawner.minecheater.packet.serverpacket.SpawnMob;
-import fr.respawner.minecheater.packet.serverpacket.MultiBlockChange;
-import fr.respawner.minecheater.packet.serverpacket.SpawnNamedEntity;
-import fr.respawner.minecheater.packet.serverpacket.ChangeGameState;
-import fr.respawner.minecheater.packet.serverpacket.SpawnDroppedItem;
-import fr.respawner.minecheater.packet.serverpacket.PlayerListItem;
 import fr.respawner.minecheater.packet.serverpacket.MapColumnAllocation;
+import fr.respawner.minecheater.packet.serverpacket.MultiBlockChange;
+import fr.respawner.minecheater.packet.serverpacket.PlayerListItem;
 import fr.respawner.minecheater.packet.serverpacket.RemoveEntityEffect;
+import fr.respawner.minecheater.packet.serverpacket.SetExperience;
 import fr.respawner.minecheater.packet.serverpacket.SetSlot;
 import fr.respawner.minecheater.packet.serverpacket.SoundParticleEffect;
+import fr.respawner.minecheater.packet.serverpacket.SpawnDroppedItem;
+import fr.respawner.minecheater.packet.serverpacket.SpawnExperienceOrb;
+import fr.respawner.minecheater.packet.serverpacket.SpawnMob;
+import fr.respawner.minecheater.packet.serverpacket.SpawnNamedEntity;
+import fr.respawner.minecheater.packet.serverpacket.SpawnObjectVehicle;
+import fr.respawner.minecheater.packet.serverpacket.SpawnPainting;
 import fr.respawner.minecheater.packet.serverpacket.SpawnPosition;
 import fr.respawner.minecheater.packet.serverpacket.Thunderbold;
 import fr.respawner.minecheater.packet.serverpacket.TimeUpdate;
@@ -322,51 +322,6 @@ public final class PacketsHandler extends Thread implements IHandler,
         }
     }
 
-    @Override
-    public DataInputStream getInput() {
-        return this.in;
-    }
-
-    @Override
-    public DataOutputStream getOutput() {
-        return this.out;
-    }
-
-    @Override
-    public World getWorld() {
-        return this.world;
-    }
-
-    public boolean isRunning() {
-        return this.running;
-    }
-
-    @Override
-    public void stopHandler() {
-        /*
-         * Tell the server that we leave.
-         */
-        this.sendPacket((byte) 0xFF);
-
-        this.running = false;
-    }
-
-    @Override
-    public void tick() {
-        /*
-         * We need to wait for the login to complete before sending packets.
-         */
-        if (!this.world.isLoggedIn()) {
-            return;
-        }
-
-        /*
-         * Send packets containing our position regularly.
-         */
-        this.sendPacket((byte) 0x0A, true);
-        this.sendPacket((byte) 0x0D);
-    }
-
     public void sendPacket(byte id, Object... args) {
         Packet packet;
 
@@ -434,6 +389,51 @@ public final class PacketsHandler extends Thread implements IHandler,
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public DataInputStream getInput() {
+        return this.in;
+    }
+
+    @Override
+    public DataOutputStream getOutput() {
+        return this.out;
+    }
+
+    @Override
+    public World getWorld() {
+        return this.world;
+    }
+
+    public boolean isRunning() {
+        return this.running;
+    }
+
+    @Override
+    public void stopHandler() {
+        /*
+         * Tell the server that we leave.
+         */
+        this.sendPacket((byte) 0xFF);
+
+        this.running = false;
+    }
+
+    @Override
+    public void tick() {
+        /*
+         * We need to wait for the login to complete before sending packets.
+         */
+        if (!this.world.isLoggedIn()) {
+            return;
+        }
+
+        /*
+         * Send packets containing our position regularly.
+         */
+        this.sendPacket((byte) 0x0A, true);
+        this.sendPacket((byte) 0x0D);
     }
 
     @Override
@@ -552,7 +552,11 @@ public final class PacketsHandler extends Thread implements IHandler,
              * Read and drop data until the server closes the connection.
              */
             while (this.in.read() != -1) {
-                ;
+                /*
+                 * This is what we called 'busy waiting / spinning'. It's
+                 * generally bad to do so but here it looks like the only
+                 * solution.
+                 */
             }
         } catch (IOException e) {
             e.printStackTrace();
