@@ -119,6 +119,9 @@ public final class Config {
         SERVER_PORT = Integer.parseInt(properties.getProperty("server_port",
                 "25565"));
         USERNAME = properties.getProperty("username", "MineCheater");
+        if (USERNAME.length() > 16) {
+            USERNAME = USERNAME.substring(0, 16);
+        }
     }
 
     /*
