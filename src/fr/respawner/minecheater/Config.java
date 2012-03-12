@@ -95,7 +95,7 @@ public final class Config {
         final Properties properties;
         final InputStream reader;
 
-        config = new File("minecheat.properties");
+        config = new File("minecheater.properties");
 
         /*
          * Create the configuration file if needed.
