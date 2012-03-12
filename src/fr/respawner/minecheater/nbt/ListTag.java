@@ -3,6 +3,8 @@ package fr.respawner.minecheater.nbt;
 import java.util.Collections;
 import java.util.List;
 
+import fr.respawner.minecheater.packet.Packet;
+
 public final class ListTag extends Tag {
     private final Class<? extends Tag> type;
     private final List<Tag> value;
@@ -25,23 +27,32 @@ public final class ListTag extends Tag {
     @Override
     public String toString() {
         final StringBuilder builder;
-        final String name;
-        String append;
-
-        name = this.getName();
-
-        append = "";
-        if ((name != null) && !name.equals("")) {
-            append = "(\"" + this.getName() + "\")";
-        }
 
         builder = new StringBuilder();
-        builder.append("TAG_List" + append + ": " + this.value.size()
-                + " entries of type " + Utils.getTypeName(type) + "\r\n{\r\n");
-        for (Tag t : this.value) {
-            builder.append("   " + t.toString().replaceAll("\r\n", "\r\n   ")
-                    + "\r\n");
+
+        builder.append("TAG_List");
+
+        if ((this.name != null) && !this.name.equals("")) {
+            builder.append("(\"");
+            builder.append(this.name);
+            builder.append("\")");
         }
+
+        builder.append(": ");
+        builder.append(this.value.size());
+        builder.append(" entries of type ");
+        builder.append(Utils.getTypeName(this.type));
+        builder.append(Packet.LINE_SEPARATOR);
+        builder.append("{");
+        builder.append(Packet.LINE_SEPARATOR);
+
+        for (Tag tag : this.value) {
+            builder.append("   ");
+            builder.append(tag.toString().replaceAll(Packet.LINE_SEPARATOR,
+                    Packet.LINE_SEPARATOR + "   "));
+            builder.append(Packet.LINE_SEPARATOR);
+        }
+
         builder.append("}");
 
         return builder.toString();

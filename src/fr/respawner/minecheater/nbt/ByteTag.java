@@ -15,16 +15,21 @@ public final class ByteTag extends Tag {
 
     @Override
     public String toString() {
-        final String name;
-        String append;
+        final StringBuilder builder;
 
-        name = getName();
-        append = "";
+        builder = new StringBuilder();
 
-        if ((name != null) && !name.equals("")) {
-            append = "(\"" + this.getName() + "\")";
+        builder.append("TAG_Byte");
+
+        if ((this.name != null) && !this.name.equals("")) {
+            builder.append("(\"");
+            builder.append(this.name);
+            builder.append("\")");
         }
 
-        return "TAG_Byte" + append + ": " + this.value;
+        builder.append(": ");
+        builder.append(this.value);
+
+        return builder.toString();
     }
 }

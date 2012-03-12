@@ -1,7 +1,7 @@
 package fr.respawner.minecheater.nbt;
 
 public abstract class Tag {
-    private final String name;
+    protected final String name;
 
     public Tag(String name) {
         this.name = name;

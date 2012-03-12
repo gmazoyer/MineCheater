@@ -15,16 +15,21 @@ public final class IntTag extends Tag {
 
     @Override
     public String toString() {
-        final String name;
-        String append;
+        final StringBuilder builder;
 
-        name = this.getName();
+        builder = new StringBuilder();
 
-        append = "";
-        if ((name != null) && !name.equals("")) {
-            append = "(\"" + this.getName() + "\")";
+        builder.append("TAG_Int");
+
+        if ((this.name != null) && !this.name.equals("")) {
+            builder.append("(\"");
+            builder.append(this.name);
+            builder.append("\")");
         }
 
-        return "TAG_Int" + append + ": " + this.value;
+        builder.append(": ");
+        builder.append(this.value);
+
+        return builder.toString();
     }
 }

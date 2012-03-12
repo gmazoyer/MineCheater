@@ -1,5 +1,6 @@
 package fr.respawner.minecheater.nbt;
 
+
 public final class ByteArrayTag extends Tag {
     private final byte[] value;
 
@@ -15,11 +16,19 @@ public final class ByteArrayTag extends Tag {
 
     @Override
     public String toString() {
-        final StringBuilder hex;
-        final String name;
-        String append;
+        final StringBuilder builder;
 
-        hex = new StringBuilder();
+        builder = new StringBuilder();
+
+        builder.append("TAG_Byte_Array");
+
+        if ((this.name != null) && !this.name.equals("")) {
+            builder.append("(\"");
+            builder.append(this.name);
+            builder.append("\")");
+        }
+
+        builder.append(": ");
 
         for (byte b : this.value) {
             final String hexDigits;
@@ -27,19 +36,12 @@ public final class ByteArrayTag extends Tag {
             hexDigits = Integer.toHexString(b).toUpperCase();
 
             if (hexDigits.length() == 1) {
-                hex.append("0");
+                builder.append("0");
             }
 
-            hex.append(hexDigits).append(" ");
+            builder.append(hexDigits).append(" ");
         }
 
-        name = this.getName();
-
-        append = "";
-        if ((name != null) && !name.equals("")) {
-            append = "(\"" + this.getName() + "\")";
-        }
-
-        return "TAG_Byte_Array" + append + ": " + hex.toString();
+        return builder.toString();
     }
 }

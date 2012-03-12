@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import fr.respawner.minecheater.packet.Packet;
+
 public final class CompoundTag extends Tag {
     private final Map<String, Tag> value;
 
@@ -44,25 +46,34 @@ public final class CompoundTag extends Tag {
     @Override
     public String toString() {
         final StringBuilder builder;
-        final String name;
-        String append;
-
-        name = this.getName();
-
-        append = "";
-        if ((name != null) && !name.equals("")) {
-            append = "(\"" + this.getName() + "\")";
-        }
 
         builder = new StringBuilder();
-        builder.append("TAG_Compound" + append + ": " + this.value.size()
-                + " entries\r\n{\r\n");
+
+        builder.append("TAG_Compound");
+
+        if ((this.name != null) && !this.name.equals("")) {
+            builder.append("(\"");
+            builder.append(this.name);
+            builder.append("\")");
+        }
+
+        builder.append(": ");
+        builder.append(this.value.size());
+        builder.append(" entries");
+        builder.append(Packet.LINE_SEPARATOR);
+        builder.append("{");
+        builder.append(Packet.LINE_SEPARATOR);
 
         for (Map.Entry<String, Tag> entry : this.value.entrySet()) {
-            builder.append("   "
-                    + entry.getValue().toString().replaceAll("\r\n", "\r\n   ")
-                    + "\r\n");
+            builder.append("   ");
+            builder.append(entry
+                    .getValue()
+                    .toString()
+                    .replaceAll(Packet.LINE_SEPARATOR,
+                            Packet.LINE_SEPARATOR + "   "));
+            builder.append(Packet.LINE_SEPARATOR);
         }
+
         builder.append("}");
 
         return builder.toString();

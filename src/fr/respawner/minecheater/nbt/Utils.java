@@ -2,6 +2,9 @@ package fr.respawner.minecheater.nbt;
 
 public final class Utils {
     private Utils() {
+        /*
+         * No instance.
+         */
     }
 
     public static String getTypeName(Class<? extends Tag> clazz) {

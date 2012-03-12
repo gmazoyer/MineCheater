@@ -15,16 +15,21 @@ public final class StringTag extends Tag {
 
     @Override
     public String toString() {
-        final String name;
-        String append;
+        final StringBuilder builder;
 
-        name = this.getName();
+        builder = new StringBuilder();
 
-        append = "";
-        if ((name != null) && !name.equals("")) {
-            append = "(\"" + this.getName() + "\")";
+        builder.append("TAG_String");
+
+        if ((this.name != null) && !this.name.equals("")) {
+            builder.append("(\"");
+            builder.append(this.name);
+            builder.append("\")");
         }
 
-        return "TAG_String" + append + ": " + this.value;
+        builder.append(": ");
+        builder.append(this.value);
+
+        return builder.toString();
     }
 }
