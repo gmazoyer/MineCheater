@@ -101,6 +101,9 @@ public final class Slotdata {
                 count = this.readByte();
                 metadata = this.readShort();
             } else {
+                /*
+                 * FIXME: this is really buggy, please fix it :)
+                 */
                 length = this.readShort();
                 enchants = this.readByteArray(length);
 
