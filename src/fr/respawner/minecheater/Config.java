@@ -114,7 +114,7 @@ public final class Config {
         reader.close();
 
         PROTOCOL_VERSION = Integer.parseInt(properties.getProperty(
-                "protocol_version", "23"));
+                "protocol_version", "28"));
         SERVER_HOST = properties.getProperty("server_host", "127.0.0.1");
         SERVER_PORT = Integer.parseInt(properties.getProperty("server_port",
                 "25565"));
