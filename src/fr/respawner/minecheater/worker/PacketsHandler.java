@@ -323,7 +323,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             response.setAction(PacketAction.WRITING);
             response.write();
 
-            log.debug("Sent: " + response);
+            log.debug("[Client -> Server] - " + response);
         }
     }
 
