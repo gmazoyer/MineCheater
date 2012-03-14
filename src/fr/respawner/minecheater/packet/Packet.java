@@ -425,9 +425,9 @@ public abstract class Packet {
         fields = this.getClass().getDeclaredFields();
 
         builder.append("Packet ");
-        builder.append(String.format("%02X", this.id));
+        builder.append(String.format("0x%02X", this.id));
         builder.append(" : ");
-        builder.append(this.getClass().getName());
+        builder.append(this.getClass().getSimpleName());
         builder.append(LINE_SEPARATOR);
         builder.append("  * Structure   -> [ ");
         builder.append(Byte.class.getSimpleName().toLowerCase());

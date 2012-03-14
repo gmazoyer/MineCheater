@@ -80,7 +80,7 @@ public final class SpawnObjectVehicle extends Packet {
         builder.append(this.z);
 
         if (this.throwerID > 0) {
-            builder.append(" | Throwed of = ");
+            builder.append(" | Throwed by = ");
             builder.append(this.throwerID);
             builder.append(" | Speed: x = ");
             builder.append(this.speedX);

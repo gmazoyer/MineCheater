@@ -289,7 +289,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             break;
 
         default:
-            log.warn("Unknown packet with ID " + String.format("%02X", id)
+            log.warn("Unknown packet with ID " + String.format("0x%02X", id)
                     + " ignored.");
             break;
         }
@@ -298,7 +298,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             packet.read();
             packet.process();
 
-            log.debug("Received: " + packet);
+            log.debug("[Server -> Client] - " + packet);
 
             this.receivedPackets++;
         }
@@ -373,7 +373,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             break;
 
         default:
-            log.error("Can't send packet " + String.format("%02X", id));
+            log.error("Can't send packet " + String.format("0x%02X", id));
             break;
         }
 
@@ -384,7 +384,7 @@ public final class PacketsHandler extends Thread implements IHandler,
                 packet.write();
                 packet.freeBuffers();
 
-                log.debug("Sent: " + packet);
+                log.debug("[Client -> Server] - " + packet);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -73,20 +73,27 @@ public final class LoginRequest extends Packet {
 
         builder = new StringBuilder();
 
-        builder.append("EntityID = ");
-        builder.append(this.protocolVersionOrEntityID);
-        builder.append(" | LevelType = ");
-        builder.append(this.levelType);
-        builder.append(" | ServerMode = ");
-        builder.append(this.serverMode);
-        builder.append(" | Dimension = ");
-        builder.append(MCDimensionType.dimensionForID(this.dimension));
-        builder.append(" | Difficulty = ");
-        builder.append(MCDifficultyType.difficultyForID(this.difficulty));
-        builder.append(" | WorldHeight = ");
-        builder.append(this.worldHeight);
-        builder.append(" | MaxPlayers = ");
-        builder.append(this.maxPlayers);
+        if (this.action == PacketAction.WRITING) {
+            builder.append("Protocol version = ");
+            builder.append(this.protocolVersionOrEntityID);
+            builder.append(" | Username = ");
+            builder.append(this.username);
+        } else {
+            builder.append("EntityID = ");
+            builder.append(this.protocolVersionOrEntityID);
+            builder.append(" | LevelType = ");
+            builder.append(this.levelType);
+            builder.append(" | ServerMode = ");
+            builder.append(this.serverMode);
+            builder.append(" | Dimension = ");
+            builder.append(MCDimensionType.dimensionForID(this.dimension));
+            builder.append(" | Difficulty = ");
+            builder.append(MCDifficultyType.difficultyForID(this.difficulty));
+            builder.append(" | WorldHeight = ");
+            builder.append(this.worldHeight);
+            builder.append(" | MaxPlayers = ");
+            builder.append(this.maxPlayers);
+        }
 
         return builder.toString();
     }
