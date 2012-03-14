@@ -474,6 +474,8 @@ public abstract class Packet {
         builder = new StringBuilder();
         fields = this.getClass().getDeclaredFields();
 
+        builder.append((this.action == PacketAction.READING) ? "[Server -> Client] - "
+                : "[Client -> Server] - ");
         builder.append("Packet ");
         builder.append(String.format("0x%02X", this.id));
         builder.append(" : ");

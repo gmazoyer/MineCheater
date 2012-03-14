@@ -308,7 +308,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             packet.read();
             packet.process();
 
-            log.debug("[Server -> Client] - " + packet);
+            log.debug(packet);
 
             this.receivedPackets++;
         }
@@ -328,7 +328,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             response.setAction(PacketAction.WRITING);
             response.send();
 
-            log.debug("[Client -> Server] - " + response);
+            log.debug(response);
         }
     }
 
@@ -394,7 +394,7 @@ public final class PacketsHandler extends Thread implements IHandler,
                 packet.send();
                 packet.freeBuffers();
 
-                log.debug("[Client -> Server] - " + packet);
+                log.debug(packet);
             } catch (IOException e) {
                 e.printStackTrace();
             }
