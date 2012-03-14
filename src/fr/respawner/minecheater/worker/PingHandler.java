@@ -84,6 +84,8 @@ public final class PingHandler extends Thread implements IHandler {
             address = InetAddress.getByName(ip);
         } catch (UnknownHostException e) {
             log.warn("Can't find server at " + ip + ".");
+
+            return;
         }
 
         try {
@@ -93,8 +95,10 @@ public final class PingHandler extends Thread implements IHandler {
             this.socket = new Socket(address, port);
             this.socket.setTcpNoDelay(true);
         } catch (IOException e) {
-            log.warn("Can't connect to server at " + ip + " with port " + port
+            log.warn("Can't connect to server at " + ip + " on port " + port
                     + ".");
+
+            return;
         }
 
         try {

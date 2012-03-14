@@ -442,7 +442,6 @@ public final class PacketsHandler extends Thread implements IHandler,
         /*
          * Send packets containing our position regularly.
          */
-        this.sendPacket((byte) 0x0A, true);
         this.sendPacket((byte) 0x0D);
     }
 
@@ -478,6 +477,10 @@ public final class PacketsHandler extends Thread implements IHandler,
             address = InetAddress.getByName(ip);
         } catch (UnknownHostException e) {
             log.warn("Can't find server at " + ip + ".");
+
+            this.running = false;
+
+            return;
         }
 
         try {
@@ -487,8 +490,12 @@ public final class PacketsHandler extends Thread implements IHandler,
             this.socket = new Socket(address, port);
             this.socket.setTcpNoDelay(true);
         } catch (IOException e) {
-            log.warn("Can't connect to server at " + ip + " with port " + port
+            log.warn("Can't connect to server at " + ip + " on port " + port
                     + ".");
+
+            this.running = false;
+
+            return;
         }
 
         try {
@@ -545,10 +552,9 @@ public final class PacketsHandler extends Thread implements IHandler,
                 e.printStackTrace();
 
                 packet = null;
+                this.running = false;
 
                 clock.stop();
-
-                this.stopHandler();
             }
         }
 
