@@ -28,7 +28,6 @@ public final class Player extends Packet {
     @Override
     public void write() throws IOException {
         this.writeBoolean(this.onGround);
-        this.send();
     }
 
     @Override

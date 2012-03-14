@@ -338,24 +338,6 @@ public abstract class Packet {
     }
 
     /**
-     * Actually send the packet (the buffer of bytes).
-     */
-    protected final void send() throws IOException {
-        final byte[] bytes;
-
-        bytes = this.packetToSend.toByteArray();
-
-        /*
-         * Since we can write packets from 2 different threads we should lock
-         * the output so we can ensure that a thread will write a packet without
-         * being interrupted by the other one.
-         */
-        synchronized (this.handler.getOutput()) {
-            this.handler.getOutput().write(bytes);
-        }
-    }
-
-    /**
      * Get the world used by the server.
      */
     protected final World getWorld() {
@@ -392,6 +374,29 @@ public abstract class Packet {
             this.packetToSend.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Actually send the packet (the buffer of bytes).
+     */
+    public final void send() throws IOException {
+        final byte[] bytes;
+
+        /*
+         * Write all the packet in the buffer.
+         */
+        this.write();
+
+        bytes = this.packetToSend.toByteArray();
+
+        /*
+         * Since we can write packets from 2 different threads we should lock
+         * the output so we can ensure that a thread will write a packet without
+         * being interrupted by the other one.
+         */
+        synchronized (this.handler.getOutput()) {
+            this.handler.getOutput().write(bytes);
         }
     }
 

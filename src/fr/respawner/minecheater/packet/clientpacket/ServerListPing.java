@@ -19,7 +19,9 @@ public final class ServerListPing extends Packet {
 
     @Override
     public void write() throws IOException {
-        this.send();
+        /*
+         * Since we just send the ID, there is nothing to do.
+         */
     }
 
     @Override

@@ -321,7 +321,7 @@ public final class PacketsHandler extends Thread implements IHandler,
 
         if (response != null) {
             response.setAction(PacketAction.WRITING);
-            response.write();
+            response.send();
 
             log.debug("[Client -> Server] - " + response);
         }
@@ -386,7 +386,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             packet.setAction(PacketAction.WRITING);
 
             try {
-                packet.write();
+                packet.send();
                 packet.freeBuffers();
 
                 log.debug("[Client -> Server] - " + packet);

@@ -24,7 +24,6 @@ public final class Handshake extends Packet {
     @Override
     public void write() throws IOException {
         this.writeUnicodeString(this.usernameAndHostOrHash);
-        this.send();
     }
 
     @Override

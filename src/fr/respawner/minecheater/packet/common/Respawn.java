@@ -36,7 +36,6 @@ public final class Respawn extends Packet {
                 .getWorldHeight());
         this.writeUnicodeString(this.getWorld().getCurrentWorld()
                 .getLevelType());
-        this.send();
     }
 
     @Override

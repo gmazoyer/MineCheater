@@ -22,7 +22,6 @@ public final class DisconnectKick extends Packet {
         this.reason = "Quitting";
 
         this.writeUnicodeString(this.reason);
-        this.send();
     }
 
     @Override

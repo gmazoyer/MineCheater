@@ -48,7 +48,6 @@ public final class LoginRequest extends Packet {
         this.writeByte((byte) 0);
         this.writeUnsignedByte(0);
         this.writeUnsignedByte(0);
-        this.send();
     }
 
     @Override
