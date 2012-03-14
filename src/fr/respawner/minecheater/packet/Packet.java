@@ -329,6 +329,15 @@ public abstract class Packet {
     }
 
     /**
+     * Write an array of bytes.
+     */
+    protected final void writeByteArray(byte[] array) throws IOException {
+        for (byte b : array) {
+            this.writeByte(b);
+        }
+    }
+
+    /**
      * Actually send the packet (the buffer of bytes).
      */
     protected final void send() throws IOException {
