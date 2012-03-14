@@ -86,6 +86,7 @@ import fr.respawner.minecheater.packet.serverpacket.SpawnPosition;
 import fr.respawner.minecheater.packet.serverpacket.Thunderbold;
 import fr.respawner.minecheater.packet.serverpacket.TimeUpdate;
 import fr.respawner.minecheater.packet.serverpacket.UpdateHealth;
+import fr.respawner.minecheater.packet.serverpacket.UpdateTileEntity;
 import fr.respawner.minecheater.packet.serverpacket.UseBed;
 import fr.respawner.minecheater.packet.serverpacket.WindowItems;
 import fr.respawner.minecheater.worker.TickClock.ClockReceiver;
@@ -99,7 +100,6 @@ public final class PacketsHandler extends Thread implements IHandler,
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
-    private long chunksPackets;
     private long receivedPackets;
     private boolean running;
     private World world;
@@ -111,7 +111,6 @@ public final class PacketsHandler extends Thread implements IHandler,
 
     public PacketsHandler(MinecraftClient client) {
         this.client = client;
-        this.chunksPackets = 0;
         this.receivedPackets = 0;
         this.running = true;
         this.world = new World();
@@ -261,7 +260,6 @@ public final class PacketsHandler extends Thread implements IHandler,
 
         case (byte) 0x33:
             packet = new MapChunk(this);
-            this.chunksPackets++;
             break;
 
         case (byte) 0x34:
@@ -302,6 +300,10 @@ public final class PacketsHandler extends Thread implements IHandler,
 
         case (byte) 0x82:
             packet = new UpdateSign(this);
+            break;
+
+        case (byte) 0x84:
+            packet = new UpdateTileEntity(this);
             break;
 
         case (byte) 0xC8:
@@ -615,7 +617,6 @@ public final class PacketsHandler extends Thread implements IHandler,
             log.error("Streams already closed?");
         }
 
-        log.info("Received and processed " + this.chunksPackets + " chunks.");
         log.info("Received and processed " + this.receivedPackets + " packets.");
         log.info("Shutting down packets handler.");
     }

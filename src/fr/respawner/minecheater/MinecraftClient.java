@@ -128,7 +128,10 @@ public final class MinecraftClient extends Thread {
                     if (handler == null) {
                         stdout.println("You need to connect to the server.");
                     } else {
-                        handler.stopHandler();
+                        if (handler.isRunning()) {
+                            handler.stopHandler();
+                        }
+
                         handler = null;
                     }
                     break;

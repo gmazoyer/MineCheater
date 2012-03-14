@@ -30,9 +30,9 @@ import fr.respawner.minecheater.worker.IHandler;
 public final class MultiBlockChange extends Packet {
     private int chunkX;
     private int chunkZ;
-    private short[] coordinates;
-    private byte[] types;
-    private byte[] metadatas;
+    private short recordCount;
+    private int size;
+    private short[] data;
 
     public MultiBlockChange(IHandler handler) {
         super(handler, (byte) 0x34);
@@ -40,16 +40,11 @@ public final class MultiBlockChange extends Packet {
 
     @Override
     public void read() throws IOException {
-        final short length;
-
         this.chunkX = this.readInt();
         this.chunkZ = this.readInt();
-
-        length = this.readShort();
-
-        this.coordinates = this.readShortArray(length);
-        this.types = this.readByteArray(length);
-        this.metadatas = this.readByteArray(length);
+        this.recordCount = this.readShort();
+        this.size = this.readInt();
+        this.data = this.readShortArray(this.size / 4);
     }
 
     @Override
@@ -84,21 +79,13 @@ public final class MultiBlockChange extends Packet {
         builder.append(this.chunkX);
         builder.append(", z = ");
         builder.append(this.chunkZ);
-        builder.append(" | Coordinates = { ");
-        for (short coordinate : this.coordinates) {
-            builder.append(coordinate);
-            builder.append(", ");
-        }
-        builder.replace(builder.length() - 2, builder.length(), " }");
-        builder.append(" | Types = { ");
-        for (byte type : this.types) {
-            builder.append(type);
-            builder.append(", ");
-        }
-        builder.replace(builder.length() - 2, builder.length(), " }");
-        builder.append(" | Metadatas = { ");
-        for (byte metadata : this.metadatas) {
-            builder.append(metadata);
+        builder.append(" | Record count = ");
+        builder.append(this.recordCount);
+        builder.append(" | Size = ");
+        builder.append(this.size);
+        builder.append(" | Data = { ");
+        for (short s : this.data) {
+            builder.append(s);
             builder.append(", ");
         }
         builder.replace(builder.length() - 2, builder.length(), " }");
