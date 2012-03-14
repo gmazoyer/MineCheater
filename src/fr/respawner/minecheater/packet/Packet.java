@@ -91,6 +91,21 @@ public abstract class Packet {
     }
 
     /**
+     * Read and return an unsigned short as integer.
+     */
+    protected final int readUnsignedShort() throws IOException {
+        final int read;
+        final byte[] bytes;
+
+        read = this.handler.getInput().readUnsignedShort();
+        bytes = ByteBuffer.allocate(4).putInt(read).array();
+
+        this.packetReceived.write(bytes);
+
+        return read;
+    }
+
+    /**
      * Read and return a integer.
      */
     protected final int readInt() throws IOException {
@@ -204,6 +219,27 @@ public abstract class Packet {
          */
         for (int i = 0; i < length; i++) {
             array[i] = this.readByte();
+        }
+
+        return array;
+    }
+
+    /**
+     * Read and return an array of bytes.
+     */
+    protected final byte[] readUnsignedByteArray(int length) throws IOException {
+        final byte[] array;
+
+        /*
+         * Initialize the array.
+         */
+        array = new byte[length];
+
+        /*
+         * Fill it up.
+         */
+        for (int i = 0; i < length; i++) {
+            array[i] = (byte) this.readUnsignedByte();
         }
 
         return array;

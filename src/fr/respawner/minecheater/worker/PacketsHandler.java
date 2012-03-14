@@ -26,6 +26,7 @@ import fr.respawner.minecheater.packet.common.LoginRequest;
 import fr.respawner.minecheater.packet.common.PlayerPositionAndLook;
 import fr.respawner.minecheater.packet.common.PluginMessage;
 import fr.respawner.minecheater.packet.common.Respawn;
+import fr.respawner.minecheater.packet.common.UpdateSign;
 import fr.respawner.minecheater.packet.serverpacket.Animation;
 import fr.respawner.minecheater.packet.serverpacket.BlockAction;
 import fr.respawner.minecheater.packet.serverpacket.BlockChange;
@@ -275,6 +276,10 @@ public final class PacketsHandler extends Thread implements IHandler,
 
         case (byte) 0x68:
             packet = new WindowItems(this);
+            break;
+
+        case (byte) 0x82:
+            packet = new UpdateSign(this);
             break;
 
         case (byte) 0xC8:
