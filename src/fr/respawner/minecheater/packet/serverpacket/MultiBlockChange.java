@@ -32,7 +32,7 @@ public final class MultiBlockChange extends Packet {
     private int chunkZ;
     private short recordCount;
     private int size;
-    private short[] data;
+    private byte[] data;
 
     public MultiBlockChange(IHandler handler) {
         super(handler, (byte) 0x34);
@@ -44,7 +44,7 @@ public final class MultiBlockChange extends Packet {
         this.chunkZ = this.readInt();
         this.recordCount = this.readShort();
         this.size = this.readInt();
-        this.data = this.readShortArray(this.size / 4);
+        this.data = this.readByteArray(this.size);
     }
 
     @Override
@@ -84,8 +84,8 @@ public final class MultiBlockChange extends Packet {
         builder.append(" | Size = ");
         builder.append(this.size);
         builder.append(" | Data = { ");
-        for (short s : this.data) {
-            builder.append(s);
+        for (byte b : this.data) {
+            builder.append(b);
             builder.append(", ");
         }
         builder.replace(builder.length() - 2, builder.length(), " }");
