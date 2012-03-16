@@ -27,6 +27,7 @@ public final class StringTag extends Tag {
 
     public StringTag(String name, String value) {
         super(name);
+
         this.value = value;
     }
 

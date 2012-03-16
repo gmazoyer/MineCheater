@@ -29,6 +29,10 @@ public abstract class Tag {
         this.name = name;
     }
 
+    public Tag() {
+        this("");
+    }
+
     public final String getName() {
         return this.name;
     }

@@ -27,6 +27,7 @@ public final class DoubleTag extends Tag {
 
     public DoubleTag(String name, double value) {
         super(name);
+
         this.value = value;
     }
 

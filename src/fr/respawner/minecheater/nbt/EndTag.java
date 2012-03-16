@@ -24,7 +24,7 @@ package fr.respawner.minecheater.nbt;
 
 public final class EndTag extends Tag {
     public EndTag() {
-        super("");
+        super();
     }
 
     @Override

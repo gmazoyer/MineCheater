@@ -27,6 +27,7 @@ public final class IntTag extends Tag {
 
     public IntTag(String name, int value) {
         super(name);
+
         this.value = value;
     }
 

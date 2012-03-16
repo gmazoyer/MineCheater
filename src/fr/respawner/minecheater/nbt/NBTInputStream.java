@@ -88,7 +88,7 @@ public final class NBTInputStream implements Closeable {
             for (int i = 0; i < length; i++) {
                 final Tag tag;
 
-                tag = readTagPayload(childType, "", depth + 1);
+                tag = this.readTagPayload(childType, "", depth + 1);
                 if (tag instanceof EndTag) {
                     throw new IOException("TAG_End not permitted in a list.");
                 }
@@ -102,7 +102,7 @@ public final class NBTInputStream implements Closeable {
             while (true) {
                 final Tag tag;
 
-                tag = readTag(depth + 1);
+                tag = this.readTag(depth + 1);
                 if (tag instanceof EndTag) {
                     break;
                 } else {

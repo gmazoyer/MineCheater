@@ -27,6 +27,7 @@ public final class ByteArrayTag extends Tag {
 
     public ByteArrayTag(String name, byte[] value) {
         super(name);
+
         this.value = value;
     }
 

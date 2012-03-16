@@ -33,6 +33,7 @@ public final class ListTag extends Tag {
 
     public ListTag(String name, Class<? extends Tag> type, List<Tag> value) {
         super(name);
+
         this.type = type;
         this.value = Collections.unmodifiableList(value);
     }

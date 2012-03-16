@@ -34,6 +34,7 @@ public final class CompoundTag extends Tag {
 
     public CompoundTag(String name, Map<String, Tag> value) {
         super(name);
+
         this.value = Collections.unmodifiableMap(value);
     }
 

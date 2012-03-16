@@ -27,6 +27,7 @@ public final class LongTag extends Tag {
 
     public LongTag(String name, long value) {
         super(name);
+
         this.value = value;
     }
 
