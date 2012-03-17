@@ -48,9 +48,9 @@ public final class PlayerPositionAndLook extends Packet {
         rotation = this.getWorld().getPlayer().getRotation();
 
         if (location != null) {
-            this.x = location.getX();
-            this.y = location.getY();
-            this.z = location.getZ();
+            this.x = location.getPosition().getX();
+            this.y = location.getPosition().getY();
+            this.z = location.getPosition().getZ();
             this.stance = location.getStance();
             this.onGround = location.isOnGround();
         }

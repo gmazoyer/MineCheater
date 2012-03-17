@@ -43,10 +43,10 @@ public final class PlayerPosition extends Packet {
         location = this.getWorld().getPlayer().getLocation();
 
         if (location != null) {
-            this.x = location.getX();
-            this.y = location.getY();
+            this.x = location.getPosition().getX();
+            this.y = location.getPosition().getY();
+            this.z = location.getPosition().getZ();
             this.stance = location.getStance();
-            this.z = location.getZ();
             this.onGround = location.isOnGround();
         }
     }

@@ -100,6 +100,7 @@ public final class PacketsHandler extends Thread implements IHandler,
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
+    private long ticks;
     private long receivedPackets;
     private boolean running;
     private World world;
@@ -111,6 +112,7 @@ public final class PacketsHandler extends Thread implements IHandler,
 
     public PacketsHandler(MinecraftClient client) {
         this.client = client;
+        this.ticks = 0;
         this.receivedPackets = 0;
         this.running = true;
         this.world = new World();
@@ -454,8 +456,12 @@ public final class PacketsHandler extends Thread implements IHandler,
         this.running = false;
     }
 
+    private byte step = 0;
+
     @Override
     public void tick() {
+        this.ticks++;
+
         /*
          * We need to wait for the login to complete before sending packets.
          */
@@ -463,10 +469,76 @@ public final class PacketsHandler extends Thread implements IHandler,
             return;
         }
 
-        /*
-         * Send packets containing our position regularly.
-         */
-        this.sendPacket((byte) 0x0D);
+        if ((this.ticks % 20) == 0) {
+            switch (this.step) {
+            case 0:
+                this.world.getPlayer().move(1, 0, 0);
+                this.step++;
+                break;
+            case 1:
+                this.world.getPlayer().move(1, 0, 0);
+                this.step++;
+                break;
+            case 2:
+                this.world.getPlayer().move(1, 0, 0);
+                this.step++;
+                break;
+            case 3:
+                this.world.getPlayer().move(1, 0, 0);
+                this.step++;
+                break;
+            case 4:
+                this.world.getPlayer().move(0, 0, 1);
+                this.step++;
+                break;
+            case 5:
+                this.world.getPlayer().move(0, 0, 1);
+                this.step++;
+                break;
+            case 6:
+                this.world.getPlayer().move(0, 0, 1);
+                this.step++;
+                break;
+            case 7:
+                this.world.getPlayer().move(0, 0, 1);
+                this.step++;
+                break;
+            case 8:
+                this.world.getPlayer().move(-1, 0, 0);
+                this.step++;
+                break;
+            case 9:
+                this.world.getPlayer().move(-1, 0, 0);
+                this.step++;
+                break;
+            case 10:
+                this.world.getPlayer().move(-1, 0, 0);
+                this.step++;
+                break;
+            case 11:
+                this.world.getPlayer().move(-1, 0, 0);
+                this.step++;
+                break;
+            case 12:
+                this.world.getPlayer().move(0, 0, -1);
+                this.step++;
+                break;
+            case 13:
+                this.world.getPlayer().move(0, 0, -1);
+                this.step++;
+                break;
+            case 14:
+                this.world.getPlayer().move(0, 0, -1);
+                this.step++;
+                break;
+            default:
+                this.world.getPlayer().move(0, 0, -1);
+                this.step = 0;
+                break;
+            }
+
+            this.sendPacket((byte) 0x0D);
+        }
     }
 
     @Override
@@ -617,6 +689,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             log.error("Streams already closed?");
         }
 
+        log.info("Run during " + this.ticks + " ticks.");
         log.info("Received and processed " + this.receivedPackets + " packets.");
         log.info("Shutting down packets handler.");
     }

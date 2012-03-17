@@ -28,7 +28,7 @@ import fr.respawner.minecheater.Config;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.type.MCDifficultyType;
 import fr.respawner.minecheater.structure.type.MCDimensionType;
-import fr.respawner.minecheater.structure.world.MCWorld;
+import fr.respawner.minecheater.structure.world.MCLevel;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class LoginRequest extends Packet {
@@ -74,13 +74,13 @@ public final class LoginRequest extends Packet {
 
     @Override
     public void process() {
-        final MCWorld world;
+        final MCLevel level;
 
-        world = new MCWorld(this.protocolVersionOrEntityID, this.levelType,
+        level = new MCLevel(this.protocolVersionOrEntityID, this.levelType,
                 this.serverMode, this.dimension, this.difficulty,
                 this.worldHeight, this.maxPlayers);
         this.getWorld().getPlayer().setEntityID(this.protocolVersionOrEntityID);
-        this.getWorld().setCurrentWorld(world);
+        this.getWorld().setLevel(level);
     }
 
     @Override

@@ -58,6 +58,19 @@ public final class Vector {
     }
 
     @Override
+    public boolean equals(Object object) {
+        final Vector vector;
+
+        if (!(object instanceof Vector)) {
+            return false;
+        }
+
+        vector = (Vector) object;
+
+        return ((this.x == vector.x) && (this.y == vector.y) && (this.z == vector.z));
+    }
+
+    @Override
     public String toString() {
         final StringBuilder builder;
 

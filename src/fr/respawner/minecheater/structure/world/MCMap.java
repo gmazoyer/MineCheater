@@ -22,42 +22,35 @@
  */
 package fr.respawner.minecheater.structure.world;
 
-public final class MCPreChunk {
-    private int x;
-    private int z;
-    private boolean mode;
+import java.util.ArrayList;
+import java.util.List;
 
-    public MCPreChunk(int x, int z, boolean mode) {
-        this.x = x;
-        this.z = z;
-        this.mode = mode;
+public final class MCMap {
+    private List<MCMapColumn> columns;
+
+    public MCMap() {
+        this.columns = new ArrayList<>();
     }
 
-    public int getX() {
-        return this.x;
+    public List<MCMapColumn> getColumns() {
+        return this.columns;
     }
 
-    public int getZ() {
-        return this.z;
+    public int getColumnsCount() {
+        return this.columns.size();
     }
 
-    public boolean isMode() {
-        return this.mode;
+    public void addColumn(MCMapColumn column) {
+        this.columns.add(column);
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder builder;
+    public MCMapColumn getColumnAt(int x, int z) {
+        for (MCMapColumn column : this.columns) {
+            if (column.isAt(x, z)) {
+                return column;
+            }
+        }
 
-        builder = new StringBuilder();
-
-        builder.append("X = ");
-        builder.append(this.x);
-        builder.append(" | Z = ");
-        builder.append(this.z);
-        builder.append(" | Mode = ");
-        builder.append(this.mode ? "Initializing chunk" : "Unloading chunk");
-
-        return builder.toString();
+        return null;
     }
 }

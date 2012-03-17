@@ -103,9 +103,9 @@ public final class MCPlayer extends MCIdentifiable {
     public void move(double x, double y, double z) {
         final double newX, newY, newZ;
 
-        newX = this.location.getX() + x;
-        newY = this.location.getY() + y;
-        newZ = this.location.getZ() + z;
+        newX = this.location.getPosition().getX() + x;
+        newY = this.location.getPosition().getY() + y;
+        newZ = this.location.getPosition().getZ() + z;
 
         this.location.setPosition(newX, newY, newZ);
     }

@@ -36,6 +36,7 @@ import fr.respawner.minecheater.structure.MCPlayerListEntry;
 import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.structure.entity.MCMob;
 import fr.respawner.minecheater.structure.entity.MCObject;
+import fr.respawner.minecheater.structure.world.MCMapColumn;
 import fr.respawner.minecheater.worker.PacketsHandler;
 import fr.respawner.minecheater.worker.PingHandler;
 
@@ -107,6 +108,13 @@ public final class MinecraftClient extends Thread {
                 }
 
                 /*
+                 * We have been disconnected (handler is not running anymore).
+                 */
+                if ((handler != null) && !handler.isRunning()) {
+                    handler = null;
+                }
+
+                /*
                  * The command is only the first element of the array.
                  */
                 args = command.split(" ", 2);
@@ -153,6 +161,15 @@ public final class MinecraftClient extends Thread {
                     stdout.println("  * respawn        - respawn the player");
                     stdout.println("  * time           - display the time of the world");
                     stdout.println("  * system         - show informations about the system");
+                    break;
+
+                case "map":
+                    stdout.println("Number of loaded columns: "
+                            + handler.getWorld().getMap().getColumnsCount());
+                    for (MCMapColumn column : handler.getWorld().getMap()
+                            .getColumns()) {
+                        stdout.println(column);
+                    }
                     break;
 
                 case "message":

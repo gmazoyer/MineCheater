@@ -25,7 +25,7 @@ package fr.respawner.minecheater.structure.world;
 import fr.respawner.minecheater.structure.type.MCDifficultyType;
 import fr.respawner.minecheater.structure.type.MCDimensionType;
 
-public final class MCWorld {
+public final class MCLevel {
     private int entityID;
     private String levelType;
     private int serverMode;
@@ -34,7 +34,7 @@ public final class MCWorld {
     private int worldHeight;
     private int maxPlayers;
 
-    public MCWorld(int entityID, String levelType, int serverMode,
+    public MCLevel(int entityID, String levelType, int serverMode,
             int dimension, byte difficulty, int worldHeight, int maxPlayers) {
         this.entityID = entityID;
         this.levelType = levelType;

@@ -22,17 +22,15 @@
  */
 package fr.respawner.minecheater.math;
 
+import fr.respawner.minecheater.structure.world.MCMapColumn;
+
 public final class Location {
-    private double x;
-    private double y;
-    private double z;
+    private VectorDouble position;
     private double stance;
     private boolean onGround;
 
     public Location(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.position = new VectorDouble(x, y, z);
         this.onGround = true;
     }
 
@@ -44,28 +42,12 @@ public final class Location {
         this(vector.getX(), vector.getY(), vector.getZ());
     }
 
-    public double getX() {
-        return this.x;
+    public VectorDouble getPosition() {
+        return this.position;
     }
 
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getZ() {
-        return this.z;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
+    public void setPosition(VectorDouble position) {
+        this.position = position;
     }
 
     public double getStance() {
@@ -84,16 +66,37 @@ public final class Location {
         this.onGround = onGround;
     }
 
+    public boolean isInside(MCMapColumn column) {
+        final int columnX, columnZ;
+        final int playerX, playerZ;
+
+        /*
+         * Get the block coordinates.
+         */
+        columnX = column.getX() * 16;
+        columnZ = column.getZ() * 16;
+
+        /*
+         * Put player coordinates into integer so we skip the figures after the
+         * comma after converting them into blocks.
+         */
+        playerX = (int) (this.position.getX() / 16);
+        playerZ = (int) (this.position.getZ() / 16);
+
+        return ((columnX == playerX) && (columnZ == playerZ));
+    }
+
     public void setPosition(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.position.setX(x);
+        this.position.setY(y);
+        this.position.setZ(z);
         this.stance = 1 + y;
     }
 
     public Vector toVector() {
-        return new Vector((int) Math.floor(this.x), (int) Math.floor(this.y),
-                (int) Math.floor(this.z));
+        return new Vector((int) Math.floor(this.position.getX()),
+                (int) Math.floor(this.position.getY()),
+                (int) Math.floor(this.position.getZ()));
     }
 
     @Override
@@ -102,13 +105,9 @@ public final class Location {
 
         builder = new StringBuilder();
 
-        builder.append("Location: x = ");
-        builder.append(this.x);
-        builder.append(", y = ");
-        builder.append(this.y);
-        builder.append(", z = ");
-        builder.append(this.z);
-        builder.append(", stance = ");
+        builder.append("Location: ");
+        builder.append(this.position);
+        builder.append(" | Stance = ");
         builder.append(this.stance);
         builder.append(" | ");
         builder.append(this.onGround ? "Walking or Swimming"

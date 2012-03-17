@@ -51,12 +51,12 @@ public final class Respawn extends Packet {
 
     @Override
     public void write() throws IOException {
-        this.writeInt(this.getWorld().getCurrentWorld().getDimension());
+        this.writeInt(this.getWorld().getLevel().getDimension());
         this.writeByte((byte) 1);
-        this.writeByte((byte) this.getWorld().getCurrentWorld().getServerMode());
-        this.writeShort((short) this.getWorld().getCurrentWorld()
+        this.writeByte((byte) this.getWorld().getLevel().getServerMode());
+        this.writeShort((short) this.getWorld().getLevel()
                 .getWorldHeight());
-        this.writeUnicodeString(this.getWorld().getCurrentWorld()
+        this.writeUnicodeString(this.getWorld().getLevel()
                 .getLevelType());
     }
 
