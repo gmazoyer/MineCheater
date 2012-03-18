@@ -30,7 +30,7 @@ import fr.respawner.minecheater.structure.world.MCMap;
 import fr.respawner.minecheater.structure.world.MCMapColumn;
 import fr.respawner.minecheater.worker.IHandler;
 
-public final class MapChunk extends Packet {
+public final class MapChunks extends Packet {
     private int x;
     private int z;
     private boolean groundUpContinuous;
@@ -40,7 +40,7 @@ public final class MapChunk extends Packet {
     private int unused;
     private byte[] zlibData;
 
-    public MapChunk(IHandler handler) {
+    public MapChunks(IHandler handler) {
         super(handler, (byte) 0x33);
     }
 
