@@ -68,7 +68,7 @@ import fr.respawner.minecheater.packet.serverpacket.EntityTeleport;
 import fr.respawner.minecheater.packet.serverpacket.EntityVelocity;
 import fr.respawner.minecheater.packet.serverpacket.Explosion;
 import fr.respawner.minecheater.packet.serverpacket.IncrementStatistic;
-import fr.respawner.minecheater.packet.serverpacket.MapChunk;
+import fr.respawner.minecheater.packet.serverpacket.MapChunks;
 import fr.respawner.minecheater.packet.serverpacket.MapColumnAllocation;
 import fr.respawner.minecheater.packet.serverpacket.MultiBlockChange;
 import fr.respawner.minecheater.packet.serverpacket.PlayerListItem;
@@ -261,7 +261,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             break;
 
         case (byte) 0x33:
-            packet = new MapChunk(this);
+            packet = new MapChunks(this);
             break;
 
         case (byte) 0x34:
@@ -451,12 +451,11 @@ public final class PacketsHandler extends Thread implements IHandler,
         /*
          * Tell the server that we leave.
          */
+        this.world.setLoggedIn(false);
         this.sendPacket((byte) 0xFF);
 
         this.running = false;
     }
-
-    private byte step = 0;
 
     @Override
     public void tick() {
@@ -469,76 +468,7 @@ public final class PacketsHandler extends Thread implements IHandler,
             return;
         }
 
-        if ((this.ticks % 20) == 0) {
-            switch (this.step) {
-            case 0:
-                this.world.getPlayer().move(1, 0, 0);
-                this.step++;
-                break;
-            case 1:
-                this.world.getPlayer().move(1, 0, 0);
-                this.step++;
-                break;
-            case 2:
-                this.world.getPlayer().move(1, 0, 0);
-                this.step++;
-                break;
-            case 3:
-                this.world.getPlayer().move(1, 0, 0);
-                this.step++;
-                break;
-            case 4:
-                this.world.getPlayer().move(0, 0, 1);
-                this.step++;
-                break;
-            case 5:
-                this.world.getPlayer().move(0, 0, 1);
-                this.step++;
-                break;
-            case 6:
-                this.world.getPlayer().move(0, 0, 1);
-                this.step++;
-                break;
-            case 7:
-                this.world.getPlayer().move(0, 0, 1);
-                this.step++;
-                break;
-            case 8:
-                this.world.getPlayer().move(-1, 0, 0);
-                this.step++;
-                break;
-            case 9:
-                this.world.getPlayer().move(-1, 0, 0);
-                this.step++;
-                break;
-            case 10:
-                this.world.getPlayer().move(-1, 0, 0);
-                this.step++;
-                break;
-            case 11:
-                this.world.getPlayer().move(-1, 0, 0);
-                this.step++;
-                break;
-            case 12:
-                this.world.getPlayer().move(0, 0, -1);
-                this.step++;
-                break;
-            case 13:
-                this.world.getPlayer().move(0, 0, -1);
-                this.step++;
-                break;
-            case 14:
-                this.world.getPlayer().move(0, 0, -1);
-                this.step++;
-                break;
-            default:
-                this.world.getPlayer().move(0, 0, -1);
-                this.step = 0;
-                break;
-            }
-
-            this.sendPacket((byte) 0x0D);
-        }
+        this.sendPacket((byte) 0x0D);
     }
 
     @Override

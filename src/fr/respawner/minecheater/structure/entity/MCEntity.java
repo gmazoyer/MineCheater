@@ -22,7 +22,7 @@
  */
 package fr.respawner.minecheater.structure.entity;
 
-import fr.respawner.minecheater.math.VectorDouble;
+import fr.respawner.minecheater.math.Vector3D;
 import fr.respawner.minecheater.metadata.Metadata;
 import fr.respawner.minecheater.structure.type.MCAnimationType;
 import fr.respawner.minecheater.structure.type.MCStatusType;
@@ -34,7 +34,7 @@ import fr.respawner.minecheater.structure.type.MCStatusType;
  * @author Guillaume Mazoyer
  */
 public class MCEntity extends MCObject {
-    private VectorDouble velocity;
+    private Vector3D velocity;
     private byte dX;
     private byte dY;
     private byte dZ;
@@ -105,11 +105,11 @@ public class MCEntity extends MCObject {
         this.status = status;
     }
 
-    public final VectorDouble getVelocity() {
+    public final Vector3D getVelocity() {
         return this.velocity;
     }
 
-    public final void setVelocity(VectorDouble velocity) {
+    public final void setVelocity(Vector3D velocity) {
         this.velocity = velocity;
     }
 

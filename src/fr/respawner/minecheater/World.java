@@ -25,7 +25,7 @@ package fr.respawner.minecheater;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.respawner.minecheater.math.Vector;
+import fr.respawner.minecheater.math.Vector3D;
 import fr.respawner.minecheater.structure.MCPlayerListEntry;
 import fr.respawner.minecheater.structure.entity.MCObject;
 import fr.respawner.minecheater.structure.player.MCPlayer;
@@ -37,7 +37,7 @@ public final class World {
     private boolean loggedIn;
 
     private MCLevel level;
-    private Vector spawn;
+    private Vector3D spawn;
     private MCTime time;
 
     private MCPlayer player;
@@ -49,7 +49,7 @@ public final class World {
 
     public World() {
         this.loggedIn = false;
-        this.player = new MCPlayer();
+        this.player = new MCPlayer(this, 0);
         this.people = new ArrayList<>();
         this.objects = new ArrayList<>();
         this.map = new MCMap();
@@ -71,11 +71,11 @@ public final class World {
         this.level = level;
     }
 
-    public Vector getSpawn() {
+    public Vector3D getSpawn() {
         return this.spawn;
     }
 
-    public void setSpawn(Vector spawn) {
+    public void setSpawn(Vector3D spawn) {
         this.spawn = spawn;
     }
 

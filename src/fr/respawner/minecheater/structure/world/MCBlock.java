@@ -22,27 +22,19 @@
  */
 package fr.respawner.minecheater.structure.world;
 
-import fr.respawner.minecheater.math.VectorDouble;
-
 public final class MCBlock {
     private byte id;
-    private VectorDouble location;
     private byte metadata;
     private byte light;
     private byte skyLight;
     private byte add;
 
-    public MCBlock(byte id, double x, double y, double z) {
+    public MCBlock(byte id) {
         this.id = id;
-        this.location = new VectorDouble(x, y, z);
     }
 
-    public VectorDouble getLocation() {
-        return this.location;
-    }
-
-    public void setLocation(VectorDouble location) {
-        this.location = location;
+    public MCBlock() {
+        this((byte) 0);
     }
 
     public byte getID() {
@@ -95,9 +87,7 @@ public final class MCBlock {
 
         builder = new StringBuilder();
 
-        builder.append("Block: ");
-        builder.append(this.location);
-        builder.append(" | Type = ");
+        builder.append("Block: Type = ");
         builder.append(this.id);
         builder.append(" | Metadata = ");
         builder.append(this.metadata);

@@ -22,12 +22,12 @@
  */
 package fr.respawner.minecheater.math;
 
-public final class VectorDouble {
+public final class Vector3D {
     private double x;
     private double y;
     private double z;
 
-    public VectorDouble(double x, double y, double z) {
+    public Vector3D(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;

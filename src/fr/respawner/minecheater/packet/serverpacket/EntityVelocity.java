@@ -24,7 +24,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 
 import java.io.IOException;
 
-import fr.respawner.minecheater.math.VectorDouble;
+import fr.respawner.minecheater.math.Vector3D;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.worker.IHandler;
@@ -57,7 +57,7 @@ public final class EntityVelocity extends Packet {
     @Override
     public void process() {
         final MCEntity entity;
-        VectorDouble velocity;
+        Vector3D velocity;
 
         /*
          * Find the entity to set the velocity.
@@ -68,7 +68,7 @@ public final class EntityVelocity extends Packet {
             velocity = entity.getVelocity();
 
             if (velocity == null) {
-                velocity = new VectorDouble(this.velocityX, this.velocityY,
+                velocity = new Vector3D(this.velocityX, this.velocityY,
                         this.velocityZ);
                 entity.setVelocity(velocity);
             } else {

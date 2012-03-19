@@ -25,9 +25,13 @@ package fr.respawner.minecheater.structure.player;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.math.Location;
+import fr.respawner.minecheater.math.MathHelper;
 import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.structure.MCIdentifiable;
+import fr.respawner.minecheater.structure.world.MCBlock;
+import fr.respawner.minecheater.structure.world.MCMapColumn;
 
 public final class MCPlayer extends MCIdentifiable {
     private Location location;
@@ -35,15 +39,13 @@ public final class MCPlayer extends MCIdentifiable {
     private MCHealth health;
     private MCExperience experience;
     private List<MCStatistic> statistics;
+    private World world;
 
-    public MCPlayer(int entityID) {
+    public MCPlayer(World world, int entityID) {
         super(entityID);
 
         this.statistics = new ArrayList<>();
-    }
-
-    public MCPlayer() {
-        this(0);
+        this.world = world;
     }
 
     public final Location getLocation() {
@@ -100,6 +102,10 @@ public final class MCPlayer extends MCIdentifiable {
         return null;
     }
 
+    public World getWorld() {
+        return this.world;
+    }
+
     public void move(double x, double y, double z) {
         final double newX, newY, newZ;
 
@@ -108,6 +114,38 @@ public final class MCPlayer extends MCIdentifiable {
         newZ = this.location.getPosition().getZ() + z;
 
         this.location.setPosition(newX, newY, newZ);
+    }
+
+    public void putOnGround() {
+        MCMapColumn column;
+        MCBlock block;
+        final int x, z;
+
+        x = MathHelper.floorDouble(this.location.getPosition().getX() / 16);
+        z = MathHelper.floorDouble(this.location.getPosition().getZ() / 16);
+        block = null;
+
+        do {
+            column = this.world.getMap().getColumnAt(x, z);
+            if (column == null) {
+                System.out.println("No column found at (" + x + ", " + z + ")");
+                return;
+            }
+
+            if (!this.location.isInside(column)) {
+                System.out.println("Not inside the column, weird!");
+            }
+
+            block = this.location.findBlockBelow(column);
+            if (block == null) {
+                System.out.println("No block found!");
+                return;
+            }
+
+            this.move(0, -1, 0);
+        } while ((block == null) || block.isAir());
+
+        this.location.setOnGround(true);
     }
 
     @Override

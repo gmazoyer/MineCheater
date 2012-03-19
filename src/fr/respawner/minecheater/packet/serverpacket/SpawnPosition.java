@@ -24,7 +24,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 
 import java.io.IOException;
 
-import fr.respawner.minecheater.math.Vector;
+import fr.respawner.minecheater.math.Vector3D;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -53,9 +53,9 @@ public final class SpawnPosition extends Packet {
 
     @Override
     public void process() {
-        final Vector spawn;
+        final Vector3D spawn;
 
-        spawn = new Vector(this.x, this.y, this.z);
+        spawn = new Vector3D(this.x, this.y, this.z);
         this.getWorld().setSpawn(spawn);
     }
 

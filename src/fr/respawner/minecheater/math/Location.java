@@ -22,15 +22,17 @@
  */
 package fr.respawner.minecheater.math;
 
+import fr.respawner.minecheater.structure.world.MCBlock;
+import fr.respawner.minecheater.structure.world.MCChunk;
 import fr.respawner.minecheater.structure.world.MCMapColumn;
 
 public final class Location {
-    private VectorDouble position;
+    private Vector3D position;
     private double stance;
     private boolean onGround;
 
     public Location(double x, double y, double z) {
-        this.position = new VectorDouble(x, y, z);
+        this.position = new Vector3D(x, y, z);
         this.onGround = true;
     }
 
@@ -38,15 +40,15 @@ public final class Location {
         this((x / 32.0), (y / 32.0), (z / 32.0));
     }
 
-    public Location(Vector vector) {
+    public Location(Vector3D vector) {
         this(vector.getX(), vector.getY(), vector.getZ());
     }
 
-    public VectorDouble getPosition() {
+    public Vector3D getPosition() {
         return this.position;
     }
 
-    public void setPosition(VectorDouble position) {
+    public void setPosition(Vector3D position) {
         this.position = position;
     }
 
@@ -73,17 +75,44 @@ public final class Location {
         /*
          * Get the block coordinates.
          */
-        columnX = column.getX() * 16;
-        columnZ = column.getZ() * 16;
+        columnX = column.getX();
+        columnZ = column.getZ();
 
         /*
          * Put player coordinates into integer so we skip the figures after the
          * comma after converting them into blocks.
          */
-        playerX = (int) (this.position.getX() / 16);
-        playerZ = (int) (this.position.getZ() / 16);
+        playerX = MathHelper.floorDouble(this.position.getX()) / 16;
+        playerZ = MathHelper.floorDouble(this.position.getZ()) / 16;
+
+        System.out.println("Player X = " + playerX + " Z = " + playerZ
+                + " | Column X = " + columnX + " Z = " + columnZ);
 
         return ((columnX == playerX) && (columnZ == playerZ));
+    }
+
+    public MCBlock findBlockBelow(MCMapColumn column) {
+        final double x, y, z;
+        final int simpleY;
+        final MCChunk chunk;
+
+        /*
+         * Get the player position.
+         */
+        x = MathHelper.floorDouble(this.position.getX()) / 16;
+        y = MathHelper.floorDouble(this.position.getY()) / 16;
+        z = MathHelper.floorDouble(this.position.getZ()) / 16;
+
+        /*
+         * Found the chunk where the player is.
+         */
+        simpleY = MathHelper.floorDouble(y) / 16;
+        chunk = column.getChunks()[simpleY];
+
+        /*
+         * Found the chunk that is below us.
+         */
+        return chunk.getBlockAt(new Vector3D(x, y - 1, z));
     }
 
     public void setPosition(double x, double y, double z) {
@@ -91,12 +120,6 @@ public final class Location {
         this.position.setY(y);
         this.position.setZ(z);
         this.stance = 1 + y;
-    }
-
-    public Vector toVector() {
-        return new Vector((int) Math.floor(this.position.getX()),
-                (int) Math.floor(this.position.getY()),
-                (int) Math.floor(this.position.getZ()));
     }
 
     @Override

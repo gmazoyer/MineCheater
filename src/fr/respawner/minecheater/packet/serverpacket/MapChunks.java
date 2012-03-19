@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.world.MCChunk;
 import fr.respawner.minecheater.structure.world.MCMap;
 import fr.respawner.minecheater.structure.world.MCMapColumn;
 import fr.respawner.minecheater.worker.IHandler;
@@ -65,20 +64,23 @@ public final class MapChunks extends Packet {
 
     @Override
     public void process() {
-        final MCChunk chunk;
         final MCMap map;
         MCMapColumn column;
 
         map = this.handler.getWorld().getMap();
         column = map.getColumnAt(this.x, this.z);
+
         if (column == null) {
-            column = new MCMapColumn(x, z);
+            column = new MCMapColumn(this.x, this.z, this.groundUpContinuous,
+                    this.primaryBitMap, this.addBitMap, this.zlibData);
             map.addColumn(column);
         }
 
-        chunk = new MCChunk(column, this.groundUpContinuous,
-                this.primaryBitMap, this.addBitMap, this.zlibData);
-        chunk.load();
+        column.load();
+
+        if (!this.handler.getWorld().getPlayer().getLocation().isOnGround()) {
+            this.handler.getWorld().getPlayer().putOnGround();
+        }
     }
 
     @Override
