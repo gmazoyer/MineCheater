@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
 public class MapColumnAllocation extends Packet {
@@ -33,7 +34,7 @@ public class MapColumnAllocation extends Packet {
     private boolean mode;
 
     public MapColumnAllocation(IHandler handler) {
-        super(handler, (byte) 0x32);
+        super(handler, PacketIdentifier.MAP_COLUMN_ALLOCATION);
     }
 
     @Override

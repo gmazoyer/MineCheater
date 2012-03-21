@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.structure.entity.MCEffect;
 import fr.respawner.minecheater.structure.type.MCEffectType;
@@ -37,7 +38,7 @@ public final class EntityEffect extends Packet {
     private short duration;
 
     public EntityEffect(IHandler handler) {
-        super(handler, (byte) 0x29);
+        super(handler, PacketIdentifier.ENTITY_EFFECT);
     }
 
     @Override

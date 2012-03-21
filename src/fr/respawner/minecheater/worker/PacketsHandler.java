@@ -36,10 +36,7 @@ import fr.respawner.minecheater.MinecraftClient;
 import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.packet.Packet.PacketAction;
-import fr.respawner.minecheater.packet.clientpacket.Player;
-import fr.respawner.minecheater.packet.clientpacket.PlayerLook;
-import fr.respawner.minecheater.packet.clientpacket.PlayerPosition;
-import fr.respawner.minecheater.packet.clientpacket.ServerListPing;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.packet.common.ChatMessage;
 import fr.respawner.minecheater.packet.common.DisconnectKick;
 import fr.respawner.minecheater.packet.common.Handshake;
@@ -75,6 +72,7 @@ import fr.respawner.minecheater.packet.serverpacket.PlayerListItem;
 import fr.respawner.minecheater.packet.serverpacket.RemoveEntityEffect;
 import fr.respawner.minecheater.packet.serverpacket.SetExperience;
 import fr.respawner.minecheater.packet.serverpacket.SetSlot;
+import fr.respawner.minecheater.packet.serverpacket.SetWindowItems;
 import fr.respawner.minecheater.packet.serverpacket.SoundParticleEffect;
 import fr.respawner.minecheater.packet.serverpacket.SpawnDroppedItem;
 import fr.respawner.minecheater.packet.serverpacket.SpawnExperienceOrb;
@@ -88,7 +86,6 @@ import fr.respawner.minecheater.packet.serverpacket.TimeUpdate;
 import fr.respawner.minecheater.packet.serverpacket.UpdateHealth;
 import fr.respawner.minecheater.packet.serverpacket.UpdateTileEntity;
 import fr.respawner.minecheater.packet.serverpacket.UseBed;
-import fr.respawner.minecheater.packet.serverpacket.WindowItems;
 import fr.respawner.minecheater.worker.TickClock.ClockReceiver;
 
 public final class PacketsHandler extends Thread implements IHandler,
@@ -128,199 +125,199 @@ public final class PacketsHandler extends Thread implements IHandler,
         packet = null;
 
         switch (id) {
-        case (byte) 0x00:
+        case PacketIdentifier.KEEP_ALIVE:
             packet = new KeepAlive(this);
             break;
 
-        case (byte) 0x01:
+        case PacketIdentifier.LOGIN_REQUEST:
             packet = new LoginRequest(this);
             break;
 
-        case (byte) 0x02:
+        case PacketIdentifier.HANDSHAKE:
             packet = new Handshake(this);
             break;
 
-        case (byte) 0x03:
+        case PacketIdentifier.CHAT_MESSAGE:
             packet = new ChatMessage(this);
             break;
 
-        case (byte) 0x04:
+        case PacketIdentifier.TIME_UPDATE:
             packet = new TimeUpdate(this);
             break;
 
-        case (byte) 0x05:
+        case PacketIdentifier.ENTITY_EQUIPMENT:
             packet = new EntityEquipment(this);
             break;
 
-        case (byte) 0x06:
+        case PacketIdentifier.SPAWN_POSITION:
             packet = new SpawnPosition(this);
             break;
 
-        case (byte) 0x08:
+        case PacketIdentifier.UPDATE_HEALTH:
             packet = new UpdateHealth(this);
             break;
 
-        case (byte) 0x09:
+        case PacketIdentifier.RESPAWN:
             packet = new Respawn(this);
             break;
 
-        case (byte) 0x0D:
+        case PacketIdentifier.PLAYER_POSITION_AND_LOOK:
             packet = new PlayerPositionAndLook(this);
             break;
 
-        case (byte) 0x11:
+        case PacketIdentifier.USE_BED:
             packet = new UseBed(this);
             break;
 
-        case (byte) 0x12:
+        case PacketIdentifier.ANIMATION:
             packet = new Animation(this);
             break;
 
-        case (byte) 0x14:
+        case PacketIdentifier.SPAWN_NAMED_ENTITY:
             packet = new SpawnNamedEntity(this);
             break;
 
-        case (byte) 0x15:
+        case PacketIdentifier.SPAWN_DROPPED_ITEM:
             packet = new SpawnDroppedItem(this);
             break;
 
-        case (byte) 0x16:
+        case PacketIdentifier.COLLECT_ITEM:
             packet = new CollectItem(this);
             break;
 
-        case (byte) 0x17:
+        case PacketIdentifier.SPAWN_OBJECT_VEHICLE:
             packet = new SpawnObjectVehicle(this);
             break;
 
-        case (byte) 0x18:
+        case PacketIdentifier.SPAWN_MOB:
             packet = new SpawnMob(this);
             break;
 
-        case (byte) 0x19:
+        case PacketIdentifier.SPAWN_PAINTING:
             packet = new SpawnPainting(this);
             break;
 
-        case (byte) 0x1A:
+        case PacketIdentifier.SPAWN_EXPERIENCE_ORB:
             packet = new SpawnExperienceOrb(this);
             break;
 
-        case (byte) 0x1C:
+        case PacketIdentifier.ENTITY_VELOCITY:
             packet = new EntityVelocity(this);
             break;
 
-        case (byte) 0x1D:
+        case PacketIdentifier.DESTROY_ENTITY:
             packet = new DestroyEntity(this);
             break;
 
-        case (byte) 0x1E:
+        case PacketIdentifier.ENTITY:
             packet = new Entity(this);
             break;
 
-        case (byte) 0x1F:
+        case PacketIdentifier.ENTITY_RELATIVE_MOVE:
             packet = new EntityRelativeMove(this);
             break;
 
-        case (byte) 0x20:
+        case PacketIdentifier.ENTITY_LOOK:
             packet = new EntityLook(this);
             break;
 
-        case (byte) 0x21:
+        case PacketIdentifier.ENTITY_LOOK_AND_RELATIVE_MOVE:
             packet = new EntityLookAndRelativeMove(this);
             break;
 
-        case (byte) 0x22:
+        case PacketIdentifier.ENTITY_TELEPORT:
             packet = new EntityTeleport(this);
             break;
 
-        case (byte) 0x23:
+        case PacketIdentifier.ENTITY_HEAD_LOOK:
             packet = new EntityHeadLook(this);
             break;
 
-        case (byte) 0x26:
+        case PacketIdentifier.ENTITY_STATUS:
             packet = new EntityStatus(this);
             break;
 
-        case (byte) 0x28:
+        case PacketIdentifier.ENTITY_METADATA:
             packet = new EntityMetadata(this);
             break;
 
-        case (byte) 0x29:
+        case PacketIdentifier.ENTITY_EFFECT:
             packet = new EntityEffect(this);
             break;
 
-        case (byte) 0x2A:
+        case PacketIdentifier.REMOVE_ENTITY_EFFECT:
             packet = new RemoveEntityEffect(this);
             break;
 
-        case (byte) 0x2B:
+        case PacketIdentifier.SET_EXPERIENCE:
             packet = new SetExperience(this);
             break;
 
-        case (byte) 0x32:
+        case PacketIdentifier.MAP_COLUMN_ALLOCATION:
             packet = new MapColumnAllocation(this);
             break;
 
-        case (byte) 0x33:
+        case PacketIdentifier.MAP_CHUNKS:
             packet = new MapChunks(this);
             break;
 
-        case (byte) 0x34:
+        case PacketIdentifier.MULTI_BLOCK_CHANGE:
             packet = new MultiBlockChange(this);
             break;
 
-        case (byte) 0x35:
+        case PacketIdentifier.BLOCK_CHANGE:
             packet = new BlockChange(this);
             break;
 
-        case (byte) 0x36:
+        case PacketIdentifier.BLOCK_ACTION:
             packet = new BlockAction(this);
             break;
 
-        case (byte) 0x3C:
+        case PacketIdentifier.EXPLOSION:
             packet = new Explosion(this);
             break;
 
-        case (byte) 0x3D:
+        case PacketIdentifier.SOUND_PARTICLE_EFFECT:
             packet = new SoundParticleEffect(this);
             break;
 
-        case (byte) 0x46:
+        case PacketIdentifier.CHANGE_GAME_STATE:
             packet = new ChangeGameState(this);
             break;
 
-        case (byte) 0x47:
+        case PacketIdentifier.THUNDERBOLT:
             packet = new Thunderbold(this);
             break;
 
-        case (byte) 0x67:
+        case PacketIdentifier.SET_SLOT:
             packet = new SetSlot(this);
             break;
 
-        case (byte) 0x68:
-            packet = new WindowItems(this);
+        case PacketIdentifier.SET_WINDOW_ITEMS:
+            packet = new SetWindowItems(this);
             break;
 
-        case (byte) 0x82:
+        case PacketIdentifier.UPDATE_SIGN:
             packet = new UpdateSign(this);
             break;
 
-        case (byte) 0x84:
+        case PacketIdentifier.UPDATE_TILE_ENTITY:
             packet = new UpdateTileEntity(this);
             break;
 
-        case (byte) 0xC8:
+        case PacketIdentifier.INCREMENT_STATISTIC:
             packet = new IncrementStatistic(this);
             break;
 
-        case (byte) 0xC9:
+        case PacketIdentifier.PLAYER_LIST_ITEM:
             packet = new PlayerListItem(this);
             break;
 
-        case (byte) 0xFA:
+        case PacketIdentifier.PLUGIN_MESSAGE:
             packet = new PluginMessage(this);
             break;
 
-        case (byte) 0xFF:
+        case PacketIdentifier.DISCONNECT_KICK:
             packet = new DisconnectKick(this);
             break;
 
@@ -364,11 +361,11 @@ public final class PacketsHandler extends Thread implements IHandler,
         packet = null;
 
         switch (id) {
-        case (byte) 0x02:
+        case PacketIdentifier.HANDSHAKE:
             packet = new Handshake(this);
             break;
 
-        case (byte) 0x03:
+        case PacketIdentifier.CHAT_MESSAGE:
             if ((args.length < 1) || !(args[0] instanceof String)) {
                 log.warn("Packet 0x03 needs a string in parameters.");
             } else {
@@ -376,35 +373,15 @@ public final class PacketsHandler extends Thread implements IHandler,
             }
             break;
 
-        case (byte) 0x09:
+        case PacketIdentifier.RESPAWN:
             packet = new Respawn(this);
             break;
 
-        case (byte) 0x0A:
-            if ((args.length < 1) || !(args[0] instanceof Boolean)) {
-                packet = new Player(this);
-            } else {
-                packet = new Player(this, (boolean) args[0]);
-            }
-            break;
-
-        case (byte) 0x0B:
-            packet = new PlayerPosition(this);
-            break;
-
-        case (byte) 0x0C:
-            packet = new PlayerLook(this);
-            break;
-
-        case (byte) 0x0D:
+        case PacketIdentifier.PLAYER_POSITION_AND_LOOK:
             packet = new PlayerPositionAndLook(this);
             break;
 
-        case (byte) 0xFE:
-            packet = new ServerListPing(this);
-            break;
-
-        case (byte) 0xFF:
+        case PacketIdentifier.DISCONNECT_KICK:
             packet = new DisconnectKick(this);
             break;
 
@@ -452,7 +429,7 @@ public final class PacketsHandler extends Thread implements IHandler,
          * Tell the server that we leave.
          */
         this.world.setLoggedIn(false);
-        this.sendPacket((byte) 0xFF);
+        this.sendPacket(PacketIdentifier.DISCONNECT_KICK);
 
         this.running = false;
     }
@@ -537,7 +514,7 @@ public final class PacketsHandler extends Thread implements IHandler,
         /*
          * Start the communication by sending a handshake.
          */
-        this.sendPacket((byte) 0x02);
+        this.sendPacket(PacketIdentifier.HANDSHAKE);
 
         /*
          * Listen for ticks.

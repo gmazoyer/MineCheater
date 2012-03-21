@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.SoundParticleType;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -36,7 +37,7 @@ public final class SoundParticleEffect extends Packet {
     private int data;
 
     public SoundParticleEffect(IHandler handler) {
-        super(handler, (byte) 0x3D);
+        super(handler, PacketIdentifier.SOUND_PARTICLE_EFFECT);
     }
 
     @Override

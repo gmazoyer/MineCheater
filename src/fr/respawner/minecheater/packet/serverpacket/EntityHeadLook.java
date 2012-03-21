@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -33,7 +34,7 @@ public final class EntityHeadLook extends Packet {
     private byte headYaw;
 
     public EntityHeadLook(IHandler handler) {
-        super(handler, (byte) 0x23);
+        super(handler, PacketIdentifier.ENTITY_HEAD_LOOK);
     }
 
     @Override

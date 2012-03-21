@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCObjectVehicle;
 import fr.respawner.minecheater.structure.entity.MCObjectVehicle.ObjectVehicleType;
 import fr.respawner.minecheater.worker.IHandler;
@@ -41,7 +42,7 @@ public final class SpawnObjectVehicle extends Packet {
     private short speedZ;
 
     public SpawnObjectVehicle(IHandler handler) {
-        super(handler, (byte) 0x17);
+        super(handler, PacketIdentifier.SPAWN_OBJECT_VEHICLE);
     }
 
     @Override

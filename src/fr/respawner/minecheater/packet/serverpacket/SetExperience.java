@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.player.MCExperience;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -34,7 +35,7 @@ public final class SetExperience extends Packet {
     private short total;
 
     public SetExperience(IHandler handler) {
-        super(handler, (byte) 0x2B);
+        super(handler, PacketIdentifier.SET_EXPERIENCE);
     }
 
     @Override

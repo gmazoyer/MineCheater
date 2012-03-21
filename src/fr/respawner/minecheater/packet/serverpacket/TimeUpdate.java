@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.world.MCTime;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -32,7 +33,7 @@ public final class TimeUpdate extends Packet {
     private long time;
 
     public TimeUpdate(IHandler handler) {
-        super(handler, (byte) 0x04);
+        super(handler, PacketIdentifier.TIME_UPDATE);
     }
 
     @Override

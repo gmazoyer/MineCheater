@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.common;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class UpdateSign extends Packet {
@@ -37,7 +38,7 @@ public final class UpdateSign extends Packet {
     private String fourthLine;
 
     public UpdateSign(PacketsHandler handler) {
-        super(handler, (byte) 0x82);
+        super(handler, PacketIdentifier.UPDATE_SIGN);
     }
 
     @Override

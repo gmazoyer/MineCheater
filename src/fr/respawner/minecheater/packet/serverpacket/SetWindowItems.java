@@ -26,15 +26,16 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.metadata.Slotdata;
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
-public final class WindowItems extends Packet {
+public final class SetWindowItems extends Packet {
     private byte windowID;
     private short count;
     private Slotdata slots;
 
-    public WindowItems(IHandler handler) {
-        super(handler, (byte) 0x68);
+    public SetWindowItems(IHandler handler) {
+        super(handler, PacketIdentifier.SET_WINDOW_ITEMS);
     }
 
     @Override

@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.player.MCStatistic;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -33,7 +34,7 @@ public final class IncrementStatistic extends Packet {
     private byte amount;
 
     public IncrementStatistic(IHandler handler) {
-        super(handler, (byte) 0xC8);
+        super(handler, PacketIdentifier.INCREMENT_STATISTIC);
     }
 
     @Override

@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -35,7 +36,7 @@ public final class EntityRelativeMove extends Packet {
     private byte dZ;
 
     public EntityRelativeMove(IHandler handler) {
-        super(handler, (byte) 0x1F);
+        super(handler, PacketIdentifier.ENTITY_RELATIVE_MOVE);
     }
 
     @Override

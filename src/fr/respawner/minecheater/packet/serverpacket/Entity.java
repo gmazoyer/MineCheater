@@ -25,13 +25,14 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class Entity extends Packet {
     private int entityID;
 
     public Entity(IHandler handler) {
-        super(handler, (byte) 0x1E);
+        super(handler, PacketIdentifier.ENTITY);
     }
 
     @Override

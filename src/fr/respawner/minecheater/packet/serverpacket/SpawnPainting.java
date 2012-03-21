@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCPainting;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -37,7 +38,7 @@ public final class SpawnPainting extends Packet {
     private int direction;
 
     public SpawnPainting(IHandler handler) {
-        super(handler, (byte) 0x19);
+        super(handler, PacketIdentifier.SPAWN_PAINTING);
     }
 
     @Override

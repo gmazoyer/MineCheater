@@ -26,13 +26,14 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.Config;
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class Handshake extends Packet {
     private String usernameAndHostOrHash;
 
     public Handshake(IHandler handler) {
-        super(handler, (byte) 0x02);
+        super(handler, PacketIdentifier.HANDSHAKE);
 
         this.usernameAndHostOrHash = String.format("%s;%s:%d", Config.USERNAME,
                 Config.SERVER_HOST, Config.SERVER_PORT);

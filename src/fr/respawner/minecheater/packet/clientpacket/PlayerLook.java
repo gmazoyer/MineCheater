@@ -27,6 +27,7 @@ import java.io.IOException;
 import fr.respawner.minecheater.math.Location;
 import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class PlayerLook extends Packet {
@@ -35,7 +36,7 @@ public final class PlayerLook extends Packet {
     private boolean onGround;
 
     public PlayerLook(IHandler handler) {
-        super(handler, (byte) 0x0C);
+        super(handler, PacketIdentifier.PLAYER_LOOK);
 
         final Location location;
         final Rotation rotation;

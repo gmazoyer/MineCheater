@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.common;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class PluginMessage extends Packet {
@@ -33,7 +34,7 @@ public final class PluginMessage extends Packet {
     private byte[] data;
 
     public PluginMessage(PacketsHandler handler) {
-        super(handler, (byte) 0xFA);
+        super(handler, PacketIdentifier.PLUGIN_MESSAGE);
     }
 
     @Override

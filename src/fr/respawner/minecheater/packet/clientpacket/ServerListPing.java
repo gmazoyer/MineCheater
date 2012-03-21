@@ -25,11 +25,12 @@ package fr.respawner.minecheater.packet.clientpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class ServerListPing extends Packet {
     public ServerListPing(IHandler handler) {
-        super(handler, (byte) 0xFE);
+        super(handler, PacketIdentifier.SERVER_LIST_PING);
     }
 
     @Override

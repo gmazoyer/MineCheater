@@ -26,6 +26,7 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.Config;
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.type.MCDifficultyType;
 import fr.respawner.minecheater.structure.type.MCDimensionType;
 import fr.respawner.minecheater.structure.world.MCLevel;
@@ -42,7 +43,7 @@ public final class LoginRequest extends Packet {
     private int maxPlayers;
 
     public LoginRequest(IHandler handler) {
-        super(handler, (byte) 0x01);
+        super(handler, PacketIdentifier.LOGIN_REQUEST);
 
         this.protocolVersionOrEntityID = Config.PROTOCOL_VERSION;
         this.username = Config.USERNAME;

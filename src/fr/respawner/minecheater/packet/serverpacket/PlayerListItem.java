@@ -25,6 +25,7 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.MCPlayerListEntry;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -34,7 +35,7 @@ public final class PlayerListItem extends Packet {
     private short ping;
 
     public PlayerListItem(IHandler handler) {
-        super(handler, (byte) 0xC9);
+        super(handler, PacketIdentifier.PLAYER_LIST_ITEM);
     }
 
     @Override

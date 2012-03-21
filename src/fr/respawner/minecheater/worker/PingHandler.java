@@ -34,6 +34,7 @@ import org.apache.log4j.Logger;
 
 import fr.respawner.minecheater.MinecraftClient;
 import fr.respawner.minecheater.World;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.packet.clientpacket.ServerListPing;
 import fr.respawner.minecheater.packet.common.DisconnectKick;
 
@@ -144,8 +145,9 @@ public final class PingHandler extends Thread implements IHandler {
              * Look for a packet ID.
              */
             packetID = (byte) this.in.read();
-            if (packetID != (byte) 0xFF) {
-                throw new IOException();
+            if (packetID != PacketIdentifier.DISCONNECT_KICK) {
+                throw new IllegalStateException(
+                        "Wrong packet received, expected 0xFF");
             }
 
             /*

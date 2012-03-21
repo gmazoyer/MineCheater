@@ -25,13 +25,14 @@ package fr.respawner.minecheater.packet.clientpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class Player extends Packet {
     private boolean onGround;
 
     public Player(IHandler handler, boolean onGround) {
-        super(handler, (byte) 0x0A);
+        super(handler, PacketIdentifier.PLAYER);
 
         this.onGround = onGround;
     }
