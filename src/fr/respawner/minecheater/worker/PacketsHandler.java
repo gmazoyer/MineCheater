@@ -42,6 +42,7 @@ import fr.respawner.minecheater.packet.common.DisconnectKick;
 import fr.respawner.minecheater.packet.common.Handshake;
 import fr.respawner.minecheater.packet.common.KeepAlive;
 import fr.respawner.minecheater.packet.common.LoginRequest;
+import fr.respawner.minecheater.packet.common.PlayerAbilities;
 import fr.respawner.minecheater.packet.common.PlayerPositionAndLook;
 import fr.respawner.minecheater.packet.common.PluginMessage;
 import fr.respawner.minecheater.packet.common.Respawn;
@@ -311,6 +312,10 @@ public final class PacketsHandler extends Thread implements IHandler,
 
         case PacketIdentifier.PLAYER_LIST_ITEM:
             packet = new PlayerListItem(this);
+            break;
+
+        case PacketIdentifier.PLAYER_ABILITIES:
+            packet = new PlayerAbilities(this);
             break;
 
         case PacketIdentifier.PLUGIN_MESSAGE:

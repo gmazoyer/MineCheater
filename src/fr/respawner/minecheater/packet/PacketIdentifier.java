@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2012 Guillaume Mazoyer
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 package fr.respawner.minecheater.packet;
 
 public final class PacketIdentifier {
@@ -63,6 +85,7 @@ public final class PacketIdentifier {
     public static final byte UPDATE_TILE_ENTITY = (byte) 0x84;
     public static final byte INCREMENT_STATISTIC = (byte) 0xC8;
     public static final byte PLAYER_LIST_ITEM = (byte) 0xC9;
+    public static final byte PLAYER_ABILITIES = (byte) 0xCA;
     public static final byte PLUGIN_MESSAGE = (byte) 0xFA;
     public static final byte SERVER_LIST_PING = (byte) 0xFF;
     public static final byte DISCONNECT_KICK = (byte) 0xFF;
