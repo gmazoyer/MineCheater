@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -37,7 +36,7 @@ public final class UseBed extends Packet {
     private int z;
 
     public UseBed(IHandler handler) {
-        super(handler, PacketIdentifier.USE_BED);
+        super(handler, USE_BED);
     }
 
     @Override

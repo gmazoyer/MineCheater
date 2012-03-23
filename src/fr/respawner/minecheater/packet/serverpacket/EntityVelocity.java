@@ -26,7 +26,6 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.math.Vector3D;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -37,7 +36,7 @@ public final class EntityVelocity extends Packet {
     private short velocityZ;
 
     public EntityVelocity(IHandler handler) {
-        super(handler, PacketIdentifier.ENTITY_VELOCITY);
+        super(handler, ENTITY_VELOCITY);
     }
 
     @Override

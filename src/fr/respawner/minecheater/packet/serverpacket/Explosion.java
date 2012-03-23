@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class Explosion extends Packet {
@@ -38,7 +37,7 @@ public final class Explosion extends Packet {
     private float unknown;
 
     public Explosion(IHandler handler) {
-        super(handler, PacketIdentifier.EXPLOSION);
+        super(handler, EXPLOSION);
     }
 
     @Override

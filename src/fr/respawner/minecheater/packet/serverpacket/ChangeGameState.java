@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.world.MCGameState;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -34,7 +33,7 @@ public final class ChangeGameState extends Packet {
     private byte mode;
 
     public ChangeGameState(IHandler handler) {
-        super(handler, PacketIdentifier.CHANGE_GAME_STATE);
+        super(handler, CHANGE_GAME_STATE);
     }
 
     @Override

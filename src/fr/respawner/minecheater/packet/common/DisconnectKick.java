@@ -25,14 +25,13 @@ package fr.respawner.minecheater.packet.common;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class DisconnectKick extends Packet {
     private String reason;
 
     public DisconnectKick(IHandler handler) {
-        super(handler, PacketIdentifier.DISCONNECT_KICK);
+        super(handler, DISCONNECT_KICK);
     }
 
     @Override

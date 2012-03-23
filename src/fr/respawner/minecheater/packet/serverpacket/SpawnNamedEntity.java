@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -40,7 +39,7 @@ public final class SpawnNamedEntity extends Packet {
     private short item;
 
     public SpawnNamedEntity(IHandler handler) {
-        super(handler, PacketIdentifier.SPAWN_NAMED_ENTITY);
+        super(handler, SPAWN_NAMED_ENTITY);
     }
 
     @Override

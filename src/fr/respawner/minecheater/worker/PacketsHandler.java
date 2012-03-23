@@ -36,7 +36,6 @@ import fr.respawner.minecheater.MinecraftClient;
 import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.packet.Packet.PacketAction;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.packet.common.ChatMessage;
 import fr.respawner.minecheater.packet.common.DisconnectKick;
 import fr.respawner.minecheater.packet.common.Handshake;
@@ -126,203 +125,203 @@ public final class PacketsHandler extends Thread implements IHandler,
         packet = null;
 
         switch (id) {
-        case PacketIdentifier.KEEP_ALIVE:
+        case Packet.KEEP_ALIVE:
             packet = new KeepAlive(this);
             break;
 
-        case PacketIdentifier.LOGIN_REQUEST:
+        case Packet.LOGIN_REQUEST:
             packet = new LoginRequest(this);
             break;
 
-        case PacketIdentifier.HANDSHAKE:
+        case Packet.HANDSHAKE:
             packet = new Handshake(this);
             break;
 
-        case PacketIdentifier.CHAT_MESSAGE:
+        case Packet.CHAT_MESSAGE:
             packet = new ChatMessage(this);
             break;
 
-        case PacketIdentifier.TIME_UPDATE:
+        case Packet.TIME_UPDATE:
             packet = new TimeUpdate(this);
             break;
 
-        case PacketIdentifier.ENTITY_EQUIPMENT:
+        case Packet.ENTITY_EQUIPMENT:
             packet = new EntityEquipment(this);
             break;
 
-        case PacketIdentifier.SPAWN_POSITION:
+        case Packet.SPAWN_POSITION:
             packet = new SpawnPosition(this);
             break;
 
-        case PacketIdentifier.UPDATE_HEALTH:
+        case Packet.UPDATE_HEALTH:
             packet = new UpdateHealth(this);
             break;
 
-        case PacketIdentifier.RESPAWN:
+        case Packet.RESPAWN:
             packet = new Respawn(this);
             break;
 
-        case PacketIdentifier.PLAYER_POSITION_AND_LOOK:
+        case Packet.PLAYER_POSITION_AND_LOOK:
             packet = new PlayerPositionAndLook(this);
             break;
 
-        case PacketIdentifier.USE_BED:
+        case Packet.USE_BED:
             packet = new UseBed(this);
             break;
 
-        case PacketIdentifier.ANIMATION:
+        case Packet.ANIMATION:
             packet = new Animation(this);
             break;
 
-        case PacketIdentifier.SPAWN_NAMED_ENTITY:
+        case Packet.SPAWN_NAMED_ENTITY:
             packet = new SpawnNamedEntity(this);
             break;
 
-        case PacketIdentifier.SPAWN_DROPPED_ITEM:
+        case Packet.SPAWN_DROPPED_ITEM:
             packet = new SpawnDroppedItem(this);
             break;
 
-        case PacketIdentifier.COLLECT_ITEM:
+        case Packet.COLLECT_ITEM:
             packet = new CollectItem(this);
             break;
 
-        case PacketIdentifier.SPAWN_OBJECT_VEHICLE:
+        case Packet.SPAWN_OBJECT_VEHICLE:
             packet = new SpawnObjectVehicle(this);
             break;
 
-        case PacketIdentifier.SPAWN_MOB:
+        case Packet.SPAWN_MOB:
             packet = new SpawnMob(this);
             break;
 
-        case PacketIdentifier.SPAWN_PAINTING:
+        case Packet.SPAWN_PAINTING:
             packet = new SpawnPainting(this);
             break;
 
-        case PacketIdentifier.SPAWN_EXPERIENCE_ORB:
+        case Packet.SPAWN_EXPERIENCE_ORB:
             packet = new SpawnExperienceOrb(this);
             break;
 
-        case PacketIdentifier.ENTITY_VELOCITY:
+        case Packet.ENTITY_VELOCITY:
             packet = new EntityVelocity(this);
             break;
 
-        case PacketIdentifier.DESTROY_ENTITY:
+        case Packet.DESTROY_ENTITY:
             packet = new DestroyEntity(this);
             break;
 
-        case PacketIdentifier.ENTITY:
+        case Packet.ENTITY:
             packet = new Entity(this);
             break;
 
-        case PacketIdentifier.ENTITY_RELATIVE_MOVE:
+        case Packet.ENTITY_RELATIVE_MOVE:
             packet = new EntityRelativeMove(this);
             break;
 
-        case PacketIdentifier.ENTITY_LOOK:
+        case Packet.ENTITY_LOOK:
             packet = new EntityLook(this);
             break;
 
-        case PacketIdentifier.ENTITY_LOOK_AND_RELATIVE_MOVE:
+        case Packet.ENTITY_LOOK_AND_RELATIVE_MOVE:
             packet = new EntityLookAndRelativeMove(this);
             break;
 
-        case PacketIdentifier.ENTITY_TELEPORT:
+        case Packet.ENTITY_TELEPORT:
             packet = new EntityTeleport(this);
             break;
 
-        case PacketIdentifier.ENTITY_HEAD_LOOK:
+        case Packet.ENTITY_HEAD_LOOK:
             packet = new EntityHeadLook(this);
             break;
 
-        case PacketIdentifier.ENTITY_STATUS:
+        case Packet.ENTITY_STATUS:
             packet = new EntityStatus(this);
             break;
 
-        case PacketIdentifier.ENTITY_METADATA:
+        case Packet.ENTITY_METADATA:
             packet = new EntityMetadata(this);
             break;
 
-        case PacketIdentifier.ENTITY_EFFECT:
+        case Packet.ENTITY_EFFECT:
             packet = new EntityEffect(this);
             break;
 
-        case PacketIdentifier.REMOVE_ENTITY_EFFECT:
+        case Packet.REMOVE_ENTITY_EFFECT:
             packet = new RemoveEntityEffect(this);
             break;
 
-        case PacketIdentifier.SET_EXPERIENCE:
+        case Packet.SET_EXPERIENCE:
             packet = new SetExperience(this);
             break;
 
-        case PacketIdentifier.MAP_COLUMN_ALLOCATION:
+        case Packet.MAP_COLUMN_ALLOCATION:
             packet = new MapColumnAllocation(this);
             break;
 
-        case PacketIdentifier.MAP_CHUNKS:
+        case Packet.MAP_CHUNKS:
             packet = new MapChunks(this);
             break;
 
-        case PacketIdentifier.MULTI_BLOCK_CHANGE:
+        case Packet.MULTI_BLOCK_CHANGE:
             packet = new MultiBlockChange(this);
             break;
 
-        case PacketIdentifier.BLOCK_CHANGE:
+        case Packet.BLOCK_CHANGE:
             packet = new BlockChange(this);
             break;
 
-        case PacketIdentifier.BLOCK_ACTION:
+        case Packet.BLOCK_ACTION:
             packet = new BlockAction(this);
             break;
 
-        case PacketIdentifier.EXPLOSION:
+        case Packet.EXPLOSION:
             packet = new Explosion(this);
             break;
 
-        case PacketIdentifier.SOUND_PARTICLE_EFFECT:
+        case Packet.SOUND_PARTICLE_EFFECT:
             packet = new SoundParticleEffect(this);
             break;
 
-        case PacketIdentifier.CHANGE_GAME_STATE:
+        case Packet.CHANGE_GAME_STATE:
             packet = new ChangeGameState(this);
             break;
 
-        case PacketIdentifier.THUNDERBOLT:
+        case Packet.THUNDERBOLT:
             packet = new Thunderbold(this);
             break;
 
-        case PacketIdentifier.SET_SLOT:
+        case Packet.SET_SLOT:
             packet = new SetSlot(this);
             break;
 
-        case PacketIdentifier.SET_WINDOW_ITEMS:
+        case Packet.SET_WINDOW_ITEMS:
             packet = new SetWindowItems(this);
             break;
 
-        case PacketIdentifier.UPDATE_SIGN:
+        case Packet.UPDATE_SIGN:
             packet = new UpdateSign(this);
             break;
 
-        case PacketIdentifier.UPDATE_TILE_ENTITY:
+        case Packet.UPDATE_TILE_ENTITY:
             packet = new UpdateTileEntity(this);
             break;
 
-        case PacketIdentifier.INCREMENT_STATISTIC:
+        case Packet.INCREMENT_STATISTIC:
             packet = new IncrementStatistic(this);
             break;
 
-        case PacketIdentifier.PLAYER_LIST_ITEM:
+        case Packet.PLAYER_LIST_ITEM:
             packet = new PlayerListItem(this);
             break;
 
-        case PacketIdentifier.PLAYER_ABILITIES:
+        case Packet.PLAYER_ABILITIES:
             packet = new PlayerAbilities(this);
             break;
 
-        case PacketIdentifier.PLUGIN_MESSAGE:
+        case Packet.PLUGIN_MESSAGE:
             packet = new PluginMessage(this);
             break;
 
-        case PacketIdentifier.DISCONNECT_KICK:
+        case Packet.DISCONNECT_KICK:
             packet = new DisconnectKick(this);
             break;
 
@@ -366,11 +365,11 @@ public final class PacketsHandler extends Thread implements IHandler,
         packet = null;
 
         switch (id) {
-        case PacketIdentifier.HANDSHAKE:
+        case Packet.HANDSHAKE:
             packet = new Handshake(this);
             break;
 
-        case PacketIdentifier.CHAT_MESSAGE:
+        case Packet.CHAT_MESSAGE:
             if ((args.length < 1) || !(args[0] instanceof String)) {
                 log.warn("Packet 0x03 needs a string in parameters.");
             } else {
@@ -378,15 +377,15 @@ public final class PacketsHandler extends Thread implements IHandler,
             }
             break;
 
-        case PacketIdentifier.RESPAWN:
+        case Packet.RESPAWN:
             packet = new Respawn(this);
             break;
 
-        case PacketIdentifier.PLAYER_POSITION_AND_LOOK:
+        case Packet.PLAYER_POSITION_AND_LOOK:
             packet = new PlayerPositionAndLook(this);
             break;
 
-        case PacketIdentifier.DISCONNECT_KICK:
+        case Packet.DISCONNECT_KICK:
             packet = new DisconnectKick(this);
             break;
 
@@ -434,7 +433,7 @@ public final class PacketsHandler extends Thread implements IHandler,
          * Tell the server that we leave.
          */
         this.world.setLoggedIn(false);
-        this.sendPacket(PacketIdentifier.DISCONNECT_KICK);
+        this.sendPacket(Packet.DISCONNECT_KICK);
 
         this.running = false;
     }
@@ -519,7 +518,7 @@ public final class PacketsHandler extends Thread implements IHandler,
         /*
          * Start the communication by sending a handshake.
          */
-        this.sendPacket(PacketIdentifier.HANDSHAKE);
+        this.sendPacket(Packet.HANDSHAKE);
 
         /*
          * Listen for ticks.

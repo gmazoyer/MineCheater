@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.structure.type.MCStatusType;
 import fr.respawner.minecheater.worker.IHandler;
@@ -35,7 +34,7 @@ public final class EntityStatus extends Packet {
     private byte status;
 
     public EntityStatus(IHandler handler) {
-        super(handler, PacketIdentifier.ENTITY_STATUS);
+        super(handler, ENTITY_STATUS);
     }
 
     @Override

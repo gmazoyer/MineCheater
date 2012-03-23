@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.common;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class PlayerAbilities extends Packet {
@@ -35,7 +34,7 @@ public final class PlayerAbilities extends Packet {
     private boolean instantDestroy;
 
     public PlayerAbilities(PacketsHandler handler) {
-        super(handler, PacketIdentifier.PLAYER_ABILITIES);
+        super(handler, PLAYER_ABILITIES);
     }
 
     @Override

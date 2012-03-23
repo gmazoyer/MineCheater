@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.structure.type.MCAnimationType;
 import fr.respawner.minecheater.worker.IHandler;
@@ -35,7 +34,7 @@ public final class Animation extends Packet {
     private byte animationID;
 
     public Animation(IHandler handler) {
-        super(handler, PacketIdentifier.ANIMATION);
+        super(handler, ANIMATION);
     }
 
     @Override

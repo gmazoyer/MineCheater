@@ -27,7 +27,6 @@ import java.io.IOException;
 import fr.respawner.minecheater.math.Location;
 import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -40,7 +39,7 @@ public final class EntityTeleport extends Packet {
     private byte pitch;
 
     public EntityTeleport(IHandler handler) {
-        super(handler, PacketIdentifier.ENTITY_TELEPORT);
+        super(handler, ENTITY_TELEPORT);
     }
 
     @Override

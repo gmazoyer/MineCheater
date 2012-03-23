@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCExperienceOrb;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -37,7 +36,7 @@ public final class SpawnExperienceOrb extends Packet {
     private short count;
 
     public SpawnExperienceOrb(IHandler handler) {
-        super(handler, PacketIdentifier.SPAWN_EXPERIENCE_ORB);
+        super(handler, SPAWN_EXPERIENCE_ORB);
     }
 
     @Override

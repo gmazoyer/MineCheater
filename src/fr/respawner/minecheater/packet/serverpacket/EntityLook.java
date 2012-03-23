@@ -26,7 +26,6 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCEntity;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -36,7 +35,7 @@ public final class EntityLook extends Packet {
     private byte pitch;
 
     public EntityLook(IHandler handler) {
-        super(handler, PacketIdentifier.ENTITY_LOOK);
+        super(handler, ENTITY_LOOK);
     }
 
     @Override

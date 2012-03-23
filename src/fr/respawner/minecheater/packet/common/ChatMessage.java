@@ -26,7 +26,6 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.Config;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
@@ -34,7 +33,7 @@ public final class ChatMessage extends Packet {
     private String message;
 
     public ChatMessage(IHandler handler) {
-        super(handler, PacketIdentifier.CHAT_MESSAGE);
+        super(handler, CHAT_MESSAGE);
     }
 
     public ChatMessage(PacketsHandler handler, String message) {

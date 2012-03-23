@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.common;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.type.MCDifficultyType;
 import fr.respawner.minecheater.structure.type.MCDimensionType;
 import fr.respawner.minecheater.worker.IHandler;
@@ -38,7 +37,7 @@ public final class Respawn extends Packet {
     private String levelType;
 
     public Respawn(IHandler handler) {
-        super(handler, PacketIdentifier.RESPAWN);
+        super(handler, RESPAWN);
     }
 
     @Override

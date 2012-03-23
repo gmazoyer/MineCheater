@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.structure.inventory.MCEquipment;
 import fr.respawner.minecheater.worker.IHandler;
@@ -37,7 +36,7 @@ public final class EntityEquipment extends Packet {
     private short damage;
 
     public EntityEquipment(IHandler handler) {
-        super(handler, PacketIdentifier.ENTITY_EQUIPMENT);
+        super(handler, ENTITY_EQUIPMENT);
     }
 
     @Override

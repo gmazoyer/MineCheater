@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCPickup;
 import fr.respawner.minecheater.structure.type.MCItemType;
 import fr.respawner.minecheater.worker.IHandler;
@@ -43,7 +42,7 @@ public final class SpawnDroppedItem extends Packet {
     private byte roll;
 
     public SpawnDroppedItem(IHandler handler) {
-        super(handler, PacketIdentifier.SPAWN_DROPPED_ITEM);
+        super(handler, SPAWN_DROPPED_ITEM);
     }
 
     @Override

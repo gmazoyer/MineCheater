@@ -26,7 +26,6 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.metadata.Metadata;
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.structure.entity.MCMob;
 import fr.respawner.minecheater.structure.type.MCMobType;
 import fr.respawner.minecheater.worker.IHandler;
@@ -43,7 +42,7 @@ public final class SpawnMob extends Packet {
     private Metadata metadata;
 
     public SpawnMob(IHandler handler) {
-        super(handler, PacketIdentifier.SPAWN_MOB);
+        super(handler, SPAWN_MOB);
     }
 
     @Override

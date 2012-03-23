@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class BlockAction extends Packet {
@@ -36,7 +35,7 @@ public final class BlockAction extends Packet {
     private byte secondByte;
 
     public BlockAction(IHandler handler) {
-        super(handler, PacketIdentifier.BLOCK_ACTION);
+        super(handler, BLOCK_ACTION);
     }
 
     @Override

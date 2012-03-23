@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.PacketsHandler;
 
 public final class UpdateTileEntity extends Packet {
@@ -38,7 +37,7 @@ public final class UpdateTileEntity extends Packet {
     private int custom3;
 
     public UpdateTileEntity(PacketsHandler handler) {
-        super(handler, PacketIdentifier.UPDATE_TILE_ENTITY);
+        super(handler, UPDATE_TILE_ENTITY);
     }
 
     @Override

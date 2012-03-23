@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.packet.PacketIdentifier;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class MultiBlockChange extends Packet {
@@ -36,7 +35,7 @@ public final class MultiBlockChange extends Packet {
     private byte[] data;
 
     public MultiBlockChange(IHandler handler) {
-        super(handler, PacketIdentifier.MULTI_BLOCK_CHANGE);
+        super(handler, MULTI_BLOCK_CHANGE);
     }
 
     @Override
