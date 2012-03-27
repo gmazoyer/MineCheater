@@ -399,7 +399,7 @@ public final class PacketsHandler extends Thread implements IHandler,
 
             try {
                 packet.send();
-                packet.freeBuffers();
+                packet.free();
 
                 log.debug(packet);
             } catch (IOException e) {
@@ -523,7 +523,8 @@ public final class PacketsHandler extends Thread implements IHandler,
         /*
          * Listen for ticks.
          */
-        clock = new TickClock(this);
+        clock = new TickClock();
+        clock.addReceiver(this);
         clock.start();
 
         while (this.running) {
@@ -552,7 +553,7 @@ public final class PacketsHandler extends Thread implements IHandler,
                 packet = this.packetFromID(packetID);
                 if (packet != null) {
                     this.respondToPacket(packet);
-                    packet.freeBuffers();
+                    packet.free();
                 }
             } catch (IOException e) {
                 log.error("Can't read packet from the network.");
@@ -560,14 +561,13 @@ public final class PacketsHandler extends Thread implements IHandler,
 
                 packet = null;
                 this.running = false;
-
-                clock.stop();
             }
         }
 
         /*
          * Stop the listening of ticks.
          */
+        clock.removeReceiver(this);
         clock.stop();
 
         try {

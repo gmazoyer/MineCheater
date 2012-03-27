@@ -496,7 +496,7 @@ public abstract class Packet {
     /**
      * Close the buffers that contains bytes so we can release them later.
      */
-    public final void freeBuffers() {
+    public final void free() {
         try {
             this.packetReceived.close();
             this.packetToSend.close();

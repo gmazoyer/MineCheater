@@ -35,9 +35,12 @@ public final class Config {
     public static final String VERSION;
 
     public static int PROTOCOL_VERSION;
+    public static int CLIENT_VERSION;
+    public static boolean AUTHENTICATE;
     public static String SERVER_HOST;
     public static int SERVER_PORT;
     public static String USERNAME;
+    public static String PASSWORD;
 
     private static File config;
 
@@ -136,11 +139,17 @@ public final class Config {
         reader.close();
 
         PROTOCOL_VERSION = Integer.parseInt(properties.getProperty(
-                "protocol_version", "28"));
+                "protocol_version", "29"));
+        CLIENT_VERSION = Integer.parseInt(properties.getProperty(
+                "client_version", "13"));
+        AUTHENTICATE = Boolean.parseBoolean(properties.getProperty(
+                "authenticate", "false"));
         SERVER_HOST = properties.getProperty("server_host", "127.0.0.1");
         SERVER_PORT = Integer.parseInt(properties.getProperty("server_port",
                 "25565"));
         USERNAME = properties.getProperty("username", "MineCheater");
+        PASSWORD = properties.getProperty("password", "useless");
+
         if (USERNAME.length() > 16) {
             USERNAME = USERNAME.substring(0, 16);
         }
@@ -155,9 +164,12 @@ public final class Config {
         writer = new FileWriter(config);
 
         writer.write("protocol_version = " + PROTOCOL_VERSION + "\n");
+        writer.write("client_version   = " + CLIENT_VERSION + "\n");
+        writer.write("authenticate     = " + AUTHENTICATE + "\n");
         writer.write("server_host      = " + SERVER_HOST + "\n");
         writer.write("server_port      = " + SERVER_PORT + "\n");
         writer.write("username         = " + USERNAME + "\n");
+        writer.write("password         = " + PASSWORD + "\n");
 
         writer.close();
     }

@@ -37,6 +37,7 @@ import fr.respawner.minecheater.structure.entity.MCCharacter;
 import fr.respawner.minecheater.structure.entity.MCMob;
 import fr.respawner.minecheater.structure.entity.MCObject;
 import fr.respawner.minecheater.structure.world.MCMapColumn;
+import fr.respawner.minecheater.web.MCLogin;
 import fr.respawner.minecheater.worker.PacketsHandler;
 import fr.respawner.minecheater.worker.PingHandler;
 
@@ -48,6 +49,7 @@ public final class MinecraftClient extends Thread {
     private String ip;
     private int port;
     private boolean running;
+    private MCLogin login;
 
     static {
         log = Logger.getLogger(MinecraftClient.class);
@@ -59,6 +61,7 @@ public final class MinecraftClient extends Thread {
         this.ip = ip;
         this.port = port;
         this.running = true;
+        this.login = new MCLogin();
     }
 
     public String getIP() {
@@ -150,6 +153,7 @@ public final class MinecraftClient extends Thread {
                     stdout.println("  * connect        - connect to the server and login");
                     stdout.println("  * disconnect     - disconnect from the server");
                     stdout.println("  * help|?         - print this help");
+                    stdout.println("  * login          - login with an official account");
                     stdout.println("  * message <text> - send a message");
                     stdout.println("  * mobs           - show all the nearest mobs");
                     stdout.println("  * objects        - list all objects of the world");
@@ -161,6 +165,20 @@ public final class MinecraftClient extends Thread {
                     stdout.println("  * respawn        - respawn the player");
                     stdout.println("  * time           - display the time of the world");
                     stdout.println("  * system         - show informations about the system");
+                    break;
+
+                case "login":
+                    if (this.login.isLoggedIn()) {
+                        stdout.println("You are already logged in.");
+                    } else {
+                        if (this.login.doLogin()) {
+                            stdout.println("Login successful ("
+                                    + login.getSessionID() + ").");
+                        } else {
+                            stdout.println("Login failed, reason = "
+                                    + login.getError());
+                        }
+                    }
                     break;
 
                 case "map":

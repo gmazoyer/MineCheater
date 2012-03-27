@@ -22,16 +22,33 @@
  */
 package fr.respawner.minecheater.worker;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public final class TickClock {
     private final Timer clock;
-    private final ClockReceiver receiver;
+    private final List<ClockReceiver> receivers;
 
-    public TickClock(ClockReceiver receiver) {
+    private long ticks;
+
+    public TickClock() {
         this.clock = new Timer(true);
-        this.receiver = receiver;
+        this.receivers = new ArrayList<>();
+        this.ticks = 0;
+    }
+
+    public void addReceiver(ClockReceiver receiver) {
+        this.receivers.add(receiver);
+    }
+
+    public void removeReceiver(ClockReceiver receiver) {
+        this.receivers.remove(receiver);
+    }
+
+    public long getTicks() {
+        return this.ticks;
     }
 
     public void start() {
@@ -46,7 +63,11 @@ public final class TickClock {
     private class TickTask extends TimerTask {
         @Override
         public void run() {
-            receiver.tick();
+            ticks++;
+
+            for (ClockReceiver receiver : receivers) {
+                receiver.tick();
+            }
         }
     }
 
