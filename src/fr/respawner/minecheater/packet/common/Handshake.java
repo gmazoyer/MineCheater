@@ -53,7 +53,10 @@ public final class Handshake extends Packet {
     public void process() {
         final MCLogin login;
 
-        if (!this.usernameAndHostOrHash.equals("-")) {
+        /*
+         * Check if both conditions to use authentication are met.
+         */
+        if (Config.AUTHENTICATE && !this.usernameAndHostOrHash.equals("-")) {
             login = this.handler.getClient().getLogin();
 
             /*

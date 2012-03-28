@@ -42,7 +42,7 @@ public final class SetSlot extends Packet {
         this.windowID = this.readByte();
         this.slot = this.readShort();
         this.data = new Slotdata(this.handler);
-        this.data.parse((short) 1);
+        this.data.parse();
     }
 
     @Override

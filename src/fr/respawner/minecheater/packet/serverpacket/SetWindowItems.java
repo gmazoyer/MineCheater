@@ -31,7 +31,7 @@ import fr.respawner.minecheater.worker.IHandler;
 public final class SetWindowItems extends Packet {
     private byte windowID;
     private short count;
-    private Slotdata slots;
+    private Slotdata[] slots;
 
     public SetWindowItems(IHandler handler) {
         super(handler, SET_WINDOW_ITEMS);
@@ -41,8 +41,12 @@ public final class SetWindowItems extends Packet {
     public void read() throws IOException {
         this.windowID = this.readByte();
         this.count = this.readShort();
-        this.slots = new Slotdata(this.handler);
-        this.slots.parse(this.count);
+        this.slots = new Slotdata[this.count];
+
+        for (Slotdata slot : this.slots) {
+            slot = new Slotdata(this.handler);
+            slot.parse();
+        }
     }
 
     @Override

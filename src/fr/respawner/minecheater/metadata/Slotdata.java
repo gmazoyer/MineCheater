@@ -97,55 +97,53 @@ public final class Slotdata {
         return this.slotdata;
     }
 
-    /*
-     * TODO: support enchanted items.
-     */
-    public void parse(short slots) throws IOException {
-        for (short s = 0; s < slots; s++) {
-            final short id, metadata, length;
-            final byte count;
-            final byte[] enchants;
-            final NBTInputStream nbtReader;
-            final CompoundTag nbtTag;
-            final Triplet<Short, Byte, Short> triplet;
+    public void parse() throws IOException {
+        final short id, metadata, length;
+        final byte count;
+        final byte[] enchants;
+        final NBTInputStream nbtReader;
+        final CompoundTag nbtTag;
+        final Triplet<Short, Byte, Short> triplet;
 
-            id = this.readShort();
-            if (id == -1) {
+        id = this.readShort();
+        if (id == -1) {
+            /*
+             * Slot is empty.
+             */
+            count = -1;
+            metadata = -1;
+        } else {
+            count = this.readByte();
+            metadata = this.readShort();
+
+            if (isEnchantable(id)) {
                 /*
-                 * Slot is empty.
-                 */
-                count = -1;
-                metadata = -1;
-            } else if (!isEnchantable(id)) {
-                /*
-                 * Non enchantable item.
-                 */
-                count = this.readByte();
-                metadata = this.readShort();
-            } else {
-                /*
-                 * FIXME: this is really buggy, please fix it :)
+                 * Length of the following array.
                  */
                 length = this.readShort();
-                enchants = this.readByteArray(length);
 
-                /*
-                 * This will go automatically deeper in the packet.
-                 */
-                nbtReader = new NBTInputStream(new ByteArrayInputStream(
-                        enchants));
-                nbtTag = (CompoundTag) nbtReader.readTag();
+                if (length != -1) {
+                    /*
+                     * Compressed array using the NBT format.
+                     */
+                    enchants = this.readByteArray(length);
 
-                /*
-                 * Slot is empty.
-                 */
-                count = -1;
-                metadata = -1;
+                    /*
+                     * This will go automatically deeper in the packet.
+                     */
+                    nbtReader = new NBTInputStream(new ByteArrayInputStream(
+                            enchants));
+                    nbtTag = (CompoundTag) nbtReader.readTag();
+
+                    /*
+                     * TODO: what do we do with the NBT data now?
+                     */
+                }
             }
-
-            triplet = new Triplet<>(id, count, metadata);
-            this.slotdata.add(triplet);
         }
+
+        triplet = new Triplet<>(id, count, metadata);
+        this.slotdata.add(triplet);
     }
 
     @Override
