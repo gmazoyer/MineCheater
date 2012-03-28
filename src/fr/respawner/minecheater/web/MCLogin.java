@@ -1,9 +1,32 @@
+/*
+ * Copyright (c) 2012 Guillaume Mazoyer
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 package fr.respawner.minecheater.web;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -28,7 +51,7 @@ public final class MCLogin {
     private static final String post(String target, String parameters) {
         final StringBuilder builder;
         final URL url;
-        final HttpsURLConnection connection;
+        final HttpURLConnection connection;
         final DataOutputStream output;
         final BufferedReader reader;
         String line;
@@ -39,9 +62,17 @@ public final class MCLogin {
             url = new URL(target);
 
             /*
+             * Open a connection with the correct protocol.
+             */
+            if (url.getProtocol().equals("https")) {
+                connection = (HttpsURLConnection) url.openConnection();
+            } else {
+                connection = (HttpURLConnection) url.openConnection();
+            }
+
+            /*
              * Set connection properties.
              */
-            connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type",
                     "application/x-www-form-urlencoded");
@@ -84,7 +115,7 @@ public final class MCLogin {
             e.printStackTrace();
         }
 
-        return ((builder.length() == 0) ? null : builder.toString());
+        return ((builder.length() == 0) ? null : builder.toString().trim());
     }
 
     public boolean isLoggedIn() {
@@ -123,8 +154,7 @@ public final class MCLogin {
          */
         response = post("https://login.minecraft.net/", parameters);
 
-        log.debug("Received response from login = "
-                + ((response != null) ? response.trim() : null));
+        log.debug("Received response from login = " + response);
 
         if (response == null) {
             /*
@@ -143,11 +173,61 @@ public final class MCLogin {
                  * We are in.
                  */
                 success = true;
-                this.sessionID = response.split(":")[3].trim();
+                this.sessionID = response.split(":")[3];
             }
         }
 
         this.loggedIn = success;
+
+        return success;
+    }
+
+    public boolean connectToServer(String serverID) {
+        final boolean success;
+        final String response;
+        String parameters;
+
+        try {
+            /*
+             * Build the parameters for the request.
+             */
+            parameters = "user=" + URLEncoder.encode(Config.USERNAME, "UTF-8")
+                    + "&sessionId="
+                    + URLEncoder.encode(this.sessionID, "UTF-8") + "&serverId="
+                    + URLEncoder.encode(serverID, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+
+            parameters = "";
+        }
+
+        /*
+         * Try to authenticate.
+         */
+        response = post("http://session.minecraft.net/game/joinserver.jsp",
+                parameters);
+
+        log.debug("Received response from login = " + response);
+
+        if (response == null) {
+            /*
+             * Failed.
+             */
+            success = false;
+        } else {
+            if (response.equals("OK")) {
+                /*
+                 * We are in.
+                 */
+                success = true;
+            } else {
+                /*
+                 * Failed, wrong login, password, etc...
+                 */
+                success = false;
+                this.error = response;
+            }
+        }
 
         return success;
     }

@@ -68,6 +68,11 @@ public final class PingHandler extends Thread implements IHandler {
     }
 
     @Override
+    public MinecraftClient getClient() {
+        return this.client;
+    }
+
+    @Override
     public DataInputStream getInput() {
         return this.in;
     }

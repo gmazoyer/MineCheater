@@ -80,6 +80,10 @@ public final class MinecraftClient extends Thread {
         this.running = false;
     }
 
+    public MCLogin getLogin() {
+        return this.login;
+    }
+
     @Override
     public void run() {
         final BufferedReader userInput;

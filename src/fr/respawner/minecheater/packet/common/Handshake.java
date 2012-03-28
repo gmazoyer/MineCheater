@@ -26,6 +26,7 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.Config;
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.web.MCLogin;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class Handshake extends Packet {
@@ -50,9 +51,18 @@ public final class Handshake extends Packet {
 
     @Override
     public void process() {
-        /*
-         * Nothing to do.
-         */
+        final MCLogin login;
+
+        if (!this.usernameAndHostOrHash.equals("-")) {
+            login = this.handler.getClient().getLogin();
+
+            /*
+             * Login failed.
+             */
+            if (!login.connectToServer(this.usernameAndHostOrHash)) {
+                this.handler.stopHandler();
+            }
+        }
     }
 
     @Override
