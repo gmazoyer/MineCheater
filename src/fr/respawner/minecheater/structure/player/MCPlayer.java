@@ -30,6 +30,7 @@ import fr.respawner.minecheater.math.Location;
 import fr.respawner.minecheater.math.MathHelper;
 import fr.respawner.minecheater.math.Rotation;
 import fr.respawner.minecheater.structure.MCIdentifiable;
+import fr.respawner.minecheater.structure.inventory.MCInventory;
 import fr.respawner.minecheater.structure.world.MCBlock;
 import fr.respawner.minecheater.structure.world.MCMapColumn;
 
@@ -38,12 +39,16 @@ public final class MCPlayer extends MCIdentifiable {
     private Rotation rotation;
     private MCHealth health;
     private MCExperience experience;
+    private MCInventory inventory;
     private List<MCStatistic> statistics;
     private World world;
 
     public MCPlayer(World world, int entityID) {
         super(entityID);
 
+        this.health = new MCHealth();
+        this.experience = new MCExperience();
+        this.inventory = new MCInventory();
         this.statistics = new ArrayList<>();
         this.world = world;
     }
@@ -68,31 +73,27 @@ public final class MCPlayer extends MCIdentifiable {
         return this.health;
     }
 
-    public final void setHealth(MCHealth health) {
-        this.health = health;
-    }
-
     public final MCExperience getExperience() {
         return this.experience;
     }
 
-    public final void setExperience(MCExperience experience) {
-        this.experience = experience;
+    public final MCInventory getInventory() {
+        return this.inventory;
     }
 
-    public List<MCStatistic> getAllStatistics() {
+    public final List<MCStatistic> getAllStatistics() {
         return this.statistics;
     }
 
-    public void addStatistic(MCStatistic statistic) {
+    public final void addStatistic(MCStatistic statistic) {
         this.statistics.add(statistic);
     }
 
-    public void removeStatistic(MCStatistic statistic) {
+    public final void removeStatistic(MCStatistic statistic) {
         this.statistics.remove(statistic);
     }
 
-    public MCStatistic findStatisticByID(int id) {
+    public final MCStatistic findStatisticByID(int id) {
         for (MCStatistic statistic : this.statistics) {
             if (id == statistic.getStatisticID()) {
                 return statistic;
@@ -102,7 +103,7 @@ public final class MCPlayer extends MCIdentifiable {
         return null;
     }
 
-    public World getWorld() {
+    public final World getWorld() {
         return this.world;
     }
 
@@ -164,6 +165,8 @@ public final class MCPlayer extends MCIdentifiable {
         builder.append(this.health);
         builder.append(" | ");
         builder.append(this.experience);
+        builder.append(" | ");
+        builder.append(this.inventory);
 
         return builder.toString();
     }

@@ -26,6 +26,8 @@ import java.io.IOException;
 
 import fr.respawner.minecheater.metadata.Slotdata;
 import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.structure.inventory.MCInventory;
+import fr.respawner.minecheater.structure.inventory.Slot;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class SetSlot extends Packet {
@@ -41,8 +43,7 @@ public final class SetSlot extends Packet {
     public void read() throws IOException {
         this.windowID = this.readByte();
         this.slot = this.readShort();
-        this.data = new Slotdata(this.handler);
-        this.data.parse();
+        this.data = new Slotdata(this.handler, this.windowID, this.slot);
     }
 
     @Override
@@ -54,9 +55,31 @@ public final class SetSlot extends Packet {
 
     @Override
     public void process() {
+        final MCInventory inventory;
+        final Slot slot;
+
         /*
-         * Nothing to do.
+         * Operation on the player inventory.
          */
+        if (this.windowID == 0) {
+            /*
+             * Find the inventory and the slot to change.
+             */
+            inventory = this.getWorld().getPlayer().getInventory();
+            slot = inventory.getSlot(this.slot);
+
+            if (slot == null) {
+                /*
+                 * Add a new slot.
+                 */
+                inventory.getSlots().add(this.data.getSlot());
+            } else {
+                /*
+                 * Update the existing slot.
+                 */
+                slot.update(this.data.getSlot());
+            }
+        }
     }
 
     @Override

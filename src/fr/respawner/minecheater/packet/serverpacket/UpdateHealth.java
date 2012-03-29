@@ -25,7 +25,6 @@ package fr.respawner.minecheater.packet.serverpacket;
 import java.io.IOException;
 
 import fr.respawner.minecheater.packet.Packet;
-import fr.respawner.minecheater.structure.player.MCHealth;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class UpdateHealth extends Packet {
@@ -53,10 +52,8 @@ public final class UpdateHealth extends Packet {
 
     @Override
     public void process() {
-        final MCHealth health;
-
-        health = new MCHealth(this.health, this.food, this.foodSaturation);
-        this.handler.println(health);
+        this.getWorld().getPlayer().getHealth()
+                .update(this.health, this.food, this.foodSaturation);
     }
 
     @Override

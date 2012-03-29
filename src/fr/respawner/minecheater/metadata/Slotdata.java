@@ -28,34 +28,110 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.respawner.minecheater.nbt.CompoundTag;
+import fr.respawner.minecheater.nbt.ListTag;
 import fr.respawner.minecheater.nbt.NBTInputStream;
+import fr.respawner.minecheater.nbt.ShortTag;
+import fr.respawner.minecheater.nbt.Tag;
+import fr.respawner.minecheater.structure.inventory.Slot;
 import fr.respawner.minecheater.worker.IHandler;
 
 public final class Slotdata {
-    private final static short[] enchantables = new short[] { 0x103, 0x105,
-            0x15A, 0x167, 0x10C, 0x10D, 0x10E, 0x10F, 0x122, 0x110, 0x111,
-            0x112, 0x113, 0x123, 0x10B, 0x100, 0x101, 0x102, 0x124, 0x114,
-            0x115, 0x116, 0x117, 0x125, 0x11B, 0x11C, 0x11D, 0x11E, 0x126,
-            0x12A, 0x12B, 0x12C, 0x12D, 0x12E, 0x12F, 0x130, 0x131, 0x132,
-            0x133, 0x134, 0x135, 0x136, 0x137, 0x138, 0x139, 0x13A, 0x13B,
-            0x13C, 0x13D };
+    private IHandler handler;
+    private byte windowID;
+    private short slotID;
+    private Slot slot;
 
-    private final IHandler handler;
-    private final List<Triplet<Short, Byte, Short>> slotdata;
-
-    public Slotdata(IHandler handler) {
+    public Slotdata(IHandler handler, byte windowID, short slotID) {
         this.handler = handler;
-        this.slotdata = new ArrayList<>();
+        this.windowID = windowID;
+        this.slotID = slotID;
+
+        try {
+            this.slot = this.parse();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            this.slot = null;
+        }
     }
 
     private static boolean isEnchantable(short id) {
-        for (short s : enchantables) {
-            if (s == id) {
-                return true;
+        return (((id >= 256) && (id <= 259)) || ((id >= 267) && (id <= 279))
+                || ((id >= 283) && (id <= 286)) || ((id >= 290) && (id <= 294))
+                || ((id >= 298) && (id <= 317)) || (id == 261) || (id == 359) || (id == 346));
+    }
+
+    private Slot parse() throws IOException {
+        final short itemID, metadata, length;
+        final byte count;
+        final byte[] buffer;
+        final NBTInputStream nbtReader;
+        final CompoundTag rootTag;
+        final List<Tag> enchantList;
+        List<Pair<Short, Short>> enchantments;
+
+        itemID = this.readShort();
+        enchantments = null;
+
+        if (itemID == -1) {
+            /*
+             * Slot is empty.
+             */
+            count = -1;
+            metadata = -1;
+        } else {
+            count = this.readByte();
+            metadata = this.readShort();
+
+            if (isEnchantable(itemID)) {
+                /*
+                 * Length of the following array.
+                 */
+                length = this.readShort();
+
+                if (length != -1) {
+                    /*
+                     * Compressed array using the NBT format.
+                     */
+                    enchantments = new ArrayList<>();
+                    buffer = this.readByteArray(length);
+
+                    /*
+                     * This will go automatically deeper in the packet.
+                     */
+                    nbtReader = new NBTInputStream(new ByteArrayInputStream(
+                            buffer));
+                    rootTag = (CompoundTag) nbtReader.readTag();
+
+                    /*
+                     * Get the list of enchantments.
+                     */
+                    enchantList = ((ListTag) rootTag.getValue().get("ench"))
+                            .getValue();
+
+                    for (Tag tag : enchantList) {
+                        final Pair<Short, Short> enchantment;
+                        final CompoundTag enchant;
+                        final ShortTag enchantID, enchantLevel;
+
+                        /*
+                         * Retrieve the values of ID and level for each
+                         * enchantment.
+                         */
+                        enchant = (CompoundTag) tag;
+                        enchantID = (ShortTag) enchant.getValue().get("id");
+                        enchantLevel = (ShortTag) enchant.getValue().get("lvl");
+
+                        enchantment = new Pair<Short, Short>(
+                                enchantID.getValue(), enchantLevel.getValue());
+                        enchantments.add(enchantment);
+                    }
+                }
             }
         }
 
-        return false;
+        return new Slot(this.windowID, this.slotID, itemID, count, metadata,
+                enchantments);
     }
 
     /**
@@ -93,77 +169,7 @@ public final class Slotdata {
         return array;
     }
 
-    public List<Triplet<Short, Byte, Short>> getSlotdata() {
-        return this.slotdata;
-    }
-
-    public void parse() throws IOException {
-        final short id, metadata, length;
-        final byte count;
-        final byte[] enchants;
-        final NBTInputStream nbtReader;
-        final CompoundTag nbtTag;
-        final Triplet<Short, Byte, Short> triplet;
-
-        id = this.readShort();
-        if (id == -1) {
-            /*
-             * Slot is empty.
-             */
-            count = -1;
-            metadata = -1;
-        } else {
-            count = this.readByte();
-            metadata = this.readShort();
-
-            if (isEnchantable(id)) {
-                /*
-                 * Length of the following array.
-                 */
-                length = this.readShort();
-
-                if (length != -1) {
-                    /*
-                     * Compressed array using the NBT format.
-                     */
-                    enchants = this.readByteArray(length);
-
-                    /*
-                     * This will go automatically deeper in the packet.
-                     */
-                    nbtReader = new NBTInputStream(new ByteArrayInputStream(
-                            enchants));
-                    nbtTag = (CompoundTag) nbtReader.readTag();
-
-                    /*
-                     * TODO: what do we do with the NBT data now?
-                     */
-                }
-            }
-        }
-
-        triplet = new Triplet<>(id, count, metadata);
-        this.slotdata.add(triplet);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder builder;
-
-        builder = new StringBuilder();
-
-        builder.append("{ ");
-        for (Triplet<Short, Byte, Short> data : this.slotdata) {
-            if (data.getIndex() == -1) {
-                builder.append("Empty");
-            } else {
-                builder.append(data);
-            }
-            builder.append(", ");
-        }
-
-        builder.replace(builder.length() - 2, builder.length(), " }");
-
-        return builder.toString();
+    public Slot getSlot() {
+        return this.slot;
     }
 }

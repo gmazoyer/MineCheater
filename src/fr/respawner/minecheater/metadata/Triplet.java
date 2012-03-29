@@ -65,7 +65,7 @@ public class Triplet<I, K, V> {
         hashKey = this.key.hashCode();
         hashValue = this.key.hashCode();
 
-        return (hashIndex + hashKey + hashValue) * hashValue + hashKey
+        return ((hashIndex + hashKey + hashValue) * hashValue) + hashKey
                 + hashIndex;
     }
 

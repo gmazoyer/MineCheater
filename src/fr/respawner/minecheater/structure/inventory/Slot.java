@@ -22,29 +22,74 @@
  */
 package fr.respawner.minecheater.structure.inventory;
 
-import fr.respawner.minecheater.metadata.Slotdata;
+import java.util.List;
+
+import fr.respawner.minecheater.metadata.Pair;
+import fr.respawner.minecheater.structure.type.MCItemType;
 
 public final class Slot {
     private byte windowID;
-    private short slot;
-    private Slotdata data;
+    private short slotID;
+    private short itemID;
+    private byte count;
+    private short metadata;
+    private List<Pair<Short, Short>> enchantments;
 
-    public Slot(byte windowID, short slot, Slotdata data) {
+    public Slot(byte windowID, short slotID, short itemID, byte count,
+            short metadata, List<Pair<Short, Short>> enchantments) {
         this.windowID = windowID;
-        this.slot = slot;
-        this.data = data;
+        this.slotID = slotID;
+        this.itemID = itemID;
+        this.count = count;
+        this.metadata = metadata;
+        this.enchantments = enchantments;
     }
 
     public byte getWindowID() {
         return this.windowID;
     }
 
-    public short getSlot() {
-        return this.slot;
+    public short getSlotID() {
+        return this.slotID;
     }
 
-    public Slotdata getData() {
-        return this.data;
+    public short getItemID() {
+        return this.itemID;
+    }
+
+    public void setItemID(short itemID) {
+        this.itemID = itemID;
+    }
+
+    public byte getCount() {
+        return this.count;
+    }
+
+    public void setCount(byte count) {
+        this.count = count;
+    }
+
+    public short getMetadata() {
+        return this.metadata;
+    }
+
+    public void setMetadata(short metadata) {
+        this.metadata = metadata;
+    }
+
+    public List<Pair<Short, Short>> getEnchantments() {
+        return this.enchantments;
+    }
+
+    public boolean isEmpty() {
+        return (this.itemID == -1);
+    }
+
+    public void update(Slot slot) {
+        this.itemID = slot.itemID;
+        this.count = slot.count;
+        this.metadata = slot.metadata;
+        this.enchantments = slot.enchantments;
     }
 
     @Override
@@ -55,10 +100,28 @@ public final class Slot {
 
         builder.append("Window ID = ");
         builder.append(this.windowID);
-        builder.append(" | Slot = ");
-        builder.append(this.slot);
-        builder.append(" | Content = ");
-        builder.append(this.data);
+        builder.append(" | Slot ID = ");
+        builder.append(this.slotID);
+
+        if (this.isEmpty()) {
+            builder.append(" | Empty");
+        } else {
+            builder.append(" | Item ID = ");
+            builder.append(MCItemType.itemForID(this.itemID));
+            builder.append(" | Count = ");
+            builder.append(this.count);
+            builder.append(" | Metadata = ");
+            builder.append(this.metadata);
+
+            if (this.enchantments != null) {
+                builder.append(" | Enchantments = { ");
+                for (Pair<Short, Short> enchantment : this.enchantments) {
+                    builder.append(enchantment);
+                    builder.append(", ");
+                }
+                builder.replace(builder.length() - 2, builder.length(), " }");
+            }
+        }
 
         return builder.toString();
     }

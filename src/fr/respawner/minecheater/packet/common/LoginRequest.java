@@ -81,6 +81,9 @@ public final class LoginRequest extends Packet {
                 this.worldHeight, this.maxPlayers);
         this.getWorld().getPlayer().setEntityID(this.protocolVersionOrEntityID);
         this.getWorld().setLevel(level);
+
+        this.handler.println("Connected with entity ID = "
+                + this.protocolVersionOrEntityID);
     }
 
     @Override

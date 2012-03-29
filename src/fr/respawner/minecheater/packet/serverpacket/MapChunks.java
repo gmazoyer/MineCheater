@@ -79,7 +79,10 @@ public final class MapChunks extends Packet {
         column.load();
 
         if (!this.handler.getWorld().getPlayer().getLocation().isOnGround()) {
-            this.handler.getWorld().getPlayer().putOnGround();
+            /*
+             * FIXME: player not on ground.
+             */
+            // this.handler.getWorld().getPlayer().putOnGround();
         }
     }
 

@@ -22,29 +22,32 @@
  */
 package fr.respawner.minecheater.structure.inventory;
 
-import fr.respawner.minecheater.metadata.Slotdata;
+import java.util.ArrayList;
+import java.util.List;
 
-public final class InventorySlots {
-    private byte windowID;
-    private short count;
-    private Slotdata slots;
+public final class MCInventory {
+    private List<Slot> slots;
 
-    public InventorySlots(byte windowID, short count, Slotdata slots) {
-        this.windowID = windowID;
-        this.count = count;
-        this.slots = slots;
+    public MCInventory() {
+        this.slots = new ArrayList<>();
     }
 
-    public byte getWindowID() {
-        return this.windowID;
-    }
-
-    public short getCount() {
-        return this.count;
-    }
-
-    public Slotdata getSlots() {
+    public List<Slot> getSlots() {
         return this.slots;
+    }
+
+    public void setSlot(Slot slot) {
+        this.slots.add(slot);
+    }
+
+    public Slot getSlot(short id) {
+        for (Slot slot : this.slots) {
+            if (slot.getSlotID() == id) {
+                return slot;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -53,10 +56,13 @@ public final class InventorySlots {
 
         builder = new StringBuilder();
 
-        builder.append("Window ID = ");
-        builder.append(this.windowID);
-        builder.append(" | Slots = ");
-        builder.append(this.slots);
+        builder.append("Inventory = { ");
+        for (Slot slot : this.slots) {
+            builder.append("[ ");
+            builder.append(slot);
+            builder.append(" ], ");
+        }
+        builder.replace(builder.length() - 2, builder.length(), " }");
 
         return builder.toString();
     }

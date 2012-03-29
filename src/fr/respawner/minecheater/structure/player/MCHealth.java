@@ -33,6 +33,10 @@ public final class MCHealth {
         this.foodSaturation = foodSaturation;
     }
 
+    public MCHealth() {
+        this((short) 0, (short) 0, 0f);
+    }
+
     public short getHealth() {
         return this.health;
     }
@@ -43,6 +47,12 @@ public final class MCHealth {
 
     public float getFoodSaturation() {
         return this.foodSaturation;
+    }
+
+    public void update(short health, short food, float foodSaturation) {
+        this.health = health;
+        this.food = food;
+        this.foodSaturation = foodSaturation;
     }
 
     @Override

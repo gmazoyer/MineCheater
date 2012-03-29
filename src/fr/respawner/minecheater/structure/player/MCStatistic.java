@@ -31,15 +31,15 @@ public final class MCStatistic {
         this.amount = amount;
     }
 
-    public final int getStatisticID() {
+    public int getStatisticID() {
         return this.statisticID;
     }
 
-    public final byte getAmount() {
+    public byte getAmount() {
         return this.amount;
     }
 
-    public final void setAmount(byte amount) {
+    public void setAmount(byte amount) {
         this.amount = amount;
     }
 
