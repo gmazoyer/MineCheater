@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 
+import fr.respawner.minecheater.Config;
 import fr.respawner.minecheater.World;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -101,20 +102,12 @@ public abstract class Packet {
     public static final byte SERVER_LIST_PING = (byte) 0xFE;
     public static final byte DISCONNECT_KICK = (byte) 0xFF;
 
-    public static final String LINE_SEPARATOR;
-    public static final String STRING_DELIMITER;
-
     protected final ByteArrayOutputStream packetReceived;
     protected final ByteArrayOutputStream packetToSend;
     protected final IHandler handler;
     protected final byte id;
 
     protected PacketAction action;
-
-    static {
-        LINE_SEPARATOR = System.lineSeparator();
-        STRING_DELIMITER = new String(new char[] { 0xA7 });
-    }
 
     public enum PacketAction {
         READING, WRITING;
@@ -572,7 +565,7 @@ public abstract class Packet {
         builder.append(String.format("0x%02X", this.id));
         builder.append(" : ");
         builder.append(this.getClass().getSimpleName());
-        builder.append(LINE_SEPARATOR);
+        builder.append(Config.LINE_SEPARATOR);
         builder.append("  * Structure   -> [ ");
         builder.append(Byte.class.getSimpleName().toLowerCase());
         builder.append(" | ");
@@ -584,7 +577,7 @@ public abstract class Packet {
 
         builder.delete(builder.length() - 3, builder.length());
         builder.append(" ]");
-        builder.append(LINE_SEPARATOR);
+        builder.append(Config.LINE_SEPARATOR);
         builder.append("  * Raw packet  -> '");
 
         for (Byte b : this.getUsedBuffer().toByteArray()) {
@@ -593,11 +586,11 @@ public abstract class Packet {
 
         builder.deleteCharAt(builder.length() - 1);
         builder.append("'");
-        builder.append(LINE_SEPARATOR);
+        builder.append(Config.LINE_SEPARATOR);
         builder.append("  * Parsed data -> '");
         builder.append(this.getDataAsString());
         builder.append("'");
-        builder.append(LINE_SEPARATOR);
+        builder.append(Config.LINE_SEPARATOR);
 
         return builder.toString();
     }

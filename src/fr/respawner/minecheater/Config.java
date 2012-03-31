@@ -32,6 +32,10 @@ import java.util.Properties;
 
 public final class Config {
     private static final PrintStream stdout;
+
+    public static final String FILE_SEPARATOR;
+    public static final String LINE_SEPARATOR;
+    public static final String STRING_DELIMITER;
     public static final String VERSION;
 
     public static int PROTOCOL_VERSION;
@@ -46,6 +50,9 @@ public final class Config {
 
     static {
         stdout = System.out;
+        FILE_SEPARATOR = File.separator;
+        LINE_SEPARATOR = System.lineSeparator();
+        STRING_DELIMITER = new String(new char[] { 0xA7 });
         VERSION = "1.2.3";
     }
 
@@ -120,7 +127,7 @@ public final class Config {
         final Properties properties;
         final InputStream reader;
 
-        config = new File("minecheater.properties");
+        config = new File("conf" + FILE_SEPARATOR + "minecheater.properties");
 
         /*
          * Create the configuration file if needed.

@@ -25,7 +25,7 @@ package fr.respawner.minecheater.nbt;
 import java.util.Collections;
 import java.util.List;
 
-import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.Config;
 
 public final class ListTag extends Tag {
     private final Class<? extends Tag> type;
@@ -65,15 +65,15 @@ public final class ListTag extends Tag {
         builder.append(this.value.size());
         builder.append(" entries of type ");
         builder.append(Utils.getTypeName(this.type));
-        builder.append(Packet.LINE_SEPARATOR);
+        builder.append(Config.LINE_SEPARATOR);
         builder.append("{");
-        builder.append(Packet.LINE_SEPARATOR);
+        builder.append(Config.LINE_SEPARATOR);
 
         for (Tag tag : this.value) {
             builder.append("   ");
-            builder.append(tag.toString().replaceAll(Packet.LINE_SEPARATOR,
-                    Packet.LINE_SEPARATOR + "   "));
-            builder.append(Packet.LINE_SEPARATOR);
+            builder.append(tag.toString().replaceAll(Config.LINE_SEPARATOR,
+                    Config.LINE_SEPARATOR + "   "));
+            builder.append(Config.LINE_SEPARATOR);
         }
 
         builder.append("}");

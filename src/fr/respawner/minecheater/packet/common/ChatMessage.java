@@ -62,7 +62,7 @@ public final class ChatMessage extends Packet {
         /*
          * Ignore the first 2 characters if needed.
          */
-        if (this.message.contains(Packet.STRING_DELIMITER)) {
+        if (this.message.contains(Config.STRING_DELIMITER)) {
             this.message = this.message.substring(2);
         }
 

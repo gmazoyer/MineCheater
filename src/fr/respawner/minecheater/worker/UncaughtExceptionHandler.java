@@ -28,7 +28,7 @@ import java.io.StringWriter;
 
 import org.apache.log4j.Logger;
 
-import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.Config;
 
 public final class UncaughtExceptionHandler implements
         Thread.UncaughtExceptionHandler {
@@ -73,12 +73,12 @@ public final class UncaughtExceptionHandler implements
         builder = new StringBuilder();
 
         builder.append("UncaughtException in thread: " + thread.getName()
-                + Packet.LINE_SEPARATOR);
+                + Config.LINE_SEPARATOR);
         builder.append("  Thread ID      = " + thread.getId()
-                + Packet.LINE_SEPARATOR);
+                + Config.LINE_SEPARATOR);
         builder.append("  Thread prority = " + thread.getPriority()
-                + Packet.LINE_SEPARATOR);
-        builder.append("Exception stacktrace:" + Packet.LINE_SEPARATOR);
+                + Config.LINE_SEPARATOR);
+        builder.append("Exception stacktrace:" + Config.LINE_SEPARATOR);
         builder.append(getStackTrace(exception));
 
         log.error(builder.toString());

@@ -24,6 +24,7 @@ package fr.respawner.minecheater.packet.common;
 
 import java.io.IOException;
 
+import fr.respawner.minecheater.Config;
 import fr.respawner.minecheater.packet.Packet;
 import fr.respawner.minecheater.worker.IHandler;
 
@@ -53,11 +54,11 @@ public final class DisconnectKick extends Packet {
         /*
          * We were kicked :'(
          */
-        if (!this.reason.contains(STRING_DELIMITER)) {
+        if (!this.reason.contains(Config.STRING_DELIMITER)) {
             this.handler.println("Disconnected: " + this.reason);
             this.handler.stopHandler();
         } else {
-            serverInfos = this.reason.split(Packet.STRING_DELIMITER);
+            serverInfos = this.reason.split(Config.STRING_DELIMITER);
 
             this.handler.println();
             this.handler.println("  ** Server name:        " + serverInfos[0]);

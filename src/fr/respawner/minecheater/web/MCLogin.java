@@ -35,7 +35,6 @@ import javax.net.ssl.HttpsURLConnection;
 import org.apache.log4j.Logger;
 
 import fr.respawner.minecheater.Config;
-import fr.respawner.minecheater.packet.Packet;
 
 public final class MCLogin {
     private static final Logger log;
@@ -102,7 +101,7 @@ public final class MCLogin {
 
             while ((line = reader.readLine()) != null) {
                 builder.append(line);
-                builder.append(Packet.LINE_SEPARATOR);
+                builder.append(Config.LINE_SEPARATOR);
             }
 
             reader.close();

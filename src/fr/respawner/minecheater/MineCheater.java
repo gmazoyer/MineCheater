@@ -38,7 +38,8 @@ public final class MineCheater {
             /*
              * Load configuration.
              */
-            PropertyConfigurator.configure("logging.properties");
+            PropertyConfigurator.configure("conf" + Config.FILE_SEPARATOR
+                    + "logging.properties");
             Config.load();
         } catch (IOException e) {
             e.printStackTrace();

@@ -27,7 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import fr.respawner.minecheater.packet.Packet;
+import fr.respawner.minecheater.Config;
 
 public final class CompoundTag extends Tag {
     private final Map<String, Tag> value;
@@ -83,18 +83,18 @@ public final class CompoundTag extends Tag {
         builder.append(": ");
         builder.append(this.value.size());
         builder.append(" entries");
-        builder.append(Packet.LINE_SEPARATOR);
+        builder.append(Config.LINE_SEPARATOR);
         builder.append("{");
-        builder.append(Packet.LINE_SEPARATOR);
+        builder.append(Config.LINE_SEPARATOR);
 
         for (Map.Entry<String, Tag> entry : this.value.entrySet()) {
             builder.append("   ");
             builder.append(entry
                     .getValue()
                     .toString()
-                    .replaceAll(Packet.LINE_SEPARATOR,
-                            Packet.LINE_SEPARATOR + "   "));
-            builder.append(Packet.LINE_SEPARATOR);
+                    .replaceAll(Config.LINE_SEPARATOR,
+                            Config.LINE_SEPARATOR + "   "));
+            builder.append(Config.LINE_SEPARATOR);
         }
 
         builder.append("}");
