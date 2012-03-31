@@ -23,7 +23,7 @@
 package fr.respawner.minecheater.structure.type;
 
 public enum MCStatusType {
-    UNKNOWN, HURT, DEAD, TAMING, TAMED, SHAKING_WATER, EATING;
+    UNKNOWN, HURT, DEAD, TAMING, TAMED, SHAKING_WATER, EATING, EATING_GRASS;
 
     public static MCStatusType statusForID(byte id) {
         switch (id) {
@@ -39,6 +39,8 @@ public enum MCStatusType {
             return SHAKING_WATER;
         case 9:
             return EATING;
+        case 10:
+            return EATING_GRASS;
         default:
             return UNKNOWN;
         }
@@ -48,17 +50,19 @@ public enum MCStatusType {
     public String toString() {
         switch (this) {
         case HURT:
-            return "Hurt";
+            return "Entity hurt";
         case DEAD:
-            return "Dead";
+            return "Entity dead";
         case TAMING:
-            return "Taming";
+            return "Wolf taming";
         case TAMED:
-            return "Tamed";
+            return "Wolf tamed";
         case SHAKING_WATER:
-            return "Shaking water off itself";
+            return "Wolf shaking water off itself";
         case EATING:
             return "Eating";
+        case EATING_GRASS:
+            return "Sheep eating grass";
         default:
             return "Unknown";
         }
